@@ -93,7 +93,7 @@ const EnhancedResume = () => {
   const handleDownload = () => {
     const link = document.createElement("a");
     link.href = resumePath;
-    link.download = "Munvar_Ali_Resume.pdf";
+    link.download = "Munvar Khajavali Resume.pdf";
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
