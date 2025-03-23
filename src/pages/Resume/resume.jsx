@@ -230,7 +230,7 @@ const Resume = () => {
               as="a"
               href={resumePath}
               target="_blank"
-              download="Munvar_Ali_Resume.pdf"
+              download="Munvar Khajavali Resume.pdf"
             >
               <FontAwesomeIcon icon={faDownload} /> Download Resume
             </DownloadButton>
