@@ -13,7 +13,7 @@ import {
   faLinkedinIn,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
-import logo from "../../assets/logo.jpeg";
+import logo from "../../assets/logo.png";
 import {
   FooterContainer,
   FooterContent,
