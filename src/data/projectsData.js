@@ -1,6 +1,18 @@
 export const projects = [
   {
     id: 1,
+    name: "CarGenie",
+    description:
+      "CarGenie is an intelligent car discovery and comparison platform that simplifies vehicle research with data-driven insights. It features detailed car specs, comparisons, and an intuitive admin portal for streamlined management.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1747114612/Portfolio/jua7ge2gm8lminhsynvi.jpg",
+    technologies: ["React", "JavaScript", "Node JS", "MongoDB"],
+    github: "https://github.com/munvar021/CarGenie",
+    demo: "https://cargenie-sigma.vercel.app/",
+    featured: true,
+  },
+  {
+    id: 2,
     name: "Nxt Trendz",
     description:
       "Rolled out an innovative e-commerce platform patterned after Amazon and Flipkart. Designed pages for Login, Products, and Product details with React Router and React components.",
@@ -16,7 +28,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 2,
+    id: 3,
     name: "IPL Dashboard",
     description:
       "The IPL Dashboard is a dynamic and feature-rich web application that provides insightful statistics, match details, and team performance data from past Indian Premier League (IPL) seasons. Built using React.js, the app efficiently fetches, processes, and presents IPL match data in a structured and engaging format, offering users an intuitive, interactive, and visually appealing experience.",
@@ -28,7 +40,7 @@ export const projects = [
     featured: false,
   },
   {
-    id: 3,
+    id: 4,
     name: "Password Manager",
     description:
       "The Password Manager is a secure, efficient, and user-friendly web application designed to help users store, manage, and retrieve their passwords safely. Built using React.js, it offers a seamless experience with an intuitive interface, allowing users to organize, search, and protect their credentials while ensuring data privacy, accessibility, and ease of use.",
@@ -40,7 +52,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 4,
+    id: 5,
     name: "Emoji Game",
     description:
       "The Emoji Game is a fun, engaging, and interactive memory-based game built using React.js, where users test their ability to recall and select unique emojis without repetition. Designed to enhance user engagement, the game features real-time score tracking, dynamic Ul updates, and efficient state management, ensuring a seamless and immersive gameplay experience.",
@@ -52,7 +64,7 @@ export const projects = [
     featured: false,
   },
   {
-    id: 5,
+    id: 6,
     name: "Money Manager",
     description:
       "The Money Manager is a powerful, intuitive, and user-friendly finance management application designed to help users track, analyze, and manage their income and expenses efficiently. Built using React.js, it ensures a seamless experience with real-time transaction updates, interactive Ul components, and a fully responsive design that adapts to different screen sizes.",
@@ -64,7 +76,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 6,
+    id: 7,
     name: "Appointments",
     description:
       "The Appointments is a feature-rich, intelligent scheduling application that allows users to add, manage, and prioritize appointments efficiently. Built using Rect.js, it delivers a seamless, dynamic, and interactive experience, enabling users to effortlessly track, organize, and categorize their important meetings, tasks, and events with ease.",
@@ -76,7 +88,7 @@ export const projects = [
     featured: false,
   },
   {
-    id: 7,
+    id: 8,
     name: "Match Game",
     description:
       "The Match Game is a fast-paced image-matching game built with React.js, designed to test the user’s ability to quickly identify and match images under a countdown timer. This interactive game dynamically updates based on user interactions, ensuring an engaging and challenging experience.",
@@ -88,7 +100,7 @@ export const projects = [
     featured: true,
   },
   {
-    id: 8,
+    id: 9,
     name: "Todos",
     description:
       "A robust task tracking system with CRUD capabilities, crafted to simplify task management. Dynamic UI updates through JavaScript event listeners and DOM operations for seamless CRUD operations. Secure task persistence through local storage methods, ensuring that tasks are never lost.",
@@ -100,7 +112,7 @@ export const projects = [
     featured: false,
   },
   {
-    id: 9,
+    id: 10,
     name: "Wikipedia Search Application",
     description:
       "Experience a new level of information access with a custom wikipedia search application that simplifies the search process. With a user-friendly interface and relevant results, users can expand their knowledge in no time.",

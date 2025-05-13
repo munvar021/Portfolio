@@ -130,7 +130,7 @@ const Home = () => {
 
         <ImageContainer>
           <ProfileImage
-            src="https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742747152/Portfolio/rzwhdoenfmufnadhwabr.jpg"
+            src="https://res.cloudinary.com/dnkjgw2ti/image/upload/v1747123458/Portfolio/mdjssqaymkttzfl90sze.jpg"
             alt="Munvar"
           />
         </ImageContainer>
