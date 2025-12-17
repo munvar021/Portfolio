@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -24,29 +24,16 @@ const float = keyframes`
   }
 `;
 
-export const ContentWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
-`;
-
 export const HomeContainer = styled.div`
+  ${liquidGlassEffect}
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-height: calc(100vh - 200px);
-  padding: 2rem 0;
+  width: 100%;
+  padding: 2rem;
 
   @media (max-width: 992px) {
     flex-direction: column-reverse;
@@ -55,7 +42,6 @@ export const HomeContainer = styled.div`
     padding-top: 3rem;
   }
 `;
-
 export const IntroContent = styled.div`
   flex: 1;
   animation: ${fadeIn} 1s ease-out;
@@ -70,7 +56,7 @@ export const IntroContent = styled.div`
 export const Greeting = styled.div`
   display: inline-block;
   background-color: rgba(111, 207, 151, 0.15);
-  color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
   font-weight: 600;
   padding: 0.5rem 1rem;
   border-radius: 30px;
@@ -86,7 +72,7 @@ export const Greeting = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     z-index: -1;
     transform: scaleX(0);
     transform-origin: left;
@@ -94,7 +80,7 @@ export const Greeting = styled.div`
   }
 
   &:hover {
-    color: ${theme.colors.primary};
+    color: ${({ theme }) => theme.colors.primary};
 
     &::before {
       transform: scaleX(1);
@@ -110,13 +96,13 @@ export const Name = styled.h1`
   -webkit-background-clip: initial;
   -webkit-text-fill-color: initial;
   background-clip: initial;
-  color: ${theme.colors.textPrimary};
+  color: ${({ theme }) => theme.colors.textPrimary};
 
   span {
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     position: relative;
     display: inline-block;
-    -webkit-text-fill-color: ${theme.colors.accent};
+    -webkit-text-fill-color: ${({ theme }) => theme.colors.accent};
 
     &::after {
       content: "";
@@ -125,7 +111,7 @@ export const Name = styled.h1`
       left: 0;
       width: 100%;
       height: 5px;
-      background-color: ${theme.colors.highlight};
+      background-color: ${({ theme }) => theme.colors.highlight};
       border-radius: 5px;
       transform: scaleX(0);
       transform-origin: left;
@@ -152,7 +138,7 @@ export const Name = styled.h1`
 
 export const Profession = styled.h2`
   font-size: 2rem;
-  color: ${theme.colors.secondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: 1.5rem;
   font-weight: 500;
   background: none;
@@ -174,7 +160,7 @@ export const Description = styled.p`
   line-height: 1.8;
   max-width: 600px;
   margin-bottom: 2rem;
-  color: ${theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
 `;
 
 export const CTAButtons = styled.div`
@@ -195,8 +181,8 @@ export const PrimaryButton = styled.button`
   border-radius: 30px;
   background: linear-gradient(
     135deg,
-    ${theme.colors.accent},
-    ${theme.colors.highlight}
+    ${({ theme }) => theme.colors.accent},
+    ${({ theme }) => theme.colors.highlight}
   );
   color: #fff;
   border: none;
@@ -224,13 +210,13 @@ export const SecondaryButton = styled.button`
   font-weight: 600;
   border-radius: 30px;
   background: transparent;
-  color: ${theme.colors.accent};
-  border: 2px solid ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
+  border: 0px solid ${({ theme }) => theme.colors.accent};
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: #fff;
     transform: translateY(-5px);
     box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
@@ -312,10 +298,9 @@ export const ProfileImage = styled.img`
 
 export const TypedText = styled.span`
   display: inline-block;
-  border-right: 3px solid ${theme.colors.highlight};
   padding-right: 5px;
-  color: ${theme.colors.accent};
-  -webkit-text-fill-color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
+  -webkit-text-fill-color: ${({ theme }) => theme.colors.accent};
   animation: blink 1s step-end infinite;
   font-weight: 600;
 
@@ -325,7 +310,7 @@ export const TypedText = styled.span`
       border-color: transparent;
     }
     50% {
-      border-color: ${theme.colors.highlight};
+      border-color: ${({ theme }) => theme.colors.highlight};
     }
   }
 `;
@@ -348,12 +333,12 @@ export const SocialIcon = styled.a`
   height: 45px;
   border-radius: 50%;
   background-color: rgba(47, 128, 237, 0.1);
-  color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: white;
     box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
   }

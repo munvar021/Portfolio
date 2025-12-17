@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -21,29 +21,10 @@ const spin = keyframes`
   }
 `;
 
-export const ContentWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
-`;
-
 export const ResumeContainer = styled.div`
+  ${liquidGlassEffect}
   width: 100%;
+  padding: 2rem;
   animation: ${fadeIn} 0.6s ease-out;
 `;
 
@@ -62,7 +43,7 @@ export const ResumeHeader = styled.div`
 
 export const ResumeTitle = styled.h1`
   font-size: 2.5rem;
-  color: ${theme.colors.primary};
+  color: ${({ theme }) => theme.colors.textPrimary};
   position: relative;
 
   &:after {
@@ -72,7 +53,7 @@ export const ResumeTitle = styled.h1`
     bottom: -10px;
     width: 70px;
     height: 4px;
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     border-radius: 2px;
   }
 
@@ -88,14 +69,19 @@ export const ResumeTitle = styled.h1`
 export const ResumeActions = styled.div`
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 `;
 
 export const DownloadButton = styled.button`
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: ${theme.colors.accent};
+  width: 250px;
+  height: 40px;
+  padding: 0;
+  background-color: ${({ theme }) => theme.colors.accent};
   color: white;
   border: none;
   border-radius: 30px;
@@ -105,7 +91,7 @@ export const DownloadButton = styled.button`
   box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
 
   &:hover {
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(111, 207, 151, 0.3);
   }
@@ -120,22 +106,21 @@ export const DownloadButton = styled.button`
   }
 
   @media (max-width: 576px) {
-    width: 100%;
-    justify-content: center;
+    width: 220px;
+    height: 36px;
   }
 `;
 
 export const PdfContainer = styled.div`
+  ${liquidGlassEffect}
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
   padding: 2rem;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
   position: relative;
   min-height: 700px;
+  overflow-x: auto;
 
   .react-pdf__Document {
     width: 100%;
@@ -168,15 +153,13 @@ export const PdfContainer = styled.div`
 `;
 
 export const PageControls = styled.div`
+  ${liquidGlassEffect}
   display: flex;
   align-items: center;
   gap: 1rem;
   margin-top: 1.5rem;
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
   padding: 0.75rem 1.5rem;
   border-radius: 30px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 `;
 
 export const PageNavButton = styled.button`
@@ -186,7 +169,7 @@ export const PageNavButton = styled.button`
   align-items: center;
   justify-content: center;
   background-color: ${(props) =>
-    props.disabled ? "rgba(58, 63, 68, 0.1)" : theme.colors.accent};
+    props.disabled ? "rgba(58, 63, 68, 0.1)" : props.theme.colors.accent};
   color: ${(props) => (props.disabled ? "rgba(58, 63, 68, 0.4)" : "white")};
   border: none;
   border-radius: 50%;
@@ -194,7 +177,7 @@ export const PageNavButton = styled.button`
   transition: all 0.3s ease;
 
   &:hover:not(:disabled) {
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     transform: translateY(-2px);
     box-shadow: 0 4px 10px rgba(111, 207, 151, 0.2);
   }
@@ -207,7 +190,7 @@ export const PageNavButton = styled.button`
 export const PageNumber = styled.div`
   font-size: 1rem;
   font-weight: 500;
-  color: ${theme.colors.primary};
+  color: ${({ theme }) => theme.colors.textPrimary};
   min-width: 60px;
   text-align: center;
 `;
@@ -224,13 +207,13 @@ export const PageLoader = styled.div`
 
   svg {
     font-size: 2rem;
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     animation: ${spin} 1.5s linear infinite;
   }
 
   p {
     font-size: 1rem;
-    color: ${theme.colors.secondary};
+    color: ${({ theme }) => theme.colors.textSecondary};
   }
 `;
 
@@ -242,4 +225,179 @@ export const ErrorMessage = styled.div`
   border-radius: 8px;
   margin: 2rem 0;
   font-weight: 500;
+`;
+
+const zoomIn = keyframes`
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+export const ViewToggle = styled.div`
+  position: relative;
+  display: flex;
+  background-color: ${({ theme }) => theme.colors.background};
+  border: 0px solid ${({ theme }) => theme.colors.textSecondary}30;
+  border-radius: 30px;
+  padding: 2px;
+  width: 250px;
+  height: 40px;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  @media (max-width: 576px) {
+    width: 220px;
+    height: 36px;
+  }
+`;
+
+export const ToggleButton = styled.button`
+  position: relative;
+  flex: 1;
+  z-index: 2;
+  padding: 0.5rem 1rem;
+  border-radius: 26px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: ${({ active, theme }) =>
+    active ? "white" : theme.colors.textPrimary};
+  background-color: transparent;
+  transition: color 0.3s ease;
+  pointer-events: auto;
+
+  &:hover {
+    background-color: transparent !important;
+  }
+`;
+
+export const Slider = styled.div`
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: calc(50% - 2px); // Half width for each button, minus padding
+  height: calc(100% - 4px); // Full height minus padding
+  background-color: ${({ theme }) => theme.colors.accent};
+  border-radius: 26px;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(
+    ${({ active }) => (active ? "calc(100% + 2px)" : "0")}
+  ); // Slide left/right
+  z-index: 1; // Below the text but above background
+`;
+
+export const ResumeInfo = styled.div`
+  ${liquidGlassEffect}
+  display: flex;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  animation: ${zoomIn} 0.5s ease-out;
+
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+`;
+
+export const ResumeDescription = styled.div`
+  flex: 2;
+  color: ${({ theme }) => theme.colors.textSecondary};
+  line-height: 1.7;
+  padding-right: 2rem;
+
+  @media (max-width: 992px) {
+    padding-right: 0;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(58, 63, 68, 0.1);
+  }
+`;
+
+export const ResumeMeta = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+
+export const ResumeDetails = styled.div`
+  font-size: 0.9rem;
+
+  strong {
+    color: ${({ theme }) => theme.colors.textPrimary};
+    font-weight: 600;
+  }
+`;
+
+export const ActionButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: ${(props) => (props.small ? "0.5rem 0.75rem" : "0.75rem 1.5rem")};
+  background-color: ${({ theme }) => theme.colors.accent};
+  color: white;
+  border: none;
+  border-radius: ${(props) => (props.small ? "8px" : "30px")};
+  font-weight: 600;
+  font-size: ${(props) => (props.small ? "0.85rem" : "1rem")};
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.highlight};
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(111, 207, 151, 0.3);
+  }
+
+  &:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(111, 207, 151, 0.2);
+  }
+
+  svg {
+    font-size: ${(props) => (props.small ? "0.85rem" : "1rem")};
+  }
+`;
+
+export const ViewerControls = styled.div`
+  ${liquidGlassEffect}
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    width: 100%;
+  }
+`;
+
+export const ZoomControls = styled.div`
+  ${liquidGlassEffect}
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 1rem;
+  border-radius: 30px;
+
+  span {
+    font-weight: 500;
+    color: ${({ theme }) => theme.colors.textPrimary};
+    min-width: 60px;
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: space-between;
+  }
 `;

@@ -7,7 +7,6 @@ import {
   faExclamationTriangle,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  ContentWrapper,
   NotFoundContainer,
   NotFoundContent,
   ErrorCode,
@@ -29,33 +28,31 @@ const NotFound = () => {
   }, []);
 
   return (
-    <ContentWrapper>
-      <NotFoundContainer>
-        <NotFoundContent>
-          <ErrorIcon>
-            <FontAwesomeIcon icon={faExclamationTriangle} />
-          </ErrorIcon>
-          <ErrorCode>404</ErrorCode>
-          <ErrorTitle>Page Not Found</ErrorTitle>
-          <ErrorDescription>
-            The page you are looking for doesn't exist or has been moved. Please
-            check the URL or navigate back to the homepage.
-          </ErrorDescription>
+    <NotFoundContainer>
+      <NotFoundContent>
+        <ErrorIcon>
+          <FontAwesomeIcon icon={faExclamationTriangle} />
+        </ErrorIcon>
+        <ErrorCode>404</ErrorCode>
+        <ErrorTitle>Page Not Found</ErrorTitle>
+        <ErrorDescription>
+          The page you are looking for doesn't exist or has been moved. Please
+          check the URL or navigate back to the homepage.
+        </ErrorDescription>
 
-          <ButtonGroup>
-            <BackButton onClick={() => window.history.back()}>
-              <FontAwesomeIcon icon={faArrowLeft} />
-              Go Back
-            </BackButton>
+        <ButtonGroup>
+          <BackButton onClick={() => window.history.back()}>
+            <FontAwesomeIcon icon={faArrowLeft} />
+            Go Back
+          </BackButton>
 
-            <HomeButton as={Link} to="/">
-              <FontAwesomeIcon icon={faHome} />
-              Back to Home
-            </HomeButton>
-          </ButtonGroup>
-        </NotFoundContent>
-      </NotFoundContainer>
-    </ContentWrapper>
+          <HomeButton as={Link} to="/">
+            <FontAwesomeIcon icon={faHome} />
+            Back to Home
+          </HomeButton>
+        </ButtonGroup>
+      </NotFoundContent>
+    </NotFoundContainer>
   );
 };
 

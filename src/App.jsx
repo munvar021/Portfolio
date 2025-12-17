@@ -1,70 +1,104 @@
-import React, { useEffect, useState, startTransition } from "react";
+import React, { lazy, Suspense, useContext } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { ThemeProvider } from "styled-components";
-import Layout from "./components/Layout/layout";
-import Home from "./pages/Home/home";
-import About from "./pages/About/about";
-import Projects from "./pages/Projects/projects";
-import Resume from "./pages/Resume/resume";
-import EnhancedResume from "./pages/EnhancedResume/enhancedResume";
-import Contact from "./pages/Contact/contact";
-import NotFound from "./pages/NotFound/notFound";
-import LoadingSpinner from "./components/Spinner/spinner";
-import theme from "./styles/theme";
+import AppLayout from "./components/Layout/layout";
+import Spinner from "./components/Spinner/spinner";
+import ThemeContext, { ThemeProvider } from "./contexts/ThemeContext";
+import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import GlobalStyles from "./styles/GlobalStyles";
+import darkTheme from "./styles/darkTheme";
+import lightTheme from "./styles/lightTheme";
 
-// WebSocket Setup (if needed)
-const socketEnabled = false; // Set to true if WebSockets are required
-if (socketEnabled) {
-  const socket = new WebSocket("ws://localhost:3000/ws");
-  socket.onopen = () => console.log("WebSocket Connected");
-  socket.onerror = (error) => console.error("WebSocket Error:", error);
-}
-
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <Layout />,
-      children: [
-        { index: true, element: <Home /> },
-        { path: "about", element: <About /> },
-        { path: "projects", element: <Projects /> },
-        { path: "resume", element: <Resume /> },
-        { path: "resume/enhanced", element: <EnhancedResume /> },
-        { path: "contact", element: <Contact /> },
-        { path: "*", element: <NotFound /> },
-      ],
-    },
-  ],
-  {
-    future: {
-      v7_relativeSplatPath: true,
-      v7_startTransition: true,
-    },
-  }
+const Home = lazy(() => import("./pages/Home/home"));
+const About = lazy(() => import("./pages/About/about"));
+const Projects = lazy(() => import("./pages/Projects/projects"));
+const Resume = lazy(() => import("./pages/Resume/resume"));
+const EnhancedResume = lazy(() =>
+  import("./pages/EnhancedResume/enhancedResume")
 );
+const Contact = lazy(() => import("./pages/Contact/contact"));
+const NotFound = lazy(() => import("./pages/NotFound/notFound"));
 
-const App = () => {
-  const [isLoading, setIsLoading] = useState(true);
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: "about",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: "projects",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <Projects />
+          </Suspense>
+        ),
+      },
+      {
+        path: "resume",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <Resume />
+          </Suspense>
+        ),
+      },
+      {
+        path: "enhanced-resume",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <EnhancedResume />
+          </Suspense>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <Contact />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: "*",
+    element: (
+      <Suspense fallback={<Spinner />}>
+        <NotFound />
+      </Suspense>
+    ),
+  },
+]);
 
-  useEffect(() => {
-    // Simulate loading resources or fetching initial data
-    const timer = setTimeout(() => {
-      startTransition(() => {
-        setIsLoading(false);
-      });
-    }, 1500); // Show spinner for at least 1.5 seconds for better UX
-
-    return () => clearTimeout(timer);
-  }, []);
+const AppWithTheme = () => {
+  const { theme } = useContext(ThemeContext);
+  const currentTheme = theme === "dark" ? darkTheme : lightTheme;
 
   return (
-    <ThemeProvider theme={theme}>
+    <StyledThemeProvider theme={currentTheme}>
       <GlobalStyles />
-      {isLoading ? <LoadingSpinner /> : <RouterProvider router={router} />}
-    </ThemeProvider>
+      <RouterProvider router={router} />
+    </StyledThemeProvider>
   );
 };
+
+const App = () => (
+  <ThemeProvider>
+    <AppWithTheme />
+  </ThemeProvider>
+);
 
 export default App;

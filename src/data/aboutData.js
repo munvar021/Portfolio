@@ -1,70 +1,68 @@
 import {
-  faReact,
-  faNodeJs,
-  faJs,
-  faHtml5,
-  faCss3Alt,
   faWindows,
   faGitAlt,
   faFigma,
   faBootstrap,
   faNpm,
   faGithub,
-  faPython,
 } from "@fortawesome/free-brands-svg-icons";
 
-import {
-  faDatabase,
-  faServer,
-  faCode,
-  faMobile,
-} from "@fortawesome/free-solid-svg-icons";
+import { faServer, faCode } from "@fortawesome/free-solid-svg-icons";
 
 export const skillsData = [
   {
     name: "React.js",
-    icon: faReact,
+    icon: "faReact",
     level: 95,
+    category: "Frontend",
   },
   {
     name: "JavaScript",
-    icon: faJs,
+    icon: "faJs",
     level: 92,
+    category: "Frontend",
   },
   {
     name: "HTML5",
-    icon: faHtml5,
+    icon: "faHtml5",
     level: 98,
+    category: "Frontend",
   },
   {
     name: "CSS3",
-    icon: faCss3Alt,
+    icon: "faCss3Alt",
     level: 90,
+    category: "Frontend",
   },
   {
     name: "Node.js",
-    icon: faNodeJs,
+    icon: "faNodeJs",
     level: 85,
+    category: "Backend",
   },
   {
     name: "MySQL",
-    icon: faDatabase,
+    icon: "faDatabase",
     level: 80,
+    category: "Database",
   },
   {
     name: "MongoDB",
-    icon: faDatabase,
+    icon: "faDatabase",
     level: 80,
+    category: "Database",
   },
   {
     name: "Python",
-    icon: faPython,
+    icon: "faPython",
     level: 75,
+    category: "Backend",
   },
   {
     name: "Responsive Design",
-    icon: faMobile,
+    icon: "faMobile",
     level: 95,
+    category: "Frontend",
   },
 ];
 

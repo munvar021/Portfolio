@@ -1,43 +1,43 @@
 import styled, { keyframes } from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const spinWithColors = keyframes`
   0% { 
     transform: rotate(0deg); 
-    color: ${theme.colors.primary}; 
+    color: ${({ theme }) => theme.colors.accent}; 
   }
   12.5% { 
     transform: rotate(45deg);
-    color: ${theme.colors.secondary}; 
+    color: ${({ theme }) => theme.colors.highlight}; 
   }
   25% { 
     transform: rotate(90deg);
-    color: ${theme.colors.accent}; 
+    color: ${({ theme }) => theme.colors.accent}; 
   }
   37.5% { 
     transform: rotate(135deg);
-    color: ${theme.colors.highlight}; 
+    color: ${({ theme }) => theme.colors.highlight}; 
   }
   50% { 
     transform: rotate(180deg);
-    color: ${theme.colors.textPrimary}; 
+    color: ${({ theme }) => theme.colors.textPrimary}; 
   }
   62.5% { 
     transform: rotate(225deg);
-    color: ${theme.colors.textSecondary}; 
+    color: ${({ theme }) => theme.colors.textSecondary}; 
   }
   75% { 
     transform: rotate(270deg);
-    color: ${theme.colors.footer}; 
+    color: ${({ theme }) => theme.colors.footer}; 
   }
   87.5% { 
     transform: rotate(315deg);
-    color: ${theme.colors.accent}; 
+    color: ${({ theme }) => theme.colors.accent}; 
   }
   100% { 
     transform: rotate(360deg);
-    color: ${theme.colors.primary}; 
+    color: ${({ theme }) => theme.colors.accent}; 
   }
 `;
 
@@ -62,12 +62,13 @@ export const SpinnerOverlay = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: ${theme.colors.background};
+  background-color: ${({ theme }) => theme.colors.background};
   z-index: 9999;
   animation: ${fadeIn} 0.3s ease-in-out;
 `;
 
 export const SpinnerContainer = styled.div`
+  ${liquidGlassEffect}
   position: relative;
   display: flex;
   flex-direction: column;

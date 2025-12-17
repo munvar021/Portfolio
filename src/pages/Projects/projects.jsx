@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Animate from '../../components/Animate/animate';
+import { slideInDown, fadeIn } from '../../styles/animations';
 import {
   faGithub,
   faReact,
@@ -16,18 +18,14 @@ import {
   faCogs,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  ContentWrapper,
   ProjectsContainer,
   ProjectHeader,
   ProjectTitle,
   ProjectGrid,
   ProjectCard,
-  CardInner,
-  CardFront,
-  CardBack,
   ProjectImage,
-  ProjectContent,
-  BackContent,
+  ProjectOverlay,
+  HiddenContent,
   ProjectName,
   ProjectDescription,
   ProjectTech,
@@ -39,12 +37,6 @@ import {
 import { projects } from "../../data/projectsData";
 
 const Projects = () => {
-  const [visibleProjects, setVisibleProjects] = useState(15);
-
-  const loadMoreProjects = () => {
-    setVisibleProjects((prev) => prev + 3);
-  };
-
   const getTechIcon = (tech) => {
     switch (tech.toLowerCase()) {
       case "react":
@@ -52,6 +44,8 @@ const Projects = () => {
       case "html":
         return <FontAwesomeIcon icon={faHtml5} />;
       case "node.js":
+        return <FontAwesomeIcon icon={faNodeJs} />;
+      case "node js":
         return <FontAwesomeIcon icon={faNodeJs} />;
       case "javascript":
         return <FontAwesomeIcon icon={faJs} />;
@@ -63,89 +57,78 @@ const Projects = () => {
         return <FontAwesomeIcon icon={faCogs} />;
       case "rest api calls":
         return <FontAwesomeIcon icon={faServer} />;
+      case "mongodb":
+        return <FontAwesomeIcon icon={faServer} />;
       default:
         return null;
     }
   };
 
+  const filteredProjects = projects;
+
   return (
-    <ContentWrapper>
-      <ProjectsContainer>
+    <ProjectsContainer>
+      <Animate animation={slideInDown}>
         <ProjectHeader>
           <ProjectTitle>My Projects</ProjectTitle>
         </ProjectHeader>
+      </Animate>
 
+      <Animate animation={fadeIn}>
         <ProjectGrid>
-          {projects.slice(0, visibleProjects).map((project) => (
+          {filteredProjects.map((project) => (
             <ProjectCard key={project.id}>
-              <CardInner className="card-inner">
-                <CardFront>
-                  <ProjectImage>
-                    <img src={project.image} alt={project.name} />
-                  </ProjectImage>
-                  <ProjectContent>
-                    <ProjectName>{project.name}</ProjectName>
-                  </ProjectContent>
-                </CardFront>
-                <CardBack>
-                  <BackContent>
-                    <ProjectName>{project.name}</ProjectName>
-
-                    <ProjectDescription>
-                      {project.description}
-                    </ProjectDescription>
-
-                    <ProjectTech>
-                      {project.technologies.map((tech) => (
-                        <TechTag key={tech}>
-                          {getTechIcon(tech)}
-                          {tech}
-                        </TechTag>
-                      ))}
-                    </ProjectTech>
-
-                    {project.credentials && (
-                      <Credentials>
-                        <h4>
-                          <FontAwesomeIcon icon={faUserLock} /> Demo Credentials
-                        </h4>
-                        <p>Username: {project.credentials.username}</p>
-                        <p>Password: {project.credentials.password}</p>
-                      </Credentials>
-                    )}
-
-                    <ProjectLinks>
-                      <ProjectLink
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FontAwesomeIcon icon={faGithub} />
-                        Code
-                      </ProjectLink>
-                      <ProjectLink
-                        href={project.demo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        <FontAwesomeIcon icon={faExternalLinkAlt} />
-                        Demo
-                      </ProjectLink>
-                    </ProjectLinks>
-                  </BackContent>
-                </CardBack>
-              </CardInner>
+              <ProjectImage src={project.image} alt={project.name} />
+              <ProjectOverlay>
+                <div>
+                  <ProjectName>{project.name}</ProjectName>
+                  <ProjectTech>
+                    {project.technologies.map((tech) => (
+                      <TechTag key={tech}>
+                        {getTechIcon(tech)}
+                        {tech}
+                      </TechTag>
+                    ))}
+                  </ProjectTech>
+                </div>
+                <HiddenContent>
+                  <ProjectDescription>{project.description}</ProjectDescription>
+                  {project.credentials && (
+                    <Credentials>
+                      <h4>
+                        <FontAwesomeIcon icon={faUserLock} /> Demo Credentials
+                      </h4>
+                      <p>Username: {project.credentials.username}</p>
+                      <p>Password: {project.credentials.password}</p>
+                    </Credentials>
+                  )}
+                  <ProjectLinks>
+                    <ProjectLink
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-link-type="code"
+                    >
+                      <FontAwesomeIcon icon={faGithub} />
+                      Code
+                    </ProjectLink>
+                    <ProjectLink
+                      href={project.demo}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      data-link-type="demo"
+                    >
+                      <FontAwesomeIcon icon={faExternalLinkAlt} />
+                      Demo
+                    </ProjectLink>
+                  </ProjectLinks>
+                </HiddenContent>
+              </ProjectOverlay>
             </ProjectCard>
           ))}
         </ProjectGrid>
-
-        {visibleProjects < projects.length && (
-          <div className="load-more">
-            <button onClick={loadMoreProjects}>Load More Projects</button>
-          </div>
-        )}
-      </ProjectsContainer>
-    </ContentWrapper>
+      </Animate>
+    </ProjectsContainer>
   );
 };
 

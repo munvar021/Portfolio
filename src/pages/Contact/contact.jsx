@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import Animate from "../../components/Animate/animate";
+import { slideInDown, fadeIn } from "../../styles/animations";
 import {
   faEnvelope,
   faPhone,
@@ -16,7 +18,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   ContactContainer,
   ContactContent,
-  ContentWrapper,
   ContactForm,
   ContactInfo,
   FormGroup,
@@ -41,11 +42,14 @@ const Contact = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, dirtyFields },
     reset,
-  } = useForm();
+  } = useForm({
+    mode: "onChange",
+  });
 
   const onSubmit = (data) => {
+    if (data.honeypot) return; // Spam prevention
     setIsSubmitting(true);
 
     setTimeout(() => {
@@ -62,21 +66,26 @@ const Contact = () => {
 
   return (
     <ContactContainer>
-      <ContactTitle>Get In Touch</ContactTitle>
-      <ContactSubtitle>
-        Feel free to reach out for collaboration opportunities, questions, or
-        just to say hello!
-      </ContactSubtitle>
+      <Animate animation={slideInDown}>
+        <ContactTitle>Get In Touch</ContactTitle>
+      </Animate>
+      <Animate animation={slideInDown}>
+        <ContactSubtitle>
+          Feel free to reach out for collaboration opportunities, questions, or
+          just to say hello!
+        </ContactSubtitle>
+      </Animate>
 
-      <ContactGrid>
-        <ContactContent>
-          <ContentWrapper>
+      <Animate animation={fadeIn}>
+        <ContactGrid>
+          <ContactContent>
             <ContactForm onSubmit={handleSubmit(onSubmit)}>
               <FormGroup>
                 <Input
                   {...register("name", { required: "Name is required" })}
                   placeholder="Your Name"
-                  isError={errors.name}
+                  isError={!!errors.name}
+                  isValid={!errors.name && dirtyFields.name}
                 />
                 {errors.name && (
                   <ErrorMessage>{errors.name.message}</ErrorMessage>
@@ -93,7 +102,8 @@ const Contact = () => {
                     },
                   })}
                   placeholder="Your Email"
-                  isError={errors.email}
+                  isError={!!errors.email}
+                  isValid={!errors.email && dirtyFields.email}
                 />
                 {errors.email && (
                   <ErrorMessage>{errors.email.message}</ErrorMessage>
@@ -104,7 +114,8 @@ const Contact = () => {
                 <Input
                   {...register("subject", { required: "Subject is required" })}
                   placeholder="Subject"
-                  isError={errors.subject}
+                  isError={!!errors.subject}
+                  isValid={!errors.subject && dirtyFields.subject}
                 />
                 {errors.subject && (
                   <ErrorMessage>{errors.subject.message}</ErrorMessage>
@@ -116,11 +127,17 @@ const Contact = () => {
                   {...register("message", { required: "Message is required" })}
                   placeholder="Your Message"
                   rows={5}
-                  isError={errors.message}
+                  isError={!!errors.message}
+                  isValid={!errors.message && dirtyFields.message}
                 />
                 {errors.message && (
                   <ErrorMessage>{errors.message.message}</ErrorMessage>
                 )}
+              </FormGroup>
+
+              {/* Honeypot field for spam prevention */}
+              <FormGroup style={{ display: "none" }}>
+                <Input {...register("honeypot")} />
               </FormGroup>
 
               <SubmitButton type="submit" disabled={isSubmitting}>
@@ -141,64 +158,64 @@ const Contact = () => {
                 </SuccessMessage>
               )}
             </ContactForm>
-          </ContentWrapper>
-        </ContactContent>
+          </ContactContent>
 
-        <ContactInfo>
-          <ContactCard>
-            <InfoItem>
-              <FontAwesomeIcon icon={faMapMarkerAlt} />
-              <div>
-                <h4>Location</h4>
-                <p>Kanigiri</p>
-              </div>
-            </InfoItem>
+          <ContactInfo>
+            <ContactCard>
+              <InfoItem>
+                <FontAwesomeIcon icon={faMapMarkerAlt} />
+                <div>
+                  <h4>Location</h4>
+                  <p>Kanigiri</p>
+                </div>
+              </InfoItem>
 
-            <InfoItem>
-              <FontAwesomeIcon icon={faEnvelope} />
-              <div>
-                <h4>Email</h4>
-                <p>munvar021@gmail.com</p>
-              </div>
-            </InfoItem>
+              <InfoItem>
+                <FontAwesomeIcon icon={faEnvelope} />
+                <div>
+                  <h4>Email</h4>
+                  <p>munvar021@gmail.com</p>
+                </div>
+              </InfoItem>
 
-            <InfoItem>
-              <FontAwesomeIcon icon={faPhone} />
-              <div>
-                <h4>Phone</h4>
-                <p>+91 9948525819</p>
-              </div>
-            </InfoItem>
+              <InfoItem>
+                <FontAwesomeIcon icon={faPhone} />
+                <div>
+                  <h4>Phone</h4>
+                  <p>+91 9948525819</p>
+                </div>
+              </InfoItem>
 
-            <SocialLinks>
-              <SocialIcon
-                href="https://www.linkedin.com/in/munvar-khajavali-shaik"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-              >
-                <FontAwesomeIcon icon={faLinkedinIn} />
-              </SocialIcon>
-              <SocialIcon
-                href="https://github.com/munvar021"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-              >
-                <FontAwesomeIcon icon={faGithub} />
-              </SocialIcon>
-              <SocialIcon
-                href="https://www.instagram.com/munvar_khajavali"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                <FontAwesomeIcon icon={faInstagram} />
-              </SocialIcon>
-            </SocialLinks>
-          </ContactCard>
-        </ContactInfo>
-      </ContactGrid>
+              <SocialLinks>
+                <SocialIcon
+                  href="https://www.linkedin.com/in/munvar-khajavali-shaik"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn"
+                >
+                  <FontAwesomeIcon icon={faLinkedinIn} />
+                </SocialIcon>
+                <SocialIcon
+                  href="https://github.com/munvar021"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub"
+                >
+                  <FontAwesomeIcon icon={faGithub} />
+                </SocialIcon>
+                <SocialIcon
+                  href="https://www.instagram.com/munvar_khajavali"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Instagram"
+                >
+                  <FontAwesomeIcon icon={faInstagram} />
+                </SocialIcon>
+              </SocialLinks>
+            </ContactCard>
+          </ContactInfo>
+        </ContactGrid>
+      </Animate>
     </ContactContainer>
   );
 };

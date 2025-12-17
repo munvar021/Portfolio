@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -12,31 +12,12 @@ const fadeIn = keyframes`
   }
 `;
 
-export const ContentWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
-`;
-
 export const ProjectsContainer = styled.div`
+  ${liquidGlassEffect}
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding: 2rem;
 
   .load-more {
     display: flex;
@@ -45,15 +26,15 @@ export const ProjectsContainer = styled.div`
 
     button {
       background: transparent;
-      color: ${theme.colors.accent};
-      border: 2px solid ${theme.colors.accent};
+      color: ${({ theme }) => theme.colors.accent};
+      border: 0px solid ${({ theme }) => theme.colors.accent};
       padding: 0.75rem 2rem;
       border-radius: 30px;
       font-weight: 500;
       transition: all 0.3s ease;
 
       &:hover {
-        background: ${theme.colors.accent};
+        background: ${({ theme }) => theme.colors.accent};
         color: white;
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
@@ -68,17 +49,16 @@ export const ProjectsContainer = styled.div`
 
 export const ProjectHeader = styled.div`
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   animation: ${fadeIn} 0.8s ease-out;
-
-  @media (min-width: 768px) {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
 
   @media (max-width: 767px) {
     flex-direction: column;
-    gap: 1.5rem;
+    align-items: flex-start;
   }
 `;
 
@@ -94,7 +74,7 @@ export const ProjectTitle = styled.h1`
     left: 0;
     width: 60px;
     height: 3px;
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     border-radius: 3px;
     transition: width 0.3s ease;
   }
@@ -123,171 +103,114 @@ export const ProjectGrid = styled.div`
   }
 `;
 
-export const ProjectCard = styled.div`
-  background-color: transparent;
-  width: 100%;
-  height: 470px;
-  perspective: 1000px;
-  animation: ${fadeIn} 0.8s ease-out;
+// --- NEW ELEVATED CARD STYLES ---
 
-  &:hover .card-inner {
-    transform: rotateY(180deg);
-  }
-`;
-
-export const CardInner = styled.div`
-  position: relative;
+export const ProjectImage = styled.img`
   width: 100%;
   height: 100%;
-  text-align: center;
-  transition: transform 0.8s;
-  transform-style: preserve-3d;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
 `;
 
-export const CardFace = styled.div`
+export const HiddenContent = styled.div`
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+`;
+
+export const ProjectOverlay = styled.div`
   position: absolute;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  color: white;
+
+  // A gradient to make text readable
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.95) 20%,
+    rgba(0, 0, 0, 0) 100%
+  );
+
+  // Use translateY for positioning and animation
+  transform: translateY(
+    calc(100% - 130px)
+  ); // Adjust this value to control how much is visible initially
+  transition: transform 0.4s ease-out;
+`;
+
+export const ProjectCard = styled.div`
+  position: relative;
+  height: 470px;
   border-radius: 12px;
   overflow: hidden;
-  display: flex;
-  flex-direction: column;
-`;
+  animation: ${fadeIn} 0.8s ease-out;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background: ${({ theme }) => theme.colors.background};
 
-export const CardFront = styled(CardFace)`
-  background-color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-
-  &:hover {
-    border-color: ${theme.colors.highlight};
-  }
-`;
-
-export const CardBack = styled(CardFace)`
-  background-color: rgba(255, 255, 255, 0.9);
-  transform: rotateY(180deg);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid ${theme.colors.accent};
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(30, 42, 56, 0.02) 0%,
-      rgba(47, 128, 237, 0.05) 100%
-    );
-    z-index: -1;
-  }
-`;
-
-export const ProjectImage = styled.div`
-  position: relative;
-  overflow: hidden;
-  height: 380px;
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.5s ease;
+  &:hover ${ProjectOverlay} {
+    transform: translateY(0);
   }
 
-  &:hover {
-    img {
-      transform: scale(1.1);
-    }
+  &:hover ${HiddenContent} {
+    opacity: 1;
+    max-height: 350px; // Allow it to expand
+    margin-top: 1rem;
   }
-`;
 
-export const ProjectContent = styled.div`
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
+  &:hover ${ProjectImage} {
+    transform: scale(1.1);
+  }
 `;
 
 export const ProjectName = styled.h3`
-  font-size: 1.3rem;
-  margin-bottom: 0rem;
-  color: ${theme.colors.primary};
-  position: relative;
-  display: inline-block;
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: ${theme.colors.accent};
-  }
+  font-size: 1.5rem;
+  margin: 0;
+  color: white;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 `;
 
 export const ProjectDescription = styled.p`
-  color: ${theme.colors.textSecondary};
-  font-size: 0.95rem;
-  margin-bottom: 1.2rem;
-  text-align: left;
-`;
-
-export const BackContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 100%;
-  width: 100%;
-  justify-content: space-between;
+  color: white;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
 `;
 
 export const ProjectTech = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: 1.2rem;
-  justify-content: center;
+  margin-top: 0.75rem;
 `;
 
 export const TechTag = styled.span`
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background-color: rgba(47, 128, 237, 0.1);
-  color: ${theme.colors.accent};
+  background-color: rgba(255, 255, 255, 0.15);
+  color: white;
   padding: 0.4rem 0.8rem;
   border-radius: 20px;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
 
   svg {
-    font-size: 0.85rem;
-  }
-
-  &:hover {
-    background-color: ${theme.colors.accent};
-    color: white;
-    transform: translateY(-2px);
+    font-size: 0.8rem;
   }
 `;
 
 export const Credentials = styled.div`
-  background-color: rgba(30, 42, 56, 0.05);
+  background-color: rgba(0, 0, 0, 0.3);
   padding: 0.8rem;
   border-radius: 8px;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1rem;
   width: 100%;
 
   h4 {
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     font-size: 0.9rem;
     margin-bottom: 0.5rem;
   }
@@ -295,18 +218,13 @@ export const Credentials = styled.div`
   p {
     margin: 0;
     font-size: 0.85rem;
+    color: white;
   }
 `;
 
 export const ProjectLinks = styled.div`
   display: flex;
   gap: 1rem;
-  margin-top: auto;
-
-  @media (max-width: 400px) {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
 `;
 
 export const ProjectLink = styled.a`
@@ -318,27 +236,25 @@ export const ProjectLink = styled.a`
   font-size: 0.9rem;
   font-weight: 500;
   transition: all 0.3s ease;
+  color: white;
 
-  &:first-child {
-    background-color: ${theme.colors.primary};
-    color: white;
-
+  &[data-link-type="code"] {
+    background-color: #333; // Darker for GitHub
     &:hover {
-      background-color: ${theme.colors.secondary};
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(30, 42, 56, 0.2);
+      background-color: #444;
     }
   }
 
-  &:last-child {
-    background-color: ${theme.colors.accent};
-    color: white;
-
+  &[data-link-type="demo"] {
+    background-color: ${({ theme }) => theme.colors.accent};
     &:hover {
-      background-color: ${theme.colors.highlight};
-      color: ${theme.colors.primary};
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(111, 207, 151, 0.3);
+      background-color: ${({ theme }) => theme.colors.highlight};
+      color: white;
     }
+  }
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
   }
 `;

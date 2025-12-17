@@ -9,7 +9,6 @@ import {
   faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 import {
-  ContentWrapper,
   ResumeContainer,
   ResumeHeader,
   ResumeTitle,
@@ -113,112 +112,107 @@ const EnhancedResume = () => {
   };
 
   return (
-    <ContentWrapper>
-      <ResumeContainer>
-        <BackButton to="/about">
-          <FontAwesomeIcon icon={faArrowLeft} /> Back to About
-        </BackButton>
+    <ResumeContainer>
+      <BackButton to="/about">
+        <FontAwesomeIcon icon={faArrowLeft} /> Back to About
+      </BackButton>
 
-        <ResumeHeader>
-          <ResumeTitle>My Professional Resume</ResumeTitle>
-          <ResumeActions>
-            <ActionButton onClick={handleDownload}>
-              <FontAwesomeIcon icon={faDownload} /> Download
-            </ActionButton>
-          </ResumeActions>
-        </ResumeHeader>
+      <ResumeHeader>
+        <ResumeTitle>My Professional Resume</ResumeTitle>
+        <ResumeActions>
+          <ActionButton onClick={handleDownload}>
+            <FontAwesomeIcon icon={faDownload} /> Download
+          </ActionButton>
+        </ResumeActions>
+      </ResumeHeader>
 
-        <ResumeInfo>
-          <ResumeDescription>
-            This resume outlines my professional experience, skills, and
-            education. It highlights my expertise in frontend development, UI/UX
-            design, and project management experience across various industries.
-          </ResumeDescription>
-          <ResumeMeta>
-            {Object.entries(resumeDetails).map(([key, value]) => (
-              <ResumeDetails key={key}>
-                <strong>
-                  {key
-                    .replace(/([A-Z])/g, " $1")
-                    .replace(/^./, (str) => str.toUpperCase())}
-                  :
-                </strong>{" "}
-                {value}
-              </ResumeDetails>
-            ))}
-          </ResumeMeta>
-        </ResumeInfo>
+      <ResumeInfo>
+        <ResumeDescription>
+          This resume outlines my professional experience, skills, and
+          education. It highlights my expertise in frontend development, UI/UX
+          design, and project management experience across various industries.
+        </ResumeDescription>
+        <ResumeMeta>
+          {Object.entries(resumeDetails).map(([key, value]) => (
+            <ResumeDetails key={key}>
+              <strong>
+                {key
+                  .replace(/([A-Z])/g, " $1")
+                  .replace(/^./, (str) => str.toUpperCase())}
+                :
+              </strong>{" "}
+              {value}
+            </ResumeDetails>
+          ))}
+        </ResumeMeta>
+      </ResumeInfo>
 
-        <ViewerControls>
-          <ZoomControls>
-            <ActionButton small onClick={zoomOut} title="Zoom Out">
-              -
-            </ActionButton>
-            <span>{Math.round(scale * 100)}%</span>
-            <ActionButton small onClick={zoomIn} title="Zoom In">
-              +
-            </ActionButton>
-            <ActionButton small onClick={resetZoom} title="Reset Zoom">
-              Reset
-            </ActionButton>
-          </ZoomControls>
-        </ViewerControls>
+      <ViewerControls>
+        <ZoomControls>
+          <ActionButton small onClick={zoomOut} title="Zoom Out">
+            -
+          </ActionButton>
+          <span>{Math.round(scale * 100)}%</span>
+          <ActionButton small onClick={zoomIn} title="Zoom In">
+            +
+          </ActionButton>
+          <ActionButton small onClick={resetZoom} title="Reset Zoom">
+            Reset
+          </ActionButton>
+        </ZoomControls>
+      </ViewerControls>
 
-        <PdfContainer>
-          {isLoading && (
-            <PageLoader>
-              <FontAwesomeIcon icon={faSpinner} />
-              <p>Loading Resume...</p>
-            </PageLoader>
-          )}
+      <PdfContainer>
+        {isLoading && (
+          <PageLoader>
+            <FontAwesomeIcon icon={faSpinner} />
+            <p>Loading Resume...</p>
+          </PageLoader>
+        )}
 
-          {error && <ErrorMessage>{error}</ErrorMessage>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
 
-          <Document
-            file={resumePath}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            loading={<span></span>}
-            options={{
-              cMapUrl: `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/cmaps/`,
-              cMapPacked: true,
-              annotationMode: "enable",
-              externalLinkTarget: "_blank",
-              enableScripting: true,
-              isEvalSupported: true,
-              standardFontDataUrl: `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/standard_fonts/`,
-            }}
-          >
-            <Page
-              pageNumber={pageNumber}
-              renderTextLayer={false}
-              renderAnnotationLayer={true}
-              scale={scale}
-              onItemClick={handleItemClick}
-            />
-          </Document>
+        <Document
+          file={resumePath}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onLoadError={onDocumentLoadError}
+          loading={<span></span>}
+          options={{
+            cMapUrl: `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/cmaps/`,
+            cMapPacked: true,
+            annotationMode: "enable",
+            externalLinkTarget: "_blank",
+            enableScripting: true,
+            isEvalSupported: true,
+            standardFontDataUrl: `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/standard_fonts/`,
+          }}
+        >
+          <Page
+            pageNumber={pageNumber}
+            renderTextLayer={false}
+            renderAnnotationLayer={true}
+            scale={scale}
+            onItemClick={handleItemClick}
+          />
+        </Document>
 
-          {numPages && numPages > 1 && (
-            <PageControls>
-              <PageNavButton onClick={previousPage} disabled={pageNumber <= 1}>
-                <FontAwesomeIcon icon={faChevronLeft} />
-              </PageNavButton>
+        {numPages && numPages > 1 && (
+          <PageControls>
+            <PageNavButton onClick={previousPage} disabled={pageNumber <= 1}>
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </PageNavButton>
 
-              <PageNumber>
-                {pageNumber} / {numPages}
-              </PageNumber>
+            <PageNumber>
+              {pageNumber} / {numPages}
+            </PageNumber>
 
-              <PageNavButton
-                onClick={nextPage}
-                disabled={pageNumber >= numPages}
-              >
-                <FontAwesomeIcon icon={faChevronRight} />
-              </PageNavButton>
-            </PageControls>
-          )}
-        </PdfContainer>
-      </ResumeContainer>
-    </ContentWrapper>
+            <PageNavButton onClick={nextPage} disabled={pageNumber >= numPages}>
+              <FontAwesomeIcon icon={faChevronRight} />
+            </PageNavButton>
+          </PageControls>
+        )}
+      </PdfContainer>
+    </ResumeContainer>
   );
 };
 

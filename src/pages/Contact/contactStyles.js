@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -13,31 +13,10 @@ const fadeIn = keyframes`
 `;
 
 export const ContactContainer = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
+  ${liquidGlassEffect}
+  width: 100%;
   padding: 3rem 1rem;
   animation: ${fadeIn} 1s ease-out;
-`;
-
-export const ContentWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
-  }
 `;
 
 export const ContactTitle = styled.h1`
@@ -54,7 +33,7 @@ export const ContactTitle = styled.h1`
     transform: translateX(-50%);
     width: 70px;
     height: 3px;
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     border-radius: 3px;
   }
 `;
@@ -63,7 +42,7 @@ export const ContactSubtitle = styled.p`
   text-align: center;
   max-width: 700px;
   margin: 0 auto 3rem;
-  color: ${theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   font-size: 1.1rem;
 `;
 
@@ -95,43 +74,49 @@ export const FormGroup = styled.div`
 `;
 
 export const Input = styled.input`
+  ${liquidGlassEffect}
   width: 100%;
   padding: 0.9rem 1.2rem;
-  border-radius: 8px;
-  border: 1px solid
-    ${(props) => (props.isError ? "#FF6B6B" : "rgba(58, 63, 68, 0.2)")};
-  background-color: rgba(255, 255, 255, 0.9);
-  font-family: ${theme.fonts.body};
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 1rem;
   transition: all 0.3s ease;
 
   &:focus {
     outline: none;
-    border-color: ${(props) =>
-      props.isError ? "#FF6B6B" : theme.colors.accent};
+    border-color: ${({ isError, isValid, theme }) =>
+      isError
+        ? "#FF6B6B"
+        : isValid
+        ? theme.colors.highlight
+        : theme.colors.accent};
     box-shadow: 0 0 0 3px
-      ${(props) =>
-        props.isError ? "rgba(255, 107, 107, 0.2)" : "rgba(47, 128, 237, 0.2)"};
+      ${({ isError, isValid, theme }) =>
+        isError
+          ? "rgba(255, 107, 107, 0.2)"
+          : isValid
+          ? "rgba(111, 207, 151, 0.2)"
+          : "rgba(47, 128, 237, 0.2)"};
   }
 
   &::placeholder {
-    color: rgba(58, 63, 68, 0.6);
+    color: ${({ theme }) => theme.colors.textSecondary};
   }
 
   &:hover {
-    border-color: ${(props) =>
-      props.isError ? "#FF6B6B" : theme.colors.accent};
+    border-color: ${({ isError, isValid, theme }) =>
+      isError
+        ? "#FF6B6B"
+        : isValid
+        ? theme.colors.highlight
+        : theme.colors.accent};
   }
 `;
 
 export const Textarea = styled.textarea`
+  ${liquidGlassEffect}
   width: 100%;
   padding: 0.9rem 1.2rem;
-  border-radius: 8px;
-  border: 1px solid
-    ${(props) => (props.isError ? "#FF6B6B" : "rgba(58, 63, 68, 0.2)")};
-  background-color: rgba(255, 255, 255, 0.9);
-  font-family: ${theme.fonts.body};
+  font-family: ${({ theme }) => theme.fonts.body};
   font-size: 1rem;
   resize: vertical;
   min-height: 150px;
@@ -139,28 +124,40 @@ export const Textarea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: ${(props) =>
-      props.isError ? "#FF6B6B" : theme.colors.accent};
+    border-color: ${({ isError, isValid, theme }) =>
+      isError
+        ? "#FF6B6B"
+        : isValid
+        ? theme.colors.highlight
+        : theme.colors.accent};
     box-shadow: 0 0 0 3px
-      ${(props) =>
-        props.isError ? "rgba(255, 107, 107, 0.2)" : "rgba(47, 128, 237, 0.2)"};
+      ${({ isError, isValid, theme }) =>
+        isError
+          ? "rgba(255, 107, 107, 0.2)"
+          : isValid
+          ? "rgba(111, 207, 151, 0.2)"
+          : "rgba(47, 128, 237, 0.2)"};
   }
 
   &::placeholder {
-    color: rgba(58, 63, 68, 0.6);
+    color: ${({ theme }) => theme.colors.textSecondary};
   }
 
   &:hover {
-    border-color: ${(props) =>
-      props.isError ? "#FF6B6B" : theme.colors.accent};
+    border-color: ${({ isError, isValid, theme }) =>
+      isError
+        ? "#FF6B6B"
+        : isValid
+        ? theme.colors.highlight
+        : theme.colors.accent};
   }
 `;
 
 export const SubmitButton = styled.button`
   background: linear-gradient(
     135deg,
-    ${theme.colors.accent},
-    ${theme.colors.highlight}
+    ${({ theme }) => theme.colors.accent},
+    ${({ theme }) => theme.colors.highlight}
   );
   color: white;
   border: none;
@@ -210,7 +207,7 @@ export const ErrorMessage = styled.span`
 export const SuccessMessage = styled.div`
   background-color: rgba(111, 207, 151, 0.15);
   color: #2e7d32;
-  border: 1px solid #4caf50;
+  border: 0px solid #4caf50;
   border-radius: 8px;
   padding: 1rem;
   margin-top: 1rem;
@@ -228,13 +225,8 @@ export const ContactInfo = styled.div`
 `;
 
 export const ContactCard = styled.div`
-  background-color: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 12px;
+  ${liquidGlassEffect}
   padding: 2rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.3);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
@@ -250,7 +242,7 @@ export const InfoItem = styled.div`
 
   svg {
     font-size: 1.5rem;
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     margin-right: 1rem;
     background-color: rgba(47, 128, 237, 0.1);
     padding: 0.8rem;
@@ -261,16 +253,16 @@ export const InfoItem = styled.div`
   h4 {
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
-    color: ${theme.colors.primary};
+    color: ${({ theme }) => theme.colors.textPrimary};
   }
 
   p {
-    color: ${theme.colors.textSecondary};
+    color: ${({ theme }) => theme.colors.textSecondary};
     margin-bottom: 0;
   }
 
   &:hover svg {
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: white;
     transform: scale(1.1);
     box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
@@ -291,12 +283,12 @@ export const SocialIcon = styled.a`
   height: 45px;
   border-radius: 50%;
   background-color: rgba(47, 128, 237, 0.1);
-  color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
   transition: all 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: white;
     box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
   }

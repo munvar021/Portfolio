@@ -1,14 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBars,
+  faTimes,
+  faSun,
+  faMoon,
+} from "@fortawesome/free-solid-svg-icons";
+import ThemeContext from "../../contexts/ThemeContext";
 import {
   HeaderContainer,
   Logo,
   Nav,
   NavItem,
   MobileMenuButton,
+  MobileActionGroup,
   MobileMenu,
+  ThemeToggleButton,
 } from "./headerStyles";
 
 const Header = () => {
@@ -18,6 +26,7 @@ const Header = () => {
   const location = useLocation();
   const headerRef = useRef(null);
   const mobileMenuRef = useRef(null);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,14 +44,15 @@ const Header = () => {
     };
 
     const handleClickOutside = (event) => {
-      if (
-        mobileMenuOpen &&
-        headerRef.current &&
-        !headerRef.current.contains(event.target) &&
-        mobileMenuRef.current &&
-        !mobileMenuRef.current.contains(event.target)
-      ) {
-        setMobileMenuOpen(false);
+      if (mobileMenuOpen) {
+        if (
+          (headerRef.current && headerRef.current.contains(event.target)) ||
+          (mobileMenuRef.current &&
+            mobileMenuRef.current.contains(event.target))
+        ) {
+          return; // Clicked inside header or mobile menu, do nothing
+        }
+        setMobileMenuOpen(false); // Clicked outside, close menu
       }
     };
 
@@ -98,12 +108,20 @@ const Header = () => {
               {item.label}
             </NavItem>
           ))}
+          <ThemeToggleButton onClick={toggleTheme}>
+            <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
+          </ThemeToggleButton>
         </Nav>
       ) : (
         <>
-          <MobileMenuButton onClick={toggleMobileMenu}>
-            <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} />
-          </MobileMenuButton>
+          <MobileActionGroup>
+            <ThemeToggleButton onClick={toggleTheme}>
+              <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
+            </ThemeToggleButton>
+            <MobileMenuButton onClick={toggleMobileMenu}>
+              <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} />
+            </MobileMenuButton>
+          </MobileActionGroup>
 
           <MobileMenu open={mobileMenuOpen} ref={mobileMenuRef}>
             <Nav>

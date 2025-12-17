@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Animate from "../../components/Animate/animate";
+import { slideInLeft, slideInRight } from "../../styles/animations";
 import {
   faLinkedinIn,
   faGithub,
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import coder from "../../assets/coder.jpeg";
 import {
   HomeContainer,
   IntroContent,
@@ -21,7 +24,6 @@ import {
   TypedText,
   SocialLinks,
   SocialIcon,
-  ContentWrapper,
 } from "./homeStyles";
 
 const Home = () => {
@@ -68,8 +70,8 @@ const Home = () => {
   }, [text, isDeleting, loopNum, typingSpeed, roles]);
 
   return (
-    <ContentWrapper>
-      <HomeContainer>
+    <HomeContainer>
+      <Animate animation={slideInLeft}>
         <IntroContent>
           <Greeting>👋 Hello There</Greeting>
           <Name>
@@ -127,15 +129,14 @@ const Home = () => {
             </SocialIcon>
           </SocialLinks>
         </IntroContent>
+      </Animate>
 
+      <Animate animation={slideInRight}>
         <ImageContainer>
-          <ProfileImage
-            src="https://res.cloudinary.com/dnkjgw2ti/image/upload/v1747123458/Portfolio/mdjssqaymkttzfl90sze.jpg"
-            alt="Munvar"
-          />
+          <ProfileImage src={coder} alt="Munvar" />
         </ImageContainer>
-      </HomeContainer>
-    </ContentWrapper>
+      </Animate>
+    </HomeContainer>
   );
 };
 

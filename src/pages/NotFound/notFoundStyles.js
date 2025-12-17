@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import theme from "../../styles/theme";
+import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -26,54 +26,45 @@ const pulse = keyframes`
 
 const glitch = keyframes`
   0% {
-    text-shadow: 0.05em 0 0 ${theme.colors.highlight}, -0.05em -0.025em 0 ${theme.colors.accent};
+    text-shadow: 0.05em 0 0 ${({ theme }) =>
+      theme.colors.highlight}, -0.05em -0.025em 0 ${({ theme }) =>
+  theme.colors.accent};
     transform: translate(0px, 0px);
   }
   25% {
-    text-shadow: -0.05em -0.025em 0 ${theme.colors.highlight}, 0.025em 0.025em 0 ${theme.colors.accent};
+    text-shadow: -0.05em -0.025em 0 ${({ theme }) =>
+      theme.colors.highlight}, 0.025em 0.025em 0 ${({ theme }) =>
+  theme.colors.accent};
     transform: translate(-2px, 2px);
   }
   50% {
-    text-shadow: 0.025em 0.05em 0 ${theme.colors.highlight}, 0 -0.05em 0 ${theme.colors.accent};
+    text-shadow: 0.025em 0.05em 0 ${({ theme }) =>
+      theme.colors.highlight}, 0 -0.05em 0 ${({ theme }) =>
+  theme.colors.accent};
     transform: translate(2px, -2px);
   }
   75% {
-    text-shadow: -0.025em -0.025em 0 ${theme.colors.highlight}, -0.025em -0.025em 0 ${theme.colors.accent};
+    text-shadow: -0.025em -0.025em 0 ${({ theme }) =>
+      theme.colors.highlight}, -0.025em -0.025em 0 ${({ theme }) =>
+  theme.colors.accent};
     transform: translate(-2px, -2px);
   }
   100% {
-    text-shadow: -0.025em 0 0 ${theme.colors.highlight}, 0.025em 0.025em 0 ${theme.colors.accent};
+    text-shadow: -0.025em 0 0 ${({ theme }) =>
+      theme.colors.highlight}, 0.025em 0.025em 0 ${({ theme }) =>
+  theme.colors.accent};
     transform: translate(0px, 0px);
-  }
-`;
-
-export const ContentWrapper = styled.div`
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  padding: 2rem;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
-  margin-bottom: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
-  }
-
-  @media (max-width: 768px) {
-    padding: 1.5rem;
   }
 `;
 
 export const NotFoundContainer = styled.div`
+  ${liquidGlassEffect}
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - 300px);
+  width: 100%;
   padding: 2rem;
   text-align: center;
 `;
@@ -85,7 +76,7 @@ export const NotFoundContent = styled.div`
 
 export const ErrorIcon = styled.div`
   font-size: 4rem;
-  color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
   margin-bottom: 1.5rem;
   animation: ${pulse} 2s infinite ease-in-out;
 
@@ -101,13 +92,12 @@ export const ErrorCode = styled.h1`
   margin: 0;
   background: linear-gradient(
     135deg,
-    ${theme.colors.primary},
-    ${theme.colors.accent}
+    ${({ theme }) => theme.colors.primary},
+    ${({ theme }) => theme.colors.accent}
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
   text-shadow: 0 0 5px rgba(47, 128, 237, 0.2);
   animation: ${glitch} 3s infinite;
 
@@ -123,7 +113,7 @@ export const ErrorCode = styled.h1`
 export const ErrorTitle = styled.h2`
   font-size: 2.5rem;
   margin: 1rem 0 1.5rem;
-  color: ${theme.colors.primary};
+  color: ${({ theme }) => theme.colors.primary};
   position: relative;
 
   &::after {
@@ -131,7 +121,7 @@ export const ErrorTitle = styled.h2`
     display: block;
     width: 100px;
     height: 3px;
-    background-color: ${theme.colors.highlight};
+    background-color: ${({ theme }) => theme.colors.highlight};
     margin: 0.5rem auto 0;
     border-radius: 3px;
   }
@@ -147,7 +137,7 @@ export const ErrorTitle = styled.h2`
 
 export const ErrorDescription = styled.p`
   font-size: 1.2rem;
-  color: ${theme.colors.textSecondary};
+  color: ${({ theme }) => theme.colors.textSecondary};
   margin-bottom: 2.5rem;
   line-height: 1.6;
 
@@ -192,13 +182,13 @@ const ButtonBase = styled.button`
 `;
 
 export const BackButton = styled(ButtonBase)`
-  color: ${theme.colors.accent};
+  color: ${({ theme }) => theme.colors.accent};
   background-color: transparent;
-  border: 2px solid ${theme.colors.accent};
+  border: 2px solid ${({ theme }) => theme.colors.accent};
   box-shadow: 0 2px 10px rgba(47, 128, 237, 0.1);
 
   &:hover {
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: white;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(47, 128, 237, 0.2);
@@ -212,8 +202,8 @@ export const BackButton = styled(ButtonBase)`
 export const HomeButton = styled(ButtonBase)`
   background: linear-gradient(
     135deg,
-    ${theme.colors.accent},
-    ${theme.colors.highlight}
+    ${({ theme }) => theme.colors.accent},
+    ${({ theme }) => theme.colors.highlight}
   );
   color: white;
   border: none;

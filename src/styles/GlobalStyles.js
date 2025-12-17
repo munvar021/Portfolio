@@ -1,5 +1,5 @@
 import { createGlobalStyle } from "styled-components";
-import theme from "./theme";
+import { liquidGlassEffect } from "./mixins";
 
 const GlobalStyles = createGlobalStyle`
   * {
@@ -18,9 +18,9 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    font-family: ${theme.fonts.body};
-    color: ${theme.colors.textPrimary};
-    background-color: ${theme.colors.background};
+    font-family: ${({ theme }) => theme.fonts.body};
+    color: ${({ theme }) => theme.colors.textPrimary};
+    background-color: ${({ theme }) => theme.colors.background};
     line-height: 1.6;
     overflow-x: hidden;
     overflow-y: auto;
@@ -28,19 +28,18 @@ const GlobalStyles = createGlobalStyle`
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: ${theme.fonts.heading};
+    font-family: ${({ theme }) => theme.fonts.heading};
     font-weight: 600;
     line-height: 1.3;
-    margin-bottom: 1rem;
   }
 
   h1 {
     font-size: 2.5rem;
-    background: linear-gradient(135deg, ${theme.colors.primary}, ${theme.colors.accent});
+    background: linear-gradient(135deg, ${({ theme }) =>
+      theme.colors.primary}, ${({ theme }) => theme.colors.accent});
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    text-fill-color: transparent;
     
     @media (max-width: 768px) {
       font-size: 2rem;
@@ -56,7 +55,7 @@ const GlobalStyles = createGlobalStyle`
       display: block;
       width: 50px;
       height: 3px;
-      background-color: ${theme.colors.highlight};
+      background-color: ${({ theme }) => theme.colors.highlight};
       margin-top: 0.3rem;
       border-radius: 3px;
     }
@@ -68,7 +67,7 @@ const GlobalStyles = createGlobalStyle`
 
   h3 {
     font-size: 1.5rem;
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     
     @media (max-width: 768px) {
       font-size: 1.25rem;
@@ -76,23 +75,20 @@ const GlobalStyles = createGlobalStyle`
   }
 
   p {
-    margin-bottom: 1rem;
   }
 
   a {
     text-decoration: none;
-    color: ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
     transition: all 0.3s ease;
     position: relative;
     
     &:hover {
-      color: ${theme.colors.highlight};
+      color: ${({ theme }) => theme.colors.highlight};
     }
     
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 2px ${theme.colors.highlight};
-      border-radius: 2px;
     }
   }
 
@@ -105,8 +101,8 @@ const GlobalStyles = createGlobalStyle`
 
   button {
     cursor: pointer;
-    font-family: ${theme.fonts.body};
-    background: ${theme.colors.accent};
+    font-family: ${({ theme }) => theme.fonts.body};
+    background: ${({ theme }) => theme.colors.accent};
     color: white;
     border: none;
     padding: 0.75rem 1.5rem;
@@ -115,7 +111,7 @@ const GlobalStyles = createGlobalStyle`
     transition: all 0.3s ease;
     
     &:hover {
-      background: ${theme.colors.highlight};
+      background: ${({ theme }) => theme.colors.highlight};
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
     }
@@ -136,7 +132,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   input, textarea, select {
-    font-family: ${theme.fonts.body};
+    font-family: ${({ theme }) => theme.fonts.body};
     padding: 0.75rem 1rem;
     border: 1px solid rgba(58, 63, 68, 0.2);
     border-radius: 8px;
@@ -146,45 +142,25 @@ const GlobalStyles = createGlobalStyle`
     
     &:focus {
       outline: none;
-      border-color: ${theme.colors.accent};
+      border-color: ${({ theme }) => theme.colors.accent};
       box-shadow: 0 0 0 3px rgba(47, 128, 237, 0.2);
     }
   }
   
   ul, ol {
     list-style-position: inside;
-    margin-bottom: 1rem;
   }
   
   ::selection {
-    background-color: ${theme.colors.highlight};
-    color: ${theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.highlight};
+    color: ${({ theme }) => theme.colors.primary};
   }
   
-  .section {
-    margin: 4rem 0;
-    
-    @media (max-width: 768px) {
-      margin: 3rem 0;
-    }
-  }
-  
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-  }
-  
-  .card {
-    background-color: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 12px;
+  .card, .glass {
+    ${liquidGlassEffect}
     padding: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
@@ -192,21 +168,21 @@ const GlobalStyles = createGlobalStyle`
   }
   
   .btn-primary {
-    background-color: ${theme.colors.accent};
+    background-color: ${({ theme }) => theme.colors.accent};
     color: white;
     
     &:hover {
-      background-color: ${theme.colors.highlight};
+      background-color: ${({ theme }) => theme.colors.highlight};
     }
   }
   
   .btn-secondary {
     background-color: transparent;
-    color: ${theme.colors.accent};
-    border: 1px solid ${theme.colors.accent};
+    color: ${({ theme }) => theme.colors.accent};
+    border: 1px solid ${({ theme }) => theme.colors.accent};
     
     &:hover {
-      background-color: ${theme.colors.accent};
+      background-color: ${({ theme }) => theme.colors.accent};
       color: white;
     }
   }
