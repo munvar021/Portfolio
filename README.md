@@ -1,6 +1,6 @@
 # 🚀 Portfolio Website
 
-![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742747734/Portfolio/fmrww5vxxzb2odszpvhx.png)
+![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1765969789/Screenshot_2025-12-17_at_16.38.02_m22gta.png)
 
 ## 🌟 Overview
 
