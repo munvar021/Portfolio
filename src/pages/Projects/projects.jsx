@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Animate from '../../components/Animate/animate';
 import { slideInDown, fadeIn } from '../../styles/animations';
@@ -37,6 +37,32 @@ import {
 import { projects } from "../../data/projectsData";
 
 const Projects = () => {
+  const [visibleProjects, setVisibleProjects] = useState(new Set());
+  const projectRefs = useRef([]);
+  useEffect(() => {
+    const observers = projectRefs.current.map((ref, index) => {
+      if (!ref) return null;
+      
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              setVisibleProjects(prev => new Set([...prev, index]));
+            }, index * 150);
+          }
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -10% 0px' }
+      );
+      
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach(observer => observer?.disconnect());
+    };
+  }, []);
+
   const getTechIcon = (tech) => {
     switch (tech.toLowerCase()) {
       case "react":
@@ -76,8 +102,13 @@ const Projects = () => {
 
       <Animate animation={fadeIn}>
         <ProjectGrid>
-          {filteredProjects.map((project) => (
-            <ProjectCard key={project.id}>
+          {filteredProjects.map((project, index) => (
+            <ProjectCard 
+              key={project.id}
+              isVisible={visibleProjects.has(index)}
+              delay={index * 0.15}
+              ref={el => projectRefs.current[index] = el}
+            >
               <ProjectImage src={project.image} alt={project.name} />
               <ProjectOverlay>
                 <div>

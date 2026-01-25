@@ -1,45 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { liquidGlassEffect } from "../../styles/mixins";
-
-const spinWithColors = keyframes`
-  0% { 
-    transform: rotate(0deg); 
-    color: ${({ theme }) => theme.colors.accent}; 
-  }
-  12.5% { 
-    transform: rotate(45deg);
-    color: ${({ theme }) => theme.colors.highlight}; 
-  }
-  25% { 
-    transform: rotate(90deg);
-    color: ${({ theme }) => theme.colors.accent}; 
-  }
-  37.5% { 
-    transform: rotate(135deg);
-    color: ${({ theme }) => theme.colors.highlight}; 
-  }
-  50% { 
-    transform: rotate(180deg);
-    color: ${({ theme }) => theme.colors.textPrimary}; 
-  }
-  62.5% { 
-    transform: rotate(225deg);
-    color: ${({ theme }) => theme.colors.textSecondary}; 
-  }
-  75% { 
-    transform: rotate(270deg);
-    color: ${({ theme }) => theme.colors.footer}; 
-  }
-  87.5% { 
-    transform: rotate(315deg);
-    color: ${({ theme }) => theme.colors.accent}; 
-  }
-  100% { 
-    transform: rotate(360deg);
-    color: ${({ theme }) => theme.colors.accent}; 
-  }
-`;
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -47,9 +7,23 @@ const fadeIn = keyframes`
 `;
 
 const pulseAnimation = keyframes`
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0%, 100% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.3); opacity: 1; }
+`;
+
+const rotate = keyframes`
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+`;
+
+const dotPulse = keyframes`
+  0%, 100% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1); opacity: 1; }
+`;
+
+const textPulse = keyframes`
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
 `;
 
 export const SpinnerOverlay = styled.div`
@@ -74,34 +48,52 @@ export const SpinnerContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 3rem;
+  gap: 2rem;
 `;
 
-export const SpinnerIcon = styled(FontAwesomeIcon)`
-  font-size: 4.5rem;
-  animation: ${spinWithColors} 2s linear infinite;
-  filter: drop-shadow(0 0 10px rgba(47, 128, 237, 0.4));
+export const LoaderRing = styled.div`
+  position: relative;
+  width: 80px;
+  height: 80px;
+  animation: ${rotate} 2s linear infinite;
+`;
 
-  @media (max-width: 768px) {
-    font-size: 3.5rem;
-  }
+export const LoaderDot = styled.div`
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}, ${({ theme }) => theme.colors.highlight});
+  animation: ${dotPulse} 1.5s ease-in-out infinite;
+  animation-delay: ${({ delay }) => delay};
+  box-shadow: 0 0 20px ${({ theme }) => theme.colors.accent};
+
+  &:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
+  &:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
+  &:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
+  &:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+`;
+
+export const LoadingText = styled.div`
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.accent};
+  animation: ${textPulse} 2s ease-in-out infinite;
+  letter-spacing: 2px;
 `;
 
 export const BackgroundGlow = styled.div`
   position: absolute;
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   background: radial-gradient(
     circle,
-    rgba(111, 207, 151, 0.2) 0%,
+    rgba(111, 207, 151, 0.15) 0%,
     rgba(47, 128, 237, 0.1) 50%,
     rgba(0, 0, 0, 0) 70%
   );
   animation: ${pulseAnimation} 3s ease-in-out infinite;
   z-index: -1;
-
-  @media (max-width: 768px) {
-    width: 150px;
-    height: 150px;
-  }
 `;

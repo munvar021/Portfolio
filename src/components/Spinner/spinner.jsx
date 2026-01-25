@@ -1,9 +1,10 @@
 import React from "react";
-import { faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import {
   SpinnerOverlay,
   SpinnerContainer,
-  SpinnerIcon,
+  LoaderRing,
+  LoaderDot,
+  LoadingText,
   BackgroundGlow,
 } from "./spinnerStyles";
 
@@ -12,7 +13,13 @@ const LoadingSpinner = () => {
     <SpinnerOverlay>
       <SpinnerContainer>
         <BackgroundGlow />
-        <SpinnerIcon icon={faCircleNotch} />
+        <LoaderRing>
+          <LoaderDot delay="0s" />
+          <LoaderDot delay="0.15s" />
+          <LoaderDot delay="0.3s" />
+          <LoaderDot delay="0.45s" />
+        </LoaderRing>
+        <LoadingText>Loading</LoadingText>
       </SpinnerContainer>
     </SpinnerOverlay>
   );

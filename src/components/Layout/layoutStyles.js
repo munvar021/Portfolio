@@ -6,6 +6,12 @@ export const LayoutContainer = styled.div`
   min-height: 100vh;
   position: relative;
   font-family: ${({ theme }) => theme.fonts.body};
+  overflow: hidden;
+  padding-top: 80px;
+
+  @media (max-width: 768px) {
+    padding-top: 70px;
+  }
 `;
 
 export const MainContent = styled.main`
@@ -22,8 +28,12 @@ export const MainContent = styled.main`
 
 export const PageTransition = styled.div`
   opacity: ${(props) => (props.isTransitioning ? 0 : 1)};
-  transform: translateY(${(props) => (props.isTransitioning ? "20px" : "0")});
-  transition: all 0.3s ease-in-out;
+  transform: translateY(${(props) => (props.isTransitioning ? "30px" : "0")});
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 `;
 
 export const ScrollToTop = styled.button`
@@ -33,39 +43,38 @@ export const ScrollToTop = styled.button`
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.colors.accent};
-  color: white;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.glassBg} 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 0.5px solid ${({ theme }) => theme.colors.glassBorder};
+  color: ${({ theme }) => theme.colors.accent};
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
-  opacity: ${(props) => (props.visible === "true" ? 1 : 0)};
-  visibility: ${(props) => (props.visible === "true" ? "visible" : "hidden")};
-  transform: ${(props) =>
-    props.visible === "true"
-      ? "translateY(0) scale(1)"
-      : "translateY(20px) scale(0.8)"};
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 
   &:hover {
-    background-color: ${({ theme }) => theme.colors.highlight};
-    transform: ${(props) =>
-      props.visible === "true"
-        ? "translateY(-5px) scale(1.1)"
-        : "translateY(20px) scale(0.8)"};
-    box-shadow: 0 5px 15px rgba(111, 207, 151, 0.3);
+    transform: translateY(-8px) scale(1.15);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+    background: ${({ theme }) => theme.colors.accent};
+    color: white;
   }
 
   &:active {
-    transform: ${(props) =>
-      props.visible === "true"
-        ? "translateY(-2px) scale(1.05)"
-        : "translateY(20px) scale(0.8)"};
+    transform: translateY(-4px) scale(1.05);
+    transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   @media (max-width: 768px) {

@@ -1,6 +1,6 @@
 # 🚀 Portfolio Website
 
-![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1765969789/Screenshot_2025-12-17_at_16.38.02_m22gta.png)
+![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1769364206/Screenshot_2026-01-25_at_23.32.05_gx1kme.png)
 
 ## 🌟 Overview
 
@@ -9,15 +9,23 @@ This is my personal portfolio website, showcasing my projects, resume, and infor
 ## 🛠️ Features
 
 - **Projects Section**: Displays my best work with descriptions, tech stack, and links.
-- **Resume**: Provides easy access to my latest resume.
+- **Resume**: Provides easy access to my latest resume with both standard and enhanced views.
 - **About Me**: Shares my background, experience, and interests.
+- **Contact Page**: Easy way to get in touch.
+- **3D Animations**: Interactive Three.js background with floating shapes and particles.
 - **Responsive Design**: Fully optimized for desktop and mobile devices.
-- **Smooth Animations**: Interactive UI for an engaging user experience.
+- **Smooth Animations**: Interactive UI powered by Framer Motion for an engaging user experience.
+- **Theme Support**: Dark/Light mode with adaptive 3D elements and context-based theme management.
+- **Lazy Loading**: Optimized performance with code-splitting for faster initial load.
 
 ## 🚧 Tech Stack
 
-- **Frontend**: ReactJS, StyledComponents
+- **Frontend**: React 18, React Router v6
+- **Styling**: Styled Components with theme support
+- **3D Graphics**: Three.js, React Three Fiber, React Three Drei
 - **Animations**: Framer Motion
+- **State Management**: React Context API
+- **Performance**: Lazy loading with React Suspense
 - **Hosting**: Vercel
 
 ## 📂 Project Structure
@@ -25,15 +33,56 @@ This is my personal portfolio website, showcasing my projects, resume, and infor
 ```
 portfolio-website/
 │── public/
+│   ├── favicon.ico
+│   ├── index.html
+│   ├── manifest.json
+│   └── robots.txt
 │── src/
-│   ├── assets/        # Resume
-│   ├── components/    # Reusable UI components
-│   ├── data/          # Portfolio data (About, Projects)
-│   ├── pages/         # Portfolio pages (Home, About, Projects, Resume, Contact)
-│   ├── assets/        # Resume
-│   ├── styles/        # Global and component-specific styles
+│   ├── assets/           # Images and resume PDF
+│   │   ├── coder.jpeg
+│   │   ├── logo.jpeg
+│   │   ├── programmer.jpeg
+│   │   └── resume.pdf
+│   ├── components/       # Reusable UI components
+│   │   ├── Animate/      # Animation wrapper component
+│   │   ├── Footer/       # Footer component
+│   │   ├── Header/       # Navigation header
+│   │   ├── Layout/       # App layout wrapper
+│   │   ├── Spinner/      # Loading spinner
+│   │   └── Three/        # 3D components
+│   │       ├── Scene3D/
+│   │       ├── floatingShapes.jsx
+│   │       ├── particleField.jsx
+│   │       └── simplifiedParticles.jsx
+│   ├── contexts/         # React Context API
+│   │   └── ThemeContext.js
+│   ├── data/             # Portfolio data
+│   │   ├── aboutData.js
+│   │   └── projectsData.js
+│   ├── hooks/            # Custom React hooks
+│   │   ├── useIntersectionObserver.js
+│   │   └── useIsMobile.js
+│   ├── pages/            # Portfolio pages
+│   │   ├── Home/         # Landing page
+│   │   ├── About/        # About me page
+│   │   ├── Projects/     # Projects showcase
+│   │   ├── Resume/       # Standard resume view
+│   │   ├── EnhancedResume/ # Enhanced resume view
+│   │   ├── Contact/      # Contact page
+│   │   └── NotFound/     # 404 page
+│   ├── styles/           # Global styles and themes
+│   │   ├── GlobalStyles.js
+│   │   ├── animations.js
+│   │   ├── darkTheme.js
+│   │   ├── lightTheme.js
+│   │   ├── mixins.js
+│   │   └── theme.js
+│   ├── App.jsx           # Main app component
+│   ├── index.js          # Entry point
+│   └── index.css         # Base styles
 │── package.json
-│── README.md
+│── craco.config.js       # Create React App configuration
+└── README.md
 ```
 
 ## 🚀 Getting Started

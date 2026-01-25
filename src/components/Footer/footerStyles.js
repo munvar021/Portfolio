@@ -181,7 +181,6 @@ export const ContactInfo = styled.div`
 `;
 
 export const Copyright = styled.div`
-  ${liquidGlassEffect}
   margin-top: 3rem;
   padding-top: 1.5rem;
   text-align: center;

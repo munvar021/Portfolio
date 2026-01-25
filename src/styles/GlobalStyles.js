@@ -6,6 +6,21 @@ const GlobalStyles = createGlobalStyle`
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  *,
+  *::before,
+  *::after {
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   * {
@@ -25,6 +40,9 @@ const GlobalStyles = createGlobalStyle`
     overflow-x: hidden;
     overflow-y: auto;
     min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -80,11 +98,12 @@ const GlobalStyles = createGlobalStyle`
   a {
     text-decoration: none;
     color: ${({ theme }) => theme.colors.accent};
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     
     &:hover {
       color: ${({ theme }) => theme.colors.highlight};
+      transform: translateX(2px);
     }
     
     &:focus {
@@ -97,6 +116,8 @@ const GlobalStyles = createGlobalStyle`
     height: auto;
     display: block;
     border-radius: 8px;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
   }
 
   button {
@@ -108,16 +129,22 @@ const GlobalStyles = createGlobalStyle`
     padding: 0.75rem 1.5rem;
     border-radius: 30px;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
     
     &:hover {
       background: ${({ theme }) => theme.colors.highlight};
-      transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(47, 128, 237, 0.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 8px 20px rgba(47, 128, 237, 0.4);
     }
     
     &:active {
-      transform: translateY(0);
+      transform: translateY(-1px) scale(0.98);
+      transition: all 0.1s cubic-bezier(0.4, 0, 0.2, 1);
     }
     
     &:focus {
@@ -128,6 +155,7 @@ const GlobalStyles = createGlobalStyle`
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none;
     }
   }
 
@@ -159,11 +187,17 @@ const GlobalStyles = createGlobalStyle`
   .card, .glass {
     ${liquidGlassEffect}
     padding: 1.5rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
 
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-8px) scale(1.01) translateZ(0);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
     }
   }
   

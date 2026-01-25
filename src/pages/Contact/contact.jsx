@@ -135,8 +135,7 @@ const Contact = () => {
                 )}
               </FormGroup>
 
-              {/* Honeypot field for spam prevention */}
-              <FormGroup style={{ display: "none" }}>
+              <FormGroup honeypot>
                 <Input {...register("honeypot")} />
               </FormGroup>
 

@@ -1,5 +1,15 @@
 import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
+
+const slideUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
 
 const fadeIn = keyframes`
   from {
@@ -13,7 +23,6 @@ const fadeIn = keyframes`
 `;
 
 export const ProjectsContainer = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -103,20 +112,22 @@ export const ProjectGrid = styled.div`
   }
 `;
 
-// --- NEW ELEVATED CARD STYLES ---
-
 export const ProjectImage = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
+  object-fit: contain;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  display: block;
 `;
 
 export const HiddenContent = styled.div`
   opacity: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.4s ease, opacity 0.3s ease, margin-top 0.4s ease;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease;
 `;
 
 export const ProjectOverlay = styled.div`
@@ -127,17 +138,14 @@ export const ProjectOverlay = styled.div`
   padding: 1.5rem;
   color: white;
 
-  // A gradient to make text readable
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.95) 20%,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.98) 50%,
     rgba(0, 0, 0, 0) 100%
   );
 
-  // Use translateY for positioning and animation
-  transform: translateY(
-    calc(100% - 130px)
-  ); // Adjust this value to control how much is visible initially
+  transform: translateY(calc(100% - 100px));
   transition: transform 0.4s ease-out;
 `;
 
@@ -146,9 +154,23 @@ export const ProjectCard = styled.div`
   height: 470px;
   border-radius: 12px;
   overflow: hidden;
-  animation: ${fadeIn} 0.8s ease-out;
+  opacity: 0;
+  animation: ${({ isVisible }) => (isVisible ? slideUp : "none")} 0.6s ease-out
+    forwards;
+  animation-delay: ${({ delay }) => delay || 0}s;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   background: ${({ theme }) => theme.colors.background};
+  transition:
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+  }
 
   &:hover ${ProjectOverlay} {
     transform: translateY(0);
@@ -156,8 +178,7 @@ export const ProjectCard = styled.div`
 
   &:hover ${HiddenContent} {
     opacity: 1;
-    max-height: 350px; // Allow it to expand
-    margin-top: 1rem;
+    max-height: 350px;
   }
 
   &:hover ${ProjectImage} {
@@ -235,13 +256,16 @@ export const ProjectLink = styled.a`
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   color: white;
+  will-change: transform;
 
   &[data-link-type="code"] {
-    background-color: #333; // Darker for GitHub
+    background-color: #333;
     &:hover {
       background-color: #444;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
     }
   }
 
@@ -250,11 +274,12 @@ export const ProjectLink = styled.a`
     &:hover {
       background-color: ${({ theme }) => theme.colors.highlight};
       color: white;
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 6px 15px rgba(47, 128, 237, 0.4);
     }
   }
 
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  &:active {
+    transform: translateY(-1px) scale(1.02);
   }
 `;

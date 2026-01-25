@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -58,7 +57,6 @@ const glitch = keyframes`
 `;
 
 export const NotFoundContainer = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   flex-direction: column;
   align-items: center;

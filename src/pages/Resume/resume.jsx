@@ -225,7 +225,7 @@ const Resume = () => {
               pageNumber={pageNumber}
               scale={isEnhancedView ? scale : getSimpleScale()}
               renderTextLayer={false}
-              onItemClick={isEnhancedView ? () => {} : undefined} // Placeholder for annotation clicks
+              onItemClick={isEnhancedView ? () => {} : undefined}
             />
           </Document>
 

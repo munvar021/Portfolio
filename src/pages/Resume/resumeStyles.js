@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -22,7 +21,6 @@ const spin = keyframes`
 `;
 
 export const ResumeContainer = styled.div`
-  ${liquidGlassEffect}
   width: 100%;
   padding: 2rem;
   animation: ${fadeIn} 0.6s ease-out;
@@ -112,7 +110,8 @@ export const DownloadButton = styled.button`
 `;
 
 export const PdfContainer = styled.div`
-  ${liquidGlassEffect}
+  background: transparent;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -153,7 +152,6 @@ export const PdfContainer = styled.div`
 `;
 
 export const PageControls = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -241,19 +239,18 @@ const zoomIn = keyframes`
 export const ViewToggle = styled.div`
   position: relative;
   display: flex;
-  background-color: ${({ theme }) => theme.colors.background};
-  border: 0px solid ${({ theme }) => theme.colors.textSecondary}30;
   border-radius: 30px;
-  padding: 2px;
+  padding: 4px;
   width: 250px;
-  height: 40px;
-  cursor: pointer;
+  height: 44px;
+  background: transparent;
+  border: 2px solid ${({ theme }) => theme.colors.accent};
   overflow: hidden;
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  pointer-events: none;
 
   @media (max-width: 576px) {
     width: 220px;
-    height: 36px;
+    height: 40px;
   }
 `;
 
@@ -261,39 +258,60 @@ export const ToggleButton = styled.button`
   position: relative;
   flex: 1;
   z-index: 2;
-  padding: 0.5rem 1rem;
+  padding: 0;
   border-radius: 26px;
   border: none;
   font-weight: 600;
   font-size: 0.9rem;
   color: ${({ active, theme }) =>
-    active ? "white" : theme.colors.textPrimary};
+    active ? "white" : theme.colors.textSecondary};
   background-color: transparent;
   transition: color 0.3s ease;
   pointer-events: auto;
+  outline: none;
+  cursor: pointer;
 
   &:hover {
-    background-color: transparent !important;
+    background: transparent;
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: none;
+    box-shadow: none;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: none;
   }
 `;
 
 export const Slider = styled.div`
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: calc(50% - 2px); // Half width for each button, minus padding
-  height: calc(100% - 4px); // Full height minus padding
-  background-color: ${({ theme }) => theme.colors.accent};
+  top: 4px;
+  bottom: 4px;
+  left: 4px;
+
+  width: calc(50% - 4px);
+
+  background: ${({ theme }) => theme.colors.accent};
+
   border-radius: 26px;
-  transition: transform 0.3s ease-in-out;
-  transform: translateX(
-    ${({ active }) => (active ? "calc(100% + 2px)" : "0")}
-  ); // Slide left/right
-  z-index: 1; // Below the text but above background
+
+  transform: translateX(${({ active }) => (active ? "100%" : "0")});
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  backface-visibility: hidden;
+  will-change: transform;
 `;
 
 export const ResumeInfo = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   margin-bottom: 2rem;
   padding: 1.5rem;
@@ -367,7 +385,6 @@ export const ActionButton = styled.button`
 `;
 
 export const ViewerControls = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -382,7 +399,6 @@ export const ViewerControls = styled.div`
 `;
 
 export const ZoomControls = styled.div`
-  ${liquidGlassEffect}
   display: flex;
   align-items: center;
   gap: 0.75rem;

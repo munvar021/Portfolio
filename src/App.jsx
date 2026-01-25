@@ -71,15 +71,15 @@ const router = createBrowserRouter([
           </Suspense>
         ),
       },
+      {
+        path: "*",
+        element: (
+          <Suspense fallback={<Spinner />}>
+            <NotFound />
+          </Suspense>
+        ),
+      },
     ],
-  },
-  {
-    path: "*",
-    element: (
-      <Suspense fallback={<Spinner />}>
-        <NotFound />
-      </Suspense>
-    ),
   },
 ]);
 

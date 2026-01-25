@@ -13,7 +13,6 @@ const fadeIn = keyframes`
 `;
 
 export const ContactContainer = styled.div`
-  ${liquidGlassEffect}
   width: 100%;
   padding: 3rem 1rem;
   animation: ${fadeIn} 1s ease-out;
@@ -71,6 +70,7 @@ export const ContactForm = styled.form`
 
 export const FormGroup = styled.div`
   position: relative;
+  ${({ honeypot }) => honeypot && 'display: none;'}
 `;
 
 export const Input = styled.input`
@@ -227,11 +227,10 @@ export const ContactInfo = styled.div`
 export const ContactCard = styled.div`
   ${liquidGlassEffect}
   padding: 2rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
   }
 `;
 

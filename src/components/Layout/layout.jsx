@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
@@ -10,6 +10,8 @@ import {
   ScrollToTop,
   PageTransition,
 } from "./layoutStyles";
+
+const Scene3D = lazy(() => import("../Three/Scene3D/scene3D"));
 
 const Layout = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
@@ -42,6 +44,9 @@ const Layout = () => {
 
   return (
     <LayoutContainer>
+      <Suspense fallback={null}>
+        <Scene3D />
+      </Suspense>
       <Header />
       <MainContent>
         <PageTransition

@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from {
@@ -25,7 +24,6 @@ const float = keyframes`
 `;
 
 export const HomeContainer = styled.div`
-  ${liquidGlassEffect}
   position: relative;
   overflow: hidden;
   display: flex;
@@ -45,6 +43,8 @@ export const HomeContainer = styled.div`
 export const IntroContent = styled.div`
   flex: 1;
   animation: ${fadeIn} 1s ease-out;
+  position: relative;
+  z-index: 1;
 
   @media (max-width: 992px) {
     display: flex;
@@ -237,6 +237,7 @@ export const ImageContainer = styled.div`
   justify-content: center;
   animation: ${float} 4s ease-in-out infinite;
   position: relative;
+  z-index: 1;
 
   &::before {
     content: "";
@@ -275,7 +276,7 @@ export const ProfileImage = styled.img`
   width: 400px;
   height: auto;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: none;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {

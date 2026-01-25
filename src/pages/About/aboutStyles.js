@@ -1,6 +1,39 @@
 import styled, { keyframes } from "styled-components";
 import { liquidGlassEffect } from "../../styles/mixins";
 
+const slideUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const slideInFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+const slideInFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -34,7 +67,6 @@ const slideLeft = keyframes`
 `;
 
 export const AboutContainer = styled.div`
-  ${liquidGlassEffect}
   width: 100%;
   padding: 2rem;
 `;
@@ -275,10 +307,12 @@ export const SkillCard = styled.div`
   flex-direction: column;
   align-items: center;
   text-align: center;
+  opacity: 0;
+  animation: ${({ isVisible }) => isVisible ? slideUp : 'none'} 0.5s ease-out forwards;
+  animation-delay: ${({ delay }) => delay || 0}s;
 
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
   }
 `;
 
@@ -335,7 +369,6 @@ export const ToolCard = styled.div`
 
   &:hover {
     transform: translateY(-5px) scale(1.05);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
     z-index: 10;
   }
 `;
@@ -361,32 +394,63 @@ export const ToolName = styled.span`
 
 export const TimelineContainer = styled.div`
   position: relative;
-  max-width: 800px;
+  max-width: 1000px;
   margin: 0 auto;
   padding: 2rem 0;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      ${({ theme }) => theme.colors.accent} 10%,
+      ${({ theme }) => theme.colors.accent} 90%,
+      transparent
+    );
+  }
+
+  @media (max-width: 768px) {
+    &::before {
+      left: 20px;
+    }
+  }
 `;
 
 export const TimelineItem = styled.div`
   position: relative;
-  padding-left: 3rem;
-  padding-bottom: 3rem;
+  width: 50%;
+  padding: 0 2rem 4rem;
+  ${({ index }) => (index % 2 === 0 ? 'left: 0; padding-right: 3rem;' : 'left: 50%; padding-left: 3rem;')}
+  opacity: 0;
+  animation: ${({ index, isVisible }) => 
+    isVisible ? (index % 2 === 0 ? slideInFromLeft : slideInFromRight) : 'none'} 0.6s ease-out forwards;
+  animation-delay: ${({ delay }) => delay || 0}s;
 
   &:last-child {
     padding-bottom: 0;
   }
 
-  @media (max-width: 576px) {
-    padding-left: 2.5rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    left: 0 !important;
+    padding: 0 0 3rem 3rem;
+    animation: ${({ isVisible }) => isVisible ? slideInFromLeft : 'none'} 0.6s ease-out forwards;
   }
 `;
 
 export const TimelineDot = styled.div`
   position: absolute;
-  left: 0;
+  ${({ index }) => (index % 2 === 0 ? 'right: -20px;' : 'left: -20px;')}
   top: 0;
   width: 40px;
   height: 40px;
-  background-color: ${({ theme }) => theme.colors.accent};
+  background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}, ${({ theme }) => theme.colors.highlight});
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -394,13 +458,17 @@ export const TimelineDot = styled.div`
   color: white;
   font-size: 1.2rem;
   z-index: 2;
-  box-shadow: 0 0 0 4px rgba(47, 128, 237, 0.2);
+  box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.background}, 0 0 0 6px ${({ theme }) => theme.colors.accent};
   transition: all 0.3s ease;
 
   ${TimelineItem}:hover & {
-    background-color: ${({ theme }) => theme.colors.highlight};
-    transform: scale(1.1);
-    box-shadow: 0 0 0 6px rgba(111, 207, 151, 0.2);
+    transform: scale(1.2);
+    box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.background}, 0 0 0 8px ${({ theme }) => theme.colors.highlight};
+  }
+
+  @media (max-width: 768px) {
+    left: 0 !important;
+    right: auto !important;
   }
 
   @media (max-width: 576px) {
@@ -411,18 +479,7 @@ export const TimelineDot = styled.div`
 `;
 
 export const TimelineConnector = styled.div`
-  position: absolute;
-  left: 20px;
-  top: 40px;
-  bottom: 0;
-  width: 2px;
-  background-color: rgba(47, 128, 237, 0.2);
-  z-index: 1;
-
-  @media (max-width: 576px) {
-    left: 17px;
-    top: 35px;
-  }
+  display: none;
 `;
 
 export const TimelineContent = styled.div`
@@ -432,7 +489,6 @@ export const TimelineContent = styled.div`
 
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
   }
 `;
 

@@ -107,6 +107,10 @@ const iconMap = {
 const About = () => {
   const toolsRef = useRef(null);
   const theme = useTheme();
+  const [visibleItems, setVisibleItems] = useState(new Set());
+  const [visibleSkills, setVisibleSkills] = useState(new Set());
+  const timelineRefs = useRef([]);
+  const skillRefs = useRef([]);
 
   const categoryOptions = useMemo(() => {
     const categories = [...new Set(skillsData.map((skill) => skill.category))];
@@ -135,6 +139,52 @@ const About = () => {
     link.click();
     document.body.removeChild(link);
   };
+
+  useEffect(() => {
+    const skillObservers = skillRefs.current.map((ref, index) => {
+      if (!ref) return null;
+      
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              setVisibleSkills(prev => new Set([...prev, index]));
+            }, index * 100);
+          }
+        },
+        { threshold: 0.2 }
+      );
+      
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      skillObservers.forEach(observer => observer?.disconnect());
+    };
+  }, [filteredSkills]);
+
+  useEffect(() => {
+    const observers = timelineRefs.current.map((ref, index) => {
+      if (!ref) return null;
+      
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            setVisibleItems(prev => new Set([...prev, index]));
+          }
+        },
+        { threshold: 0.2 }
+      );
+      
+      observer.observe(ref);
+      return observer;
+    });
+
+    return () => {
+      observers.forEach(observer => observer?.disconnect());
+    };
+  }, []);
 
   useEffect(() => {
     const handleAnimation = () => {
@@ -240,7 +290,7 @@ const About = () => {
         </Animate>
       </AboutIntro>
 
-      <Animate animation={slideInRight}>
+      <Animate animation={slideInUp}>
         <SectionTitle>My Skills</SectionTitle>
 
         <SkillSelectContainer>
@@ -256,7 +306,12 @@ const About = () => {
         <SkillsContainer>
           <SkillsGrid>
             {filteredSkills.map((skill, index) => (
-              <SkillCard key={index}>
+              <SkillCard 
+                key={index}
+                isVisible={visibleSkills.has(index)}
+                delay={0}
+                ref={el => skillRefs.current[index] = el}
+              >
                 <SkillIcon>
                   <FontAwesomeIcon icon={iconMap[skill.icon]} />
                 </SkillIcon>
@@ -297,8 +352,14 @@ const About = () => {
 
         <TimelineContainer>
           {educationData.map((item, index) => (
-            <TimelineItem key={index}>
-              <TimelineDot>
+            <TimelineItem 
+              key={index} 
+              index={index}
+              isVisible={visibleItems.has(index)}
+              delay={0}
+              ref={el => timelineRefs.current[index] = el}
+            >
+              <TimelineDot index={index}>
                 <FontAwesomeIcon icon={faGraduationCap} />
               </TimelineDot>
               {index !== educationData.length - 1 && <TimelineConnector />}
@@ -317,32 +378,41 @@ const About = () => {
         <SectionTitle>Experience</SectionTitle>
 
         <TimelineContainer>
-          {experienceData.map((item, index) => (
-            <TimelineItem key={index}>
-              <TimelineDot>
-                <FontAwesomeIcon icon={faBriefcase} />
-              </TimelineDot>
-              {index !== experienceData.length - 1 && <TimelineConnector />}
+          {experienceData.map((item, index) => {
+            const refIndex = educationData.length + index;
+            return (
+              <TimelineItem 
+                key={index} 
+                index={index}
+                isVisible={visibleItems.has(refIndex)}
+                delay={0}
+                ref={el => timelineRefs.current[refIndex] = el}
+              >
+                <TimelineDot index={index}>
+                  <FontAwesomeIcon icon={faBriefcase} />
+                </TimelineDot>
+                {index !== experienceData.length - 1 && <TimelineConnector />}
 
-              <TimelineContent>
-                <TimelineDate>{item.period}</TimelineDate>
-                <TimelineTitle>{item.position}</TimelineTitle>
-                <TimelineSubtitle>{item.company}</TimelineSubtitle>
-                <TimelineDescription>{item.description}</TimelineDescription>
+                <TimelineContent>
+                  <TimelineDate>{item.period}</TimelineDate>
+                  <TimelineTitle>{item.position}</TimelineTitle>
+                  <TimelineSubtitle>{item.company}</TimelineSubtitle>
+                  <TimelineDescription>{item.description}</TimelineDescription>
 
-                {item.points && (
-                  <PointsList>
-                    {item.points.map((point, pointIndex) => (
-                      <PointItem key={pointIndex}>
-                        <FontAwesomeIcon icon={faCheckCircle} />
-                        <span>{point}</span>
-                      </PointItem>
-                    ))}
-                  </PointsList>
-                )}
-              </TimelineContent>
-            </TimelineItem>
-          ))}
+                  {item.points && (
+                    <PointsList>
+                      {item.points.map((point, pointIndex) => (
+                        <PointItem key={pointIndex}>
+                          <FontAwesomeIcon icon={faCheckCircle} />
+                          <span>{point}</span>
+                        </PointItem>
+                      ))}
+                    </PointsList>
+                  )}
+                </TimelineContent>
+              </TimelineItem>
+            );
+          })}
         </TimelineContainer>
       </Animate>
     </AboutContainer>
