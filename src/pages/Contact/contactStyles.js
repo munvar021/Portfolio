@@ -79,6 +79,7 @@ export const Input = styled.input`
   padding: 0.9rem 1.2rem;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 1rem;
+  color: ${({ theme }) => theme.colors.background === '#000000' ? '#ffffff' : theme.colors.textPrimary};
   transition: all 0.3s ease;
 
   &:focus {
@@ -118,6 +119,7 @@ export const Textarea = styled.textarea`
   padding: 0.9rem 1.2rem;
   font-family: ${({ theme }) => theme.fonts.body};
   font-size: 1rem;
+  color: ${({ theme }) => theme.colors.background === '#000000' ? '#ffffff' : theme.colors.textPrimary};
   resize: vertical;
   min-height: 150px;
   transition: all 0.3s ease;

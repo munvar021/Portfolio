@@ -161,11 +161,12 @@ const GlobalStyles = createGlobalStyle`
 
   input, textarea, select {
     font-family: ${({ theme }) => theme.fonts.body};
+    color: ${({ theme }) => theme.colors.textPrimary};
     padding: 0.75rem 1rem;
     border: 1px solid rgba(58, 63, 68, 0.2);
     border-radius: 8px;
     transition: all 0.3s ease;
-    background-color: rgba(255, 255, 255, 0.9);
+    background-color: ${({ theme }) => theme.colors.background === '#000000' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.9)'};
     width: 100%;
     
     &:focus {
