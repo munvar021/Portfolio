@@ -121,7 +121,7 @@ export const educationData = [
 
 export const experienceData = [
   {
-    period: "Dec 5, 2024 - Present",
+    period: "Dec 05, 2024 - Apr 05, 2025",
     position: "Full Stack Web Developer Intern",
     company: "Aptitude Guru Hem",
     description:
