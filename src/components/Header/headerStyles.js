@@ -21,12 +21,11 @@ export const HeaderContainer = styled.header`
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: ${({ scrolled }) =>
     scrolled
-      ? "0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08)"
+      ? "0 8px 32px rgba(0, 0, 0, 0.12)"
       : "0 4px 16px rgba(0, 0, 0, 0.06)"};
   border: 0.5px solid ${({ theme }) => theme.colors.glassBorder};
-  border-radius: 32px;
+  border-radius: 24px;
 
-  /* Subtle inner highlight */
   &::before {
     content: "";
     position: absolute;
@@ -40,7 +39,7 @@ export const HeaderContainer = styled.header`
       rgba(255, 255, 255, 0.2) 50%,
       transparent
     );
-    border-radius: 32px 32px 0 0;
+    border-radius: 24px 24px 0 0;
     opacity: ${({ scrolled }) => (scrolled ? 0.8 : 0.4)};
     transition: opacity 0.4s ease;
   }
@@ -50,10 +49,10 @@ export const HeaderContainer = styled.header`
     left: 8px;
     right: 8px;
     top: 8px;
-    border-radius: 28px;
-    
+    border-radius: 20px;
+
     &::before {
-      border-radius: 28px 28px 0 0;
+      border-radius: 20px 20px 0 0;
     }
   }
 `;
@@ -62,16 +61,9 @@ export const Logo = styled(Link)`
   display: flex;
   align-items: center;
   text-decoration: none;
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: inherit;
+  cursor: pointer;
   transition: transform 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
   user-select: none;
-  outline: none;
 
   img {
     height: 2rem;
@@ -80,6 +72,11 @@ export const Logo = styled(Link)`
   }
 
   span {
+    font-family: ${({ theme }) => theme.fonts.heading};
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: ${({ theme }) => theme.colors.textPrimary};
+
     @media (max-width: 480px) {
       font-size: 1.2rem;
     }
@@ -88,153 +85,91 @@ export const Logo = styled(Link)`
   &:hover {
     transform: scale(1.05);
   }
-
-  &:active {
-    background: transparent;
-  }
-
-  &:focus {
-    outline: none;
-    background: transparent;
-  }
 `;
 
 export const Nav = styled.nav`
-  display: flex;
+  display: ${({ $desktop }) => ($desktop ? "flex" : "flex")};
   gap: 2rem;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    display: ${({ $desktop }) => ($desktop ? "none" : "flex")};
     flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
+    align-items: stretch;
+    gap: 0.5rem;
     width: 100%;
   }
 `;
 
 export const NavItem = styled(Link)`
   text-decoration: none;
-  font-family: ${({ theme }) => theme.fonts.body};
-  font-weight: 500;
-  color: inherit;
-  padding: 0.5rem 0;
-  position: relative;
+  background: ${({ active }) =>
+    active === "true" ? "rgba(255, 255, 255, 0.1)" : "transparent"};
+  border: ${({ active }) =>
+    active === "true" ? "0.5px solid rgba(255, 255, 255, 0.2)" : "none"};
+  color: ${({ active, theme }) =>
+    active === "true" ? theme.colors.textPrimary : theme.colors.textSecondary};
+  font-weight: ${({ active }) => (active === "true" ? "600" : "500")};
+  padding: 0.5rem 1rem;
+  border-radius: 12px;
+  cursor: pointer;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  outline: none;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-
-  &:after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: ${({ active }) => (active === "true" ? "100%" : "0")};
-    height: 2px;
-    background-color: ${({ theme }) => theme.colors.accent};
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  }
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
 
   &:hover {
-    color: ${({ theme }) => theme.colors.accent};
-    transform: translateY(-2px);
-
-    &:after {
-      width: 100%;
-    }
-  }
-
-  &:active {
-    background: transparent;
-  }
-
-  &:focus {
-    outline: none;
-    background: transparent;
-  }
-
-  ${({ active, theme }) =>
-    active === "true" &&
-    `
-    color: ${theme.colors.accent};
-    font-weight: 600;
-  `}
-
-  @media (max-width: 768px) {
-    font-size: 1.1rem;
-    font-weight: 600;
-    padding: 1rem 1.5rem;
-    width: 100%;
-    text-align: center;
-    border-radius: 16px;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: ${({ theme }) => theme.colors.textPrimary};
-    background: ${({ active, theme }) =>
-      active === "true" 
-        ? "linear-gradient(135deg, rgba(47, 128, 237, 0.15), rgba(111, 207, 151, 0.1))" 
-        : "transparent"};
-    border: 0.5px solid ${({ active }) =>
-      active === "true" ? "rgba(47, 128, 237, 0.2)" : "transparent"};
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 1rem 1.25rem;
+    font-size: 1rem;
+    border-radius: 14px;
+    gap: 1rem;
+
+    svg {
+      font-size: 1.2rem;
+      min-width: 20px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 
     &:hover {
-      transform: translateX(0) scale(1.02);
-      background: ${({ active, theme }) =>
-        active === "true" 
-          ? "linear-gradient(135deg, rgba(47, 128, 237, 0.15), rgba(111, 207, 151, 0.1))" 
-          : "rgba(47, 128, 237, 0.08)"};
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    }
+      transform: translateX(4px);
+      background: rgba(255, 255, 255, 0.12);
 
-    &:after {
-      display: none;
+      svg {
+        transform: scale(1.1);
+      }
     }
   }
 `;
 
 export const MobileMenuButton = styled.button`
+  display: none;
   background: transparent;
   border: none;
-  color: inherit;
+  color: ${({ theme }) => theme.colors.textPrimary};
   font-size: 1.5rem;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: transform 0.3s ease;
+  padding: 0;
   width: 40px;
   height: 40px;
-  z-index: 1001;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  outline: none;
-  padding: 0;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     transform: scale(1.1);
-    color: ${({ theme }) => theme.colors.accent};
   }
 
-  &:active {
-    transform: scale(0.95);
-    background: transparent;
-  }
-
-  &:focus {
-    outline: none;
-    background: transparent;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 1.2rem;
-    width: 35px;
-    height: 35px;
-
-    &:hover {
-      transform: scale(1.05);
-    }
+  @media (max-width: 1024px) {
+    display: flex;
   }
 `;
 
@@ -244,128 +179,152 @@ export const MobileActionGroup = styled.div`
   gap: 1rem;
 `;
 
-export const MobileMenu = styled.div`
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 8px;
-  right: 8px;
-  background: ${({ theme }) => theme.colors.background === "#000000" 
-    ? "linear-gradient(135deg, rgba(5, 5, 5, 0.98) 0%, rgba(15, 15, 15, 0.96) 100%)"
-    : "linear-gradient(135deg, rgba(243, 246, 249, 0.98) 0%, rgba(255, 255, 255, 0.96) 100%)"};
-  backdrop-filter: blur(80px) saturate(220%) brightness(115%) contrast(105%);
-  -webkit-backdrop-filter: blur(80px) saturate(220%) brightness(115%) contrast(105%);
-  padding: 1.5rem 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  transform: ${({ open }) => (open ? "translateY(0) scale(1)" : "translateY(-10px) scale(0.95)")};
-  opacity: ${({ open }) => (open ? 1 : 0)};
-  visibility: ${({ open }) => (open ? "visible" : "hidden")};
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 
-    0 30px 80px rgba(0, 0, 0, 0.35),
-    0 12px 32px rgba(0, 0, 0, 0.25),
-    0 4px 12px rgba(0, 0, 0, 0.2),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  color: ${({ theme }) => theme.colors.textPrimary};
-  z-index: 999;
-  border-radius: 24px;
-  border: 0.5px solid ${({ theme }) => theme.colors.glassBorder};
-  max-height: ${({ open }) => (open ? "80vh" : "0")};
-  overflow: hidden;
-
-  /* Outer glow */
-  &::after {
-    content: "";
-    position: absolute;
-    inset: -1px;
-    border-radius: 24px;
-    padding: 1px;
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.15),
-      rgba(255, 255, 255, 0.05)
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    pointer-events: none;
-    opacity: 0.6;
-  }
-
-  /* Inner highlight */
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      ${({ theme }) => theme.colors.glassBorder} 50%,
-      transparent
-    );
-    border-radius: 24px 24px 0 0;
-    opacity: 1;
-    z-index: 1;
-  }
-
-  @media (max-width: 480px) {
-    left: 8px;
-    right: 8px;
-    border-radius: 20px;
-    
-    &::before {
-      border-radius: 20px 20px 0 0;
-    }
-    
-    &::after {
-      border-radius: 20px;
-    }
-  }
-`;
-
 export const ThemeToggleButton = styled.button`
   background: transparent;
   border: none;
   color: ${({ theme }) => theme.colors.textPrimary};
   font-size: 1.2rem;
   cursor: pointer;
-  transition: color 0.3s ease, transform 0.3s ease;
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
-  outline: none;
+  transition: all 0.3s ease;
   padding: 0;
-  border-radius: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
 
   &:hover {
     transform: scale(1.2);
-    color: ${({ theme }) => theme.colors.accent};
-    background: transparent;
+    background: rgba(255, 255, 255, 0.08);
     box-shadow: none;
   }
 
   &:active {
-    background: transparent;
     transform: scale(1.1);
-    box-shadow: none;
-  }
-
-  &:focus {
-    outline: none;
-    background: transparent;
-    box-shadow: none;
   }
 
   @media (max-width: 768px) {
     font-size: 1rem;
+    width: 35px;
+    height: 35px;
 
     &:hover {
       transform: scale(1.1);
     }
   }
 `;
+
+export const Overlay = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  opacity: ${({ open }) => (open ? 1 : 0)};
+  visibility: ${({ open }) => (open ? "visible" : "hidden")};
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.4s;
+  z-index: 1000;
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
+
+export const MobileMenu = styled.div`
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.glassBg} 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  backdrop-filter: blur(80px) saturate(220%);
+  -webkit-backdrop-filter: blur(80px) saturate(220%);
+  padding: 2rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  transform: ${({ open }) => (open ? "translateX(0)" : "translateX(100%)")};
+  opacity: ${({ open }) => (open ? 1 : 0)};
+  visibility: ${({ open }) => (open ? "visible" : "hidden")};
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.4s;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.3);
+  z-index: 1001;
+  border-left: 0.5px solid ${({ theme }) => theme.colors.glassBorder};
+  overflow-y: auto;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(
+      180deg,
+      transparent,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent
+    );
+  }
+
+  @media (min-width: 769px) {
+    display: none;
+  }
+
+  @media (max-width: 480px) {
+    width: 280px;
+  }
+`;
+
+export const MobileMenuHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+`;
+
+export const MobileMenuTitle = styled.h3`
+  color: ${({ theme }) => theme.colors.textPrimary};
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+`;
+
+export const CloseButton = styled.button`
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: ${({ theme }) => theme.colors.textPrimary};
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 1.2rem;
+  padding: 0;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: rotate(90deg);
+    box-shadow: none;
+  }
+
+  &:active {
+    transform: rotate(90deg) scale(0.95);
+  }
+`;
+
+

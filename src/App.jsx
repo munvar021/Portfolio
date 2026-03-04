@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useContext } from "react";
+import React, { lazy, Suspense, useContext, useMemo } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import AppLayout from "./components/Layout/layout";
 import Spinner from "./components/Spinner/spinner";
@@ -12,80 +12,36 @@ const Home = lazy(() => import("./pages/Home/home"));
 const About = lazy(() => import("./pages/About/about"));
 const Projects = lazy(() => import("./pages/Projects/projects"));
 const Resume = lazy(() => import("./pages/Resume/resume"));
-const EnhancedResume = lazy(() =>
-  import("./pages/EnhancedResume/enhancedResume")
-);
+const EnhancedResume = lazy(() => import("./pages/EnhancedResume/enhancedResume"));
 const Contact = lazy(() => import("./pages/Contact/contact"));
 const NotFound = lazy(() => import("./pages/NotFound/notFound"));
+
+const SuspenseWrapper = ({ children }) => (
+  <Suspense fallback={<Spinner />}>{children}</Suspense>
+);
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
     children: [
-      {
-        path: "/",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <Home />
-          </Suspense>
-        ),
-      },
-      {
-        path: "about",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <About />
-          </Suspense>
-        ),
-      },
-      {
-        path: "projects",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <Projects />
-          </Suspense>
-        ),
-      },
-      {
-        path: "resume",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <Resume />
-          </Suspense>
-        ),
-      },
-      {
-        path: "enhanced-resume",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <EnhancedResume />
-          </Suspense>
-        ),
-      },
-      {
-        path: "contact",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <Contact />
-          </Suspense>
-        ),
-      },
-      {
-        path: "*",
-        element: (
-          <Suspense fallback={<Spinner />}>
-            <NotFound />
-          </Suspense>
-        ),
-      },
+      { path: "/", element: <SuspenseWrapper><Home /></SuspenseWrapper> },
+      { path: "about", element: <SuspenseWrapper><About /></SuspenseWrapper> },
+      { path: "projects", element: <SuspenseWrapper><Projects /></SuspenseWrapper> },
+      { path: "resume", element: <SuspenseWrapper><Resume /></SuspenseWrapper> },
+      { path: "enhanced-resume", element: <SuspenseWrapper><EnhancedResume /></SuspenseWrapper> },
+      { path: "contact", element: <SuspenseWrapper><Contact /></SuspenseWrapper> },
+      { path: "*", element: <SuspenseWrapper><NotFound /></SuspenseWrapper> },
     ],
   },
 ]);
 
 const AppWithTheme = () => {
   const { theme } = useContext(ThemeContext);
-  const currentTheme = theme === "dark" ? darkTheme : lightTheme;
+  const currentTheme = useMemo(
+    () => (theme === "dark" ? darkTheme : lightTheme),
+    [theme]
+  );
 
   return (
     <StyledThemeProvider theme={currentTheme}>

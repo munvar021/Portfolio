@@ -6,6 +6,11 @@ import {
   faTimes,
   faSun,
   faMoon,
+  faHome,
+  faUser,
+  faProjectDiagram,
+  faFileAlt,
+  faEnvelope,
 } from "@fortawesome/free-solid-svg-icons";
 import ThemeContext from "../../contexts/ThemeContext";
 import {
@@ -16,7 +21,11 @@ import {
   MobileMenuButton,
   MobileActionGroup,
   MobileMenu,
+  MobileMenuHeader,
+  MobileMenuTitle,
+  CloseButton,
   ThemeToggleButton,
+  Overlay,
 } from "./headerStyles";
 
 const Header = () => {
@@ -72,11 +81,11 @@ const Header = () => {
   };
 
   const navItems = [
-    { path: "/", label: "Home" },
-    { path: "/about", label: "About" },
-    { path: "/projects", label: "Projects" },
-    { path: "/resume", label: "Resume" },
-    { path: "/contact", label: "Contact" },
+    { path: "/", label: "Home", icon: faHome },
+    { path: "/about", label: "About", icon: faUser },
+    { path: "/projects", label: "Projects", icon: faProjectDiagram },
+    { path: "/resume", label: "Resume", icon: faFileAlt },
+    { path: "/contact", label: "Contact", icon: faEnvelope },
   ];
 
   const isActive = (path) => {
@@ -91,55 +100,64 @@ const Header = () => {
   };
 
   return (
-    <HeaderContainer scrolled={scrolled} ref={headerRef}>
-      <Logo to="/">
-        <img src="/favicon.ico" alt="Munvar's Portfolio" />
-        <span>Munvar's Portfolio</span>
-      </Logo>
+    <>
+      <HeaderContainer scrolled={scrolled} ref={headerRef}>
+        <Logo to="/">
+          <img src="/favicon.ico" alt="Munvar's Portfolio" />
+          <span>Munvar's Portfolio</span>
+        </Logo>
 
-      {width > 768 ? (
+        {width > 768 ? (
+          <Nav>
+            {navItems.map((item) => (
+              <NavItem
+                key={item.path}
+                to={item.path}
+                active={isActive(item.path) ? "true" : "false"}
+              >
+                {item.label}
+              </NavItem>
+            ))}
+            <ThemeToggleButton onClick={toggleTheme}>
+              <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
+            </ThemeToggleButton>
+          </Nav>
+        ) : (
+          <MobileActionGroup>
+            <ThemeToggleButton onClick={toggleTheme}>
+              <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
+            </ThemeToggleButton>
+            <MobileMenuButton onClick={toggleMobileMenu}>
+              <FontAwesomeIcon icon={faBars} />
+            </MobileMenuButton>
+          </MobileActionGroup>
+        )}
+      </HeaderContainer>
+
+      <Overlay open={mobileMenuOpen} onClick={() => setMobileMenuOpen(false)} />
+
+      <MobileMenu open={mobileMenuOpen} ref={mobileMenuRef}>
+        <MobileMenuHeader>
+          <MobileMenuTitle>Menu</MobileMenuTitle>
+          <CloseButton onClick={() => setMobileMenuOpen(false)}>
+            <FontAwesomeIcon icon={faTimes} />
+          </CloseButton>
+        </MobileMenuHeader>
         <Nav>
           {navItems.map((item) => (
             <NavItem
               key={item.path}
               to={item.path}
               active={isActive(item.path) ? "true" : "false"}
+              onClick={() => setMobileMenuOpen(false)}
             >
+              <FontAwesomeIcon icon={item.icon} />
               {item.label}
             </NavItem>
           ))}
-          <ThemeToggleButton onClick={toggleTheme}>
-            <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
-          </ThemeToggleButton>
         </Nav>
-      ) : (
-        <>
-          <MobileActionGroup>
-            <ThemeToggleButton onClick={toggleTheme}>
-              <FontAwesomeIcon icon={theme === "light" ? faMoon : faSun} />
-            </ThemeToggleButton>
-            <MobileMenuButton onClick={toggleMobileMenu}>
-              <FontAwesomeIcon icon={mobileMenuOpen ? faTimes : faBars} />
-            </MobileMenuButton>
-          </MobileActionGroup>
-
-          <MobileMenu open={mobileMenuOpen} ref={mobileMenuRef}>
-            <Nav>
-              {navItems.map((item) => (
-                <NavItem
-                  key={item.path}
-                  to={item.path}
-                  active={isActive(item.path) ? "true" : "false"}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.label}
-                </NavItem>
-              ))}
-            </Nav>
-          </MobileMenu>
-        </>
-      )}
-    </HeaderContainer>
+      </MobileMenu>
+    </>
   );
 };
 
