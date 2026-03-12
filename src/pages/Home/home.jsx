@@ -38,8 +38,9 @@ const Home = () => {
       "Frontend Developer",
       "Backend Developer",
       "Problem Solver",
+      "Freelancer",
     ],
-    []
+    [],
   );
   const deletingSpeed = 100;
   const pauseTime = 1000;
@@ -52,7 +53,7 @@ const Home = () => {
       setText(
         isDeleting
           ? fullText.substring(0, text.length - 1)
-          : fullText.substring(0, text.length + 1)
+          : fullText.substring(0, text.length + 1),
       );
 
       setTypingSpeed(isDeleting ? deletingSpeed : 150);

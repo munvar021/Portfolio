@@ -79,7 +79,6 @@ import {
 import programmer from "../../assets/programmer.jpeg";
 import resumePdf from "../../assets/resume.pdf";
 
-// Map icon strings to FontAwesome icon objects
 const iconMap = {
   faReact,
   faNodeJs,
@@ -127,7 +126,7 @@ const About = () => {
       return skillsData;
     }
     return skillsData.filter(
-      (skill) => skill.category === activeCategory.value
+      (skill) => skill.category === activeCategory.value,
     );
   }, [activeCategory]);
 
@@ -143,46 +142,46 @@ const About = () => {
   useEffect(() => {
     const skillObservers = skillRefs.current.map((ref, index) => {
       if (!ref) return null;
-      
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
             setTimeout(() => {
-              setVisibleSkills(prev => new Set([...prev, index]));
+              setVisibleSkills((prev) => new Set([...prev, index]));
             }, index * 100);
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.2 },
       );
-      
+
       observer.observe(ref);
       return observer;
     });
 
     return () => {
-      skillObservers.forEach(observer => observer?.disconnect());
+      skillObservers.forEach((observer) => observer?.disconnect());
     };
   }, [filteredSkills]);
 
   useEffect(() => {
     const observers = timelineRefs.current.map((ref, index) => {
       if (!ref) return null;
-      
+
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting) {
-            setVisibleItems(prev => new Set([...prev, index]));
+            setVisibleItems((prev) => new Set([...prev, index]));
           }
         },
-        { threshold: 0.2 }
+        { threshold: 0.2 },
       );
-      
+
       observer.observe(ref);
       return observer;
     });
 
     return () => {
-      observers.forEach(observer => observer?.disconnect());
+      observers.forEach((observer) => observer?.disconnect());
     };
   }, []);
 
@@ -231,8 +230,8 @@ const About = () => {
       backgroundColor: state.isSelected
         ? theme.colors.accent
         : state.isFocused
-        ? "rgba(47, 128, 237, 0.2)"
-        : "transparent",
+          ? "rgba(47, 128, 237, 0.2)"
+          : "transparent",
       color: state.isSelected ? "white" : theme.colors.textPrimary,
       "&:active": {
         backgroundColor: theme.colors.accent,
@@ -306,11 +305,11 @@ const About = () => {
         <SkillsContainer>
           <SkillsGrid>
             {filteredSkills.map((skill, index) => (
-              <SkillCard 
+              <SkillCard
                 key={index}
                 isVisible={visibleSkills.has(index)}
                 delay={0}
-                ref={el => skillRefs.current[index] = el}
+                ref={(el) => (skillRefs.current[index] = el)}
               >
                 <SkillIcon>
                   <FontAwesomeIcon icon={iconMap[skill.icon]} />
@@ -352,12 +351,12 @@ const About = () => {
 
         <TimelineContainer>
           {educationData.map((item, index) => (
-            <TimelineItem 
-              key={index} 
+            <TimelineItem
+              key={index}
               index={index}
               isVisible={visibleItems.has(index)}
               delay={0}
-              ref={el => timelineRefs.current[index] = el}
+              ref={(el) => (timelineRefs.current[index] = el)}
             >
               <TimelineDot index={index}>
                 <FontAwesomeIcon icon={faGraduationCap} />
@@ -381,12 +380,12 @@ const About = () => {
           {experienceData.map((item, index) => {
             const refIndex = educationData.length + index;
             return (
-              <TimelineItem 
-                key={index} 
+              <TimelineItem
+                key={index}
                 index={index}
                 isVisible={visibleItems.has(refIndex)}
                 delay={0}
-                ref={el => timelineRefs.current[refIndex] = el}
+                ref={(el) => (timelineRefs.current[refIndex] = el)}
               >
                 <TimelineDot index={index}>
                   <FontAwesomeIcon icon={faBriefcase} />

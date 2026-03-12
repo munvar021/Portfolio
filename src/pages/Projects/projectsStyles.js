@@ -155,20 +155,17 @@ export const ProjectCard = styled.div`
   border-radius: 12px;
   overflow: hidden;
   opacity: 0;
-  animation: ${({ isVisible }) => (isVisible ? slideUp : "none")} 0.6s ease-out
+  animation: ${({ isVisible }) => (isVisible ? slideUp : "none")} 0.5s ease-out
     forwards;
   animation-delay: ${({ delay }) => delay || 0}s;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   background: ${({ theme }) => theme.colors.background};
-  transition:
-    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-    box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform;
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
 
   &:hover {
-    transform: translateY(-10px) scale(1.02);
+    transform: translateY(-10px);
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
   }
 

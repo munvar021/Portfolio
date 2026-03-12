@@ -12,7 +12,9 @@ const Home = lazy(() => import("./pages/Home/home"));
 const About = lazy(() => import("./pages/About/about"));
 const Projects = lazy(() => import("./pages/Projects/projects"));
 const Resume = lazy(() => import("./pages/Resume/resume"));
-const EnhancedResume = lazy(() => import("./pages/EnhancedResume/enhancedResume"));
+const EnhancedResume = lazy(
+  () => import("./pages/EnhancedResume/enhancedResume"),
+);
 const Contact = lazy(() => import("./pages/Contact/contact"));
 const NotFound = lazy(() => import("./pages/NotFound/notFound"));
 
@@ -25,13 +27,62 @@ const router = createBrowserRouter([
     path: "/",
     element: <AppLayout />,
     children: [
-      { path: "/", element: <SuspenseWrapper><Home /></SuspenseWrapper> },
-      { path: "about", element: <SuspenseWrapper><About /></SuspenseWrapper> },
-      { path: "projects", element: <SuspenseWrapper><Projects /></SuspenseWrapper> },
-      { path: "resume", element: <SuspenseWrapper><Resume /></SuspenseWrapper> },
-      { path: "enhanced-resume", element: <SuspenseWrapper><EnhancedResume /></SuspenseWrapper> },
-      { path: "contact", element: <SuspenseWrapper><Contact /></SuspenseWrapper> },
-      { path: "*", element: <SuspenseWrapper><NotFound /></SuspenseWrapper> },
+      {
+        path: "/",
+        element: (
+          <SuspenseWrapper>
+            <Home />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "about",
+        element: (
+          <SuspenseWrapper>
+            <About />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "projects",
+        element: (
+          <SuspenseWrapper>
+            <Projects />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "resume",
+        element: (
+          <SuspenseWrapper>
+            <Resume />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "enhanced-resume",
+        element: (
+          <SuspenseWrapper>
+            <EnhancedResume />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "contact",
+        element: (
+          <SuspenseWrapper>
+            <Contact />
+          </SuspenseWrapper>
+        ),
+      },
+      {
+        path: "*",
+        element: (
+          <SuspenseWrapper>
+            <NotFound />
+          </SuspenseWrapper>
+        ),
+      },
     ],
   },
 ]);
@@ -40,7 +91,7 @@ const AppWithTheme = () => {
   const { theme } = useContext(ThemeContext);
   const currentTheme = useMemo(
     () => (theme === "dark" ? darkTheme : lightTheme),
-    [theme]
+    [theme],
   );
 
   return (
