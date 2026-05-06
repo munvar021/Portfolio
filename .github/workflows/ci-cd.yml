@@ -39,7 +39,7 @@ jobs:
 
   deploy-preview:
     needs: build-and-test
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
 
     steps:
