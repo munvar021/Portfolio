@@ -1,70 +1,104 @@
-import React, { useState, useEffect, lazy, Suspense } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import Lenis from "lenis";
 import Header from "../Header/header";
 import Footer from "../Footer/footer";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
-import {
-  LayoutContainer,
-  MainContent,
-  ScrollToTop,
-  PageTransition,
-} from "./layoutStyles";
+import Cursor from "../Cursor/cursor";
+import { LayoutWrapper, Main, ScrollTopBtn } from "./layoutStyles";
 
-const Scene3D = lazy(() => import("../Three/Scene3D/scene3D"));
+const pageVariants = {
+  initial: { opacity: 0, y: 16 },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+  },
+  exit: { opacity: 0, y: -8, transition: { duration: 0.2 } },
+};
 
-const Layout = () => {
-  const [showScrollButton, setShowScrollButton] = useState(false);
-  const [isPageTransitioning, setIsPageTransitioning] = useState(false);
+const AppLayout = () => {
   const location = useLocation();
+  const [showTop, setShowTop] = useState(false);
+  const lenisRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setShowScrollButton(window.scrollY > 300);
-    };
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      touchMultiplier: 1.5,
+      smoothTouch: false,
+    });
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    lenisRef.current = lenis;
+
+    let rafId;
+    const raf = (time) => {
+      lenis.raf(time);
+      rafId = requestAnimationFrame(raf);
+    };
+    rafId = requestAnimationFrame(raf);
+
+    lenis.on("scroll", ({ scroll }) => {
+      setShowTop(scroll > 400);
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenis.destroy();
+    };
   }, []);
 
   useEffect(() => {
-    setIsPageTransitioning(true);
-
-    const timeoutId = setTimeout(() => {
-      window.scrollTo(0, 0);
-      setIsPageTransitioning(false);
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
+    window.scrollTo(0, 0);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
   }, [location.pathname]);
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
-    <LayoutContainer>
-      <Suspense fallback={null}>
-        <Scene3D />
-      </Suspense>
+    <LayoutWrapper>
+      <Cursor />
       <Header />
-      <MainContent>
-        <PageTransition
-          isTransitioning={isPageTransitioning}
-          key={location.pathname}
-        >
-          <Outlet />
-        </PageTransition>
-      </MainContent>
+      <Main>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={location.pathname}
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
+      </Main>
       <Footer />
 
-      {showScrollButton && (
-        <ScrollToTop onClick={scrollToTop} aria-label="Scroll to top">
-          <FontAwesomeIcon icon={faArrowUp} />
-        </ScrollToTop>
-      )}
-    </LayoutContainer>
+      <AnimatePresence>
+        {showTop && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.2 }}
+          >
+            <ScrollTopBtn onClick={scrollToTop} aria-label="Scroll to top">
+              <i className="fa-solid fa-arrow-up" />
+            </ScrollTopBtn>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </LayoutWrapper>
   );
 };
 
-export default Layout;
+export default AppLayout;

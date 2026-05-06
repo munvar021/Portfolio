@@ -1,242 +1,298 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { liquidGlassEffect } from "../../styles/mixins";
 
-export const FooterContainer = styled.footer`
-  position: relative;
-  color: ${({ theme }) => theme.colors.textPrimary};
-  padding: 3rem 0 1rem;
-  margin-top: 4rem;
-  overflow: hidden;
-  font-family: ${({ theme }) => theme.fonts.body};
-`;
+export const FooterWrapper = styled.footer`
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border-default);
+  padding: 5rem 0 2rem;
 
-export const FooterGlass = styled.div`
-  ${liquidGlassEffect}
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-`;
-
-export const FooterContent = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-  z-index: 1;
-
-  @media (max-width: 992px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    padding: 4rem 0 1.5rem;
   }
 `;
 
-export const FooterSection = styled.div`
-  h3 {
-    font-family: ${({ theme }) => theme.fonts.heading};
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-    position: relative;
-    color: ${({ theme }) => theme.colors.textPrimary};
-
-    &:after {
-      content: "";
-      position: absolute;
-      bottom: -0.5rem;
-      left: 0;
-      width: 3rem;
-      height: 3px;
-      background-color: ${({ theme }) => theme.colors.accent};
-      border-radius: 3px;
-    }
-  }
-
-  p {
-    color: ${({ theme }) => theme.colors.textPrimary};
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-  }
-`;
-
-export const FooterLogo = styled(Link)`
+export const FooterCta = styled.div`
+  background: linear-gradient(
+    135deg,
+    rgba(0, 212, 255, 0.06) 0%,
+    rgba(124, 58, 237, 0.06) 100%
+  );
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem 3rem;
   display: flex;
   align-items: center;
-  text-decoration: none;
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-family: ${({ theme }) => theme.fonts.heading};
-  font-weight: 700;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  transition: transform 0.3s ease;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
 
-  img {
-    height: 2rem;
-    margin-right: 0.5rem;
-    border-radius: 5px;
-  }
-
-  &:hover {
-    transform: scale(1.05);
-    color: ${({ theme }) => theme.colors.highlight};
+  @media (max-width: 768px) {
+    flex-direction: column;
+    text-align: center;
+    padding: 1.5rem 1.25rem;
+    gap: 1.25rem;
+    border-radius: var(--radius-lg);
   }
 `;
 
-export const SocialMediaIcons = styled.div`
-  display: flex;
-  gap: 1rem;
+export const CtaContent = styled.div`
+  h3 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
 
-  a {
-    ${liquidGlassEffect}
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    color: ${({ theme }) => theme.colors.textPrimary};
-    transition: all 0.3s ease;
-
-    &:hover {
-      background-color: ${({ theme }) => theme.colors.highlight};
-      color: white;
-      transform: translateY(-3px);
-      box-shadow: 0 5px 15px rgba(111, 207, 151, 0.4);
-    }
-
-    &:active {
-      transform: translateY(-1px);
+    @media (max-width: 768px) {
+      font-size: 1.25rem;
     }
   }
-`;
-
-export const FooterLinks = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-
-  a {
-    color: ${({ theme }) => theme.colors.textSecondary};
-    text-decoration: none;
-    transition: all 0.3s ease;
-    position: relative;
-    padding-left: 1rem;
-
-    &:before {
-      content: "›";
-      position: absolute;
-      left: 0;
-      transition: transform 0.3s ease;
-    }
-
-    &:hover {
-      color: ${({ theme }) => theme.colors.accent};
-      transform: translateX(5px);
-
-      &:before {
-        transform: translateX(3px);
-      }
-    }
-  }
-`;
-
-export const ContactInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  div {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.8rem;
-
-    svg {
-      margin-top: 4px;
-      color: ${({ theme }) => theme.colors.accent};
-      transition: transform 0.3s ease;
-    }
-
-    span {
-      color: ${({ theme }) => theme.colors.textSecondary};
-      line-height: 1.5;
-      transition: color 0.3s ease;
-    }
-
-    &:hover svg {
-      transform: scale(1.2);
-      color: ${({ theme }) => theme.colors.highlight};
-    }
-
-    &:hover span {
-      color: ${({ theme }) => theme.colors.textPrimary};
-    }
-  }
-`;
-
-export const Copyright = styled.div`
-  margin-top: 3rem;
-  padding-top: 1.5rem;
-  text-align: center;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  font-size: 0.9rem;
-  position: relative;
-  z-index: 1;
-  max-width: 1200px;
-  margin: 3rem auto 0;
-  padding: 1.5rem 2rem 0;
 
   p {
-    margin: 0.5rem 0;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+`;
+
+export const CtaButton = styled(Link)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  background: var(--gradient-primary);
+  color: #000000;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+  transition:
+    opacity var(--transition-fast),
+    transform var(--transition-fast);
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
   }
 
-  svg {
-    color: #ff6b6b;
-    margin: 0 0.3rem;
+  &:active {
+    transform: translateY(0);
+  }
+`;
+
+export const FooterTop = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr repeat(2, 1fr);
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--border-default);
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+`;
+
+export const BrandColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (max-width: 1024px) {
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-default);
+  }
+`;
+
+export const FooterLogo = styled.span`
+  display: inline-flex;
+  align-items: center;
+`;
+
+export const FooterBrandImage = styled.img`
+  display: block;
+  width: auto;
+  height: 56px;
+  object-fit: contain;
+`;
+
+export const FooterTagline = styled.p`
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 280px;
+`;
+
+export const SocialLinks = styled.div`
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+
+  @media (max-width: 1024px) {
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+`;
+
+export const SocialLink = styled.a`
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  transition:
+    color var(--transition-fast),
+    border-color var(--transition-fast),
+    background var(--transition-fast);
+
+  &:hover {
+    color: var(--accent-cyan);
+    border-color: var(--border-accent);
+    background: rgba(0, 212, 255, 0.06);
   }
 
-  svg:first-of-type {
-    animation: heartBeat 1.5s infinite;
+  @media (max-width: 1024px) {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1rem;
+  }
+`;
+
+export const FooterColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  @media (max-width: 1024px) {
+    gap: 0;
+    border-bottom: 1px solid var(--border-default);
+    padding: 1rem 0;
+  }
+`;
+
+export const ColumnTitle = styled.button`
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  pointer-events: none;
+
+  &:focus-visible {
+    outline: none;
   }
 
-  svg:last-of-type {
-    color: ${({ theme }) => theme.colors.highlight};
-    animation: spin 5s linear infinite;
-  }
+  @media (max-width: 1024px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    pointer-events: auto;
 
-  @keyframes heartBeat {
-    0% {
-      transform: scale(1);
-    }
-    15% {
-      transform: scale(1.3);
-    }
-    30% {
-      transform: scale(1);
-    }
-    45% {
-      transform: scale(1.3);
-    }
-    60% {
-      transform: scale(1);
-    }
-    100% {
-      transform: scale(1);
+    &:focus-visible {
+      outline: 2px solid var(--accent-cyan);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
     }
   }
+`;
 
-  @keyframes spin {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
+export const ChevronIcon = styled.span`
+  display: none;
+
+  @media (max-width: 1024px) {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    transform: rotate(${({ $isOpen }) => ($isOpen ? "180deg" : "0deg")});
+    transition: transform 0.3s ease;
+  }
+`;
+
+export const ColumnLinks = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  list-style: none;
+
+  @media (max-width: 1024px) {
+    display: ${({ $isOpen }) => ($isOpen ? "flex" : "none")};
+    padding-top: 0.75rem;
+  }
+`;
+
+export const ColumnLink = styled.a`
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--text-primary);
+  }
+`;
+
+export const PolicySection = styled.div`
+  display: none;
+
+  @media (max-width: 1024px) {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-bottom: 1px solid var(--border-default);
+    padding: 1rem 0;
+    margin-bottom: 0.5rem;
+  }
+`;
+
+export const FooterBottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 2rem;
+  gap: 1rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 1.5rem;
+  }
+`;
+
+export const Copyright = styled.p`
+  font-size: 0.75rem;
+  color: var(--text-muted);
+`;
+
+export const FooterBottomLinks = styled.div`
+  display: flex;
+  gap: 1.5rem;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
+`;
+
+export const BottomLink = styled(Link)`
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  transition: color var(--transition-fast);
+
+  &:hover {
+    color: var(--text-secondary);
   }
 `;

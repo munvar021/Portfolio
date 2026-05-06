@@ -1,5 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
 
 const fadeIn = keyframes`
   from { opacity: 0; }
@@ -42,7 +41,6 @@ export const SpinnerOverlay = styled.div`
 `;
 
 export const SpinnerContainer = styled.div`
-  ${liquidGlassEffect}
   position: relative;
   display: flex;
   flex-direction: column;
@@ -50,6 +48,9 @@ export const SpinnerContainer = styled.div`
   justify-content: center;
   padding: 3rem;
   gap: 2rem;
+  background: #080808;
+  border: 1px solid #1a1a1a;
+  border-radius: var(--radius-xl);
 `;
 
 export const LoaderRing = styled.div`
@@ -64,15 +65,35 @@ export const LoaderDot = styled.div`
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}, ${({ theme }) => theme.colors.highlight});
+  background: linear-gradient(
+    135deg,
+    ${({ theme }) => theme.colors.accent},
+    ${({ theme }) => theme.colors.highlight}
+  );
   animation: ${dotPulse} 1.5s ease-in-out infinite;
   animation-delay: ${({ delay }) => delay};
   box-shadow: 0 0 20px ${({ theme }) => theme.colors.accent};
 
-  &:nth-child(1) { top: 0; left: 50%; transform: translateX(-50%); }
-  &:nth-child(2) { top: 50%; right: 0; transform: translateY(-50%); }
-  &:nth-child(3) { bottom: 0; left: 50%; transform: translateX(-50%); }
-  &:nth-child(4) { top: 50%; left: 0; transform: translateY(-50%); }
+  &:nth-child(1) {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:nth-child(2) {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+  &:nth-child(3) {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  &:nth-child(4) {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
 `;
 
 export const LoadingText = styled.div`

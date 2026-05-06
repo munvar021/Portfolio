@@ -1,6 +1,6 @@
 # 🚀 Portfolio Website
 
-![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1769364206/Screenshot_2026-01-25_at_23.32.05_gx1kme.png)
+![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1778048338/Screenshot_2026-05-06_at_11.47.03_rx3la6.png)
 
 ## 🌟 Overview
 
@@ -87,29 +87,80 @@ portfolio-website/
 
 ## 🚀 Getting Started
 
+### Prerequisites
+
+- Node.js 18+ and npm
+- EmailJS account (for contact form)
+
+### Installation
+
 1. Clone the repository:
+
    ```sh
    git clone https://github.com/munvar021/Portfolio.git
-   cd portfolio
+   cd Portfolio
    ```
+
 2. Install dependencies:
+
    ```sh
    npm install
    ```
-3. Run the development server:
+
+3. Set up environment variables:
+
    ```sh
-   npm run dev
+   cp .env.example .env
    ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+   Edit `.env` and add your EmailJS credentials:
+   - Get your credentials from [EmailJS Dashboard](https://dashboard.emailjs.com/)
+   - Update `REACT_APP_EMAILJS_SERVICE_ID`
+   - Update `REACT_APP_EMAILJS_TEMPLATE_ID`
+   - Update `REACT_APP_EMAILJS_PUBLIC_KEY`
+
+4. Run the development server:
+
+   ```sh
+   npm start
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## 🌍 Deployment
 
-To deploy the project:
+### Vercel (Recommended)
+
+1. Push your code to GitHub
+2. Import project in [Vercel Dashboard](https://vercel.com)
+3. Add environment variables in Vercel project settings
+4. Deploy automatically on push to `main` branch
+
+### Docker (Alternative)
+
+```sh
+# Build and run with Docker Compose
+docker-compose up -d
+
+# Access at http://localhost:3000
+```
+
+### Manual Build
 
 ```sh
 npm run build
-npm run deploy
+# Deploy the 'build' folder to your hosting provider
 ```
+
+For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
+
+## 🔧 DevOps & CI/CD
+
+- **Automated Testing**: GitHub Actions runs tests on every PR
+- **Continuous Deployment**: Auto-deploy to Vercel on merge to main
+- **Security Headers**: Configured for production security
+- **Performance**: Optimized caching and compression
+- **Health Checks**: `/health.json` endpoint for monitoring
 
 ## 📬 Contact
 

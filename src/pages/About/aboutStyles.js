@@ -1,567 +1,502 @@
-import styled, { keyframes } from "styled-components";
-import { liquidGlassEffect } from "../../styles/mixins";
+import styled from "styled-components";
+import { motion } from "framer-motion";
+import { sectionElevatedCyan, sectionScanLines } from "../../styles/mixins";
 
-const slideUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const slideInFromLeft = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(-100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const slideInFromRight = keyframes`
-  from {
-    opacity: 0;
-    transform: translateX(100px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-`;
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const float = keyframes`
-  0% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-15px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
-`;
-
-const slideLeft = keyframes`
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-`;
-
-export const AboutContainer = styled.div`
-  width: 100%;
-  padding: 2rem;
-`;
-
-export const AboutIntro = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 3rem;
-  align-items: center;
-
-  @media (max-width: 992px) {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-`;
-
-export const AboutImageWrapper = styled.div`
+export const PageHero = styled.section`
+  padding: clamp(5rem, 10vw, 7rem) 0 clamp(3rem, 6vw, 4rem);
   position: relative;
-  border-radius: 20px;
   overflow: hidden;
-  animation: ${float} 6s ease-in-out infinite;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 
   &::before {
     content: "";
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
-    border: 0px solid ${({ theme }) => theme.colors.accent};
-    border-radius: 24px;
-    z-index: -1;
-    opacity: 0.5;
-    animation: ${float} 6s ease-in-out infinite reverse;
-  }
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-      135deg,
-      ${({ theme }) => theme.colors.highlight} 0%,
-      ${({ theme }) => theme.colors.accent} 100%
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(
+      circle,
+      rgba(124, 58, 237, 0.07) 0%,
+      transparent 65%
     );
-    border-radius: 20px;
-    z-index: -2;
-    opacity: 0.3;
-  }
-
-  @media (max-width: 992px) {
-    max-width: 400px;
-    margin: 0 auto;
+    pointer-events: none;
   }
 `;
 
-export const AboutImage = styled.img`
-  width: 100%;
-  height: auto;
-  display: block;
-  border-radius: 15px;
-  transition: transform 0.5s ease;
+export const IntroGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
 
-  &:hover {
-    transform: scale(1.03);
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+    text-align: center;
   }
 `;
 
-export const AboutDetails = styled.div`
-  animation: ${fadeIn} 1s ease-out;
-`;
+export const IntroLeft = styled.div``;
 
-export const AboutHeading = styled.h1`
-  font-size: 2.8rem;
+export const PageLabel = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
   margin-bottom: 1rem;
-  position: relative;
-  display: inline-block;
-  background: linear-gradient(
-    135deg,
-    ${({ theme }) => theme.colors.textPrimary},
-    ${({ theme }) => theme.colors.accent}
-  );
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent-cyan);
+  }
+`;
+
+export const PageTitle = styled(motion.h1)`
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: var(--text-primary);
+  margin-bottom: 1.25rem;
+`;
+
+export const Accent = styled.span`
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-
-  &::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 4px;
-    background-color: ${({ theme }) => theme.colors.highlight};
-    border-radius: 2px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 2.2rem;
-  }
 `;
 
-export const AboutSubHeading = styled.h2`
-  font-size: 1.5rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 1.5rem;
-  font-weight: 500;
-
-  @media (max-width: 768px) {
-    font-size: 1.3rem;
-  }
-`;
-
-export const AboutText = styled.p`
-  font-size: 1.05rem;
+export const PageBio = styled(motion.p)`
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  color: var(--text-secondary);
   line-height: 1.8;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 1.5rem;
-`;
-
-export const AboutCTAs = styled.div`
-  display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-
-  @media (max-width: 576px) {
-    flex-direction: column;
-  }
-`;
-
-export const CTAButton = styled.button`
-  padding: 0.75rem 1.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-  border: 0px solid ${({ theme }) => theme.colors.accent};
-  color: ${(props) => (props.primary ? "white" : props.theme.colors.accent)};
-  background: ${(props) =>
-    props.primary
-      ? `linear-gradient(135deg, ${props.theme.colors.accent}, ${props.theme.colors.highlight})`
-      : "transparent"};
-  box-shadow: ${(props) =>
-    props.primary ? "0 5px 15px rgba(47, 128, 237, 0.3)" : "none"};
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: ${(props) =>
-      props.primary
-        ? "0 10px 25px rgba(47, 128, 237, 0.4)"
-        : "0 10px 25px rgba(47, 128, 237, 0.2)"};
-    background: ${(props) =>
-      props.primary
-        ? `linear-gradient(135deg, ${props.theme.colors.accent}, ${props.theme.colors.highlight})`
-        : props.theme.colors.accent};
-    color: ${(props) => (props.primary ? "white" : "white")};
-  }
-
-  &:active {
-    transform: translateY(-2px);
-  }
-
-  @media (max-width: 576px) {
-    width: 100%;
-  }
-`;
-
-export const SectionTitle = styled.h2`
-  font-size: 2.2rem;
-  margin-top: 4rem;
-  margin-bottom: 2.5rem;
-  font-weight: 700;
-  position: relative;
-  color: ${({ theme }) => theme.colors.textPrimary};
-  text-align: center;
-
-  &::after {
-    content: "";
-    display: block;
-    width: 80px;
-    height: 4px;
-    background: linear-gradient(
-      to right,
-      ${({ theme }) => theme.colors.accent},
-      ${({ theme }) => theme.colors.highlight}
-    );
-    margin: 0.5rem auto 0;
-    border-radius: 2px;
-  }
-
-  @media (max-width: 768px) {
-    font-size: 2rem;
-    margin-bottom: 2rem;
-  }
-`;
-
-export const SkillsContainer = styled.div`
   margin-bottom: 2rem;
 `;
 
-export const SkillSelectContainer = styled.div`
-  max-width: 400px;
-  margin: 0 auto 2rem auto; // Center on mobile by default
-  animation: ${fadeIn} 0.8s ease-out;
+export const IntroCtas = styled(motion.div)`
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 
-  @media (min-width: 768px) {
-    margin: 0 0 2rem auto; // Align right on larger devices
+  @media (max-width: 1024px) {
+    justify-content: center;
+  }
+`;
+
+export const DownloadBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.625rem;
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border-radius: var(--radius-full);
+  transition:
+    opacity 0.2s,
+    transform 0.3s,
+    box-shadow 0.3s;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0, 212, 255, 0.28);
+  }
+`;
+
+export const ContactBtn = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.625rem;
+  background: transparent;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 0.875rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition:
+    border-color 0.3s,
+    background 0.3s,
+    transform 0.3s;
+
+  &:hover {
+    border-color: rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.05);
+    transform: translateY(-2px);
+  }
+`;
+
+export const IntroRight = styled(motion.div)`
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  @media (max-width: 1024px) {
+    order: -1;
+  }
+`;
+
+export const PhotoFrame = styled.div`
+  position: relative;
+  width: clamp(220px, 28vw, 320px);
+  height: clamp(280px, 36vw, 400px);
+`;
+
+export const PhotoBorder = styled.div`
+  position: absolute;
+  inset: -3px;
+  border-radius: var(--radius-xl);
+  background: linear-gradient(135deg, #00d4ff, #7c3aed);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 3px;
+    border-radius: calc(var(--radius-xl) - 1px);
+    background: var(--bg-primary);
+  }
+`;
+
+export const Photo = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  position: relative;
+  z-index: 1;
+`;
+
+export const InfoChip = styled.div`
+  position: absolute;
+  ${({ $pos }) => $pos || ""}
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-full);
+  padding: 0.45rem 0.875rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+  z-index: 2;
+
+  i {
+    color: var(--accent-cyan);
+  }
+`;
+
+/* ── Skills ── */
+export const SkillsSection = styled.section`
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  ${sectionElevatedCyan}
+`;
+
+export const SectionLabel = styled(motion.div)`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-cyan);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.875rem;
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent-cyan);
+  }
+`;
+
+export const SectionTitle = styled(motion.h2)`
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+`;
+
+export const FilterRow = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+`;
+
+export const FilterBtn = styled.button`
+  padding: 0.45rem 1.125rem;
+  border-radius: var(--radius-full);
+  font-size: 0.825rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid
+    ${({ $active }) =>
+      $active ? "rgba(0,212,255,0.5)" : "rgba(255,255,255,0.08)"};
+  background: ${({ $active }) =>
+    $active ? "rgba(0,212,255,0.1)" : "transparent"};
+  color: ${({ $active }) =>
+    $active ? "var(--accent-cyan)" : "var(--text-secondary)"};
+  transition: all 0.25s;
+
+  &:hover {
+    border-color: rgba(0, 212, 255, 0.4);
+    color: var(--text-primary);
   }
 `;
 
 export const SkillsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
+  gap: 1rem;
 
-  @media (max-width: 992px) {
+  @media (max-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  @media (max-width: 576px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
-export const SkillCard = styled.div`
-  ${liquidGlassEffect}
-  padding: 1.5rem;
-  transition: all 0.3s ease;
+export const SkillCard = styled(motion.div)`
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: 1.25rem 1rem;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  text-align: center;
-  opacity: 0;
-  animation: ${({ isVisible }) => isVisible ? slideUp : 'none'} 0.5s ease-out forwards;
-  animation-delay: ${({ delay }) => delay || 0}s;
+  gap: 0.875rem;
+  transition:
+    border-color 0.3s,
+    transform 0.3s;
 
   &:hover {
-    transform: translateY(-10px);
+    border-color: rgba(0, 212, 255, 0.2);
+    transform: translateY(-2px);
   }
 `;
 
-export const SkillIcon = styled.div`
-  font-size: 2.5rem;
-  margin-bottom: 1rem;
-  color: ${({ theme }) => theme.colors.accent};
-
-  svg {
-    filter: drop-shadow(0 2px 5px rgba(47, 128, 237, 0.3));
-    transition: transform 0.3s ease, color 0.3s ease;
-  }
-
-  ${SkillCard}:hover & svg {
-    transform: scale(1.2) rotate(5deg);
-    color: ${({ theme }) => theme.colors.highlight};
-  }
-`;
-
-export const SkillName = styled.h3`
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.textPrimary};
-`;
-
-export const ToolsContainer = styled.div`
-  margin: 2rem 0;
-  overflow: hidden;
-  padding: 1rem 0;
-`;
-
-export const ToolsMarquee = styled.div`
+export const SkillIconBox = styled.div`
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: rgba(0, 212, 255, 0.07);
+  border: 1px solid rgba(0, 212, 255, 0.15);
   display: flex;
-  width: fit-content;
-  animation: ${slideLeft} 20s linear infinite;
-
-  &:hover {
-    animation-play-state: paused;
-  }
-`;
-
-export const ToolCard = styled.div`
-  ${liquidGlassEffect}
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1rem;
-  margin: 0 1rem;
-  min-width: 120px;
-  height: 120px;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px) scale(1.05);
-    z-index: 10;
-  }
+  flex-shrink: 0;
+  font-size: 1rem;
+  color: var(--accent-cyan);
 `;
 
-export const ToolIcon = styled.div`
-  font-size: 2.2rem;
-  margin-bottom: 1rem;
-  color: ${({ theme }) => theme.colors.accent};
-  transition: all 0.3s ease;
-
-  ${ToolCard}:hover & {
-    color: ${({ theme }) => theme.colors.highlight};
-    transform: scale(1.2);
-  }
-`;
-
-export const ToolName = styled.span`
-  font-size: 0.9rem;
+export const SkillInfo = styled.div``;
+export const SkillName = styled.p`
+  font-size: 0.875rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.textPrimary};
-  text-align: center;
+  color: var(--text-primary);
+`;
+export const SkillCat = styled.p`
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
 `;
 
-export const TimelineContainer = styled.div`
+/* ── Tools ── */
+export const ToolsSection = styled.section`
+  padding: 2.5rem 0;
+  overflow: hidden;
+  border-top: 1px solid var(--border-default);
+  border-bottom: 1px solid var(--border-default);
+`;
+
+export const ToolsTrack = styled.div`
+  display: flex;
+  width: max-content;
+  animation: marquee 25s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+`;
+
+export const ToolChip = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.375rem;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-full);
+  margin-right: 0.75rem;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+
+  i {
+    color: var(--accent-cyan);
+  }
+`;
+
+/* ── Timeline ── */
+export const TimelineSection = styled.section`
+  padding: clamp(4rem, 8vw, 6rem) 0;
+  ${sectionScanLines}
+`;
+
+export const TimelineCols = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: start;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+`;
+
+export const TimelineCol = styled.div``;
+
+export const TimelineColTitle = styled(motion.h3)`
+  font-family: var(--font-heading);
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+
+  i {
+    color: var(--accent-cyan);
+  }
+`;
+
+export const TimelineList = styled.div`
+  display: flex;
+  flex-direction: column;
   position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 2rem 0;
 
   &::before {
     content: "";
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 0;
+    top: 23px;
     bottom: 0;
-    width: 2px;
+    left: 22px;
+    width: 1px;
     background: linear-gradient(
       to bottom,
-      transparent,
-      ${({ theme }) => theme.colors.accent} 10%,
-      ${({ theme }) => theme.colors.accent} 90%,
+      rgba(0, 212, 255, 0.35),
       transparent
     );
   }
-
-  @media (max-width: 768px) {
-    &::before {
-      left: 20px;
-    }
-  }
 `;
 
-export const TimelineItem = styled.div`
-  position: relative;
-  width: 50%;
-  padding: 0 2rem 4rem;
-  ${({ index }) => (index % 2 === 0 ? 'left: 0; padding-right: 3rem;' : 'left: 50%; padding-left: 3rem;')}
-  opacity: 0;
-  animation: ${({ index, isVisible }) => 
-    isVisible ? (index % 2 === 0 ? slideInFromLeft : slideInFromRight) : 'none'} 0.6s ease-out forwards;
-  animation-delay: ${({ delay }) => delay || 0}s;
+export const TimelineItem = styled(motion.div)`
+  display: flex;
+  gap: 1.25rem;
+  padding-bottom: 2rem;
 
   &:last-child {
     padding-bottom: 0;
   }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    left: 0 !important;
-    padding: 0 0 3rem 3rem;
-    animation: ${({ isVisible }) => isVisible ? slideInFromLeft : 'none'} 0.6s ease-out forwards;
-  }
 `;
 
 export const TimelineDot = styled.div`
-  position: absolute;
-  ${({ index }) => (index % 2 === 0 ? 'right: -20px;' : 'left: -20px;')}
-  top: 0;
-  width: 40px;
-  height: 40px;
-  background: linear-gradient(135deg, ${({ theme }) => theme.colors.accent}, ${({ theme }) => theme.colors.highlight});
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
+  background: rgba(0, 212, 255, 0.07);
+  border: 1px solid rgba(0, 212, 255, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
-  font-size: 1.2rem;
-  z-index: 2;
-  box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.background}, 0 0 0 6px ${({ theme }) => theme.colors.accent};
-  transition: all 0.3s ease;
+  flex-shrink: 0;
+  z-index: 1;
 
-  ${TimelineItem}:hover & {
-    transform: scale(1.2);
-    box-shadow: 0 0 0 4px ${({ theme }) => theme.colors.background}, 0 0 0 8px ${({ theme }) => theme.colors.highlight};
+  i {
+    color: var(--accent-cyan);
+    font-size: 0.95rem;
   }
-
-  @media (max-width: 768px) {
-    left: 0 !important;
-    right: auto !important;
-  }
-
-  @media (max-width: 576px) {
-    width: 35px;
-    height: 35px;
-    font-size: 1rem;
-  }
-`;
-
-export const TimelineConnector = styled.div`
-  display: none;
 `;
 
 export const TimelineContent = styled.div`
-  ${liquidGlassEffect}
-  padding: 1.5rem;
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
+  flex: 1;
+  padding-top: 0.375rem;
 `;
 
-export const TimelineDate = styled.div`
+export const TimelinePeriod = styled.span`
   display: inline-block;
-  padding: 0.3rem 0.8rem;
-  background-color: rgba(47, 128, 237, 0.1);
-  border-radius: 30px;
-  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
   font-weight: 600;
-  color: ${({ theme }) => theme.colors.accent};
-  margin-bottom: 0.8rem;
-  transition: all 0.3s ease;
-
-  ${TimelineContent}:hover & {
-    background-color: ${({ theme }) => theme.colors.accent};
-    color: white;
-  }
+  color: var(--accent-cyan);
+  letter-spacing: 0.05em;
+  margin-bottom: 0.3rem;
 `;
 
-export const TimelineTitle = styled.h3`
-  font-size: 1.3rem;
-  margin-bottom: 0.4rem;
-  color: ${({ theme }) => theme.colors.textPrimary};
-  font-weight: 600;
+export const TimelineTitle = styled.h4`
+  font-family: var(--font-heading);
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 0.2rem;
 `;
 
-export const TimelineSubtitle = styled.h4`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 1rem;
-  font-weight: 500;
+export const TimelineSubtitle = styled.p`
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.5rem;
 `;
 
-export const TimelineDescription = styled.p`
-  font-size: 0.95rem;
-  line-height: 1.7;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  margin-bottom: 1.2rem;
+export const TimelinePoints = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
 `;
 
-export const PointsList = styled.ul`
-  list-style: none;
-  margin-top: 0.8rem;
-  padding: 0;
-`;
-
-export const PointItem = styled.li`
+export const TimelinePoint = styled.li`
   display: flex;
   align-items: flex-start;
-  gap: 0.8rem;
-  margin-bottom: 0.7rem;
-  padding-left: 0.2rem;
-  font-size: 0.9rem;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
   line-height: 1.6;
-  color: ${({ theme }) => theme.colors.textSecondary};
-  transition: all 0.3s ease;
 
-  svg {
-    color: ${({ theme }) => theme.colors.highlight};
-    margin-top: 0.2rem;
-    font-size: 0.8rem;
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-cyan);
     flex-shrink: 0;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover {
-    color: ${({ theme }) => theme.colors.textPrimary};
-    transform: translateX(5px);
-
-    svg {
-      color: ${({ theme }) => theme.colors.accent};
-      transform: scale(1.2);
-    }
+    margin-top: 0.45rem;
   }
 `;

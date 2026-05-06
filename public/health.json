@@ -1,0 +1,6 @@
+{
+  "name": "Portfolio Health Check",
+  "status": "ok",
+  "timestamp": "{{timestamp}}",
+  "version": "0.1.0"
+}
