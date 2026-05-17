@@ -1,173 +1,164 @@
-# 🚀 Portfolio Website
+# Munvar Khajavali Portfolio
 
-![Portfolio Preview](https://res.cloudinary.com/dnkjgw2ti/image/upload/v1778048338/Screenshot_2026-05-06_at_11.47.03_rx3la6.png)
+Personal portfolio built with Next.js, TypeScript, styled-components, and Framer Motion. The site presents profile content, project case studies, resume viewing, and a contact form powered by EmailJS.
 
-## 🌟 Overview
+## Features
 
-This is my personal portfolio website, showcasing my projects, resume, and information about me. It serves as a central hub for recruiters, clients, and collaborators to explore my work, skills, and experience.
+- Responsive single-page home experience with hero, about, skills, timeline, projects, resume, and contact sections
+- Dedicated About, Projects, Project Detail, Resume, Contact, Privacy, and Terms pages
+- Project filtering and reusable project card layout variants
+- Smooth in-page hash navigation and custom app layout with Lenis scrolling
+- EmailJS contact form with shared validation and submit logic
+- PDF resume viewer using `react-pdf`
+- Centralized site, contact, navigation, home, and about configuration
+- Shared theme, mixins, styled-components registry, and ambient type declarations
+- Docker and Vercel deployment support through Next.js standalone output
 
-## 🛠️ Features
+## Tech Stack
 
-- **Projects Section**: Displays my best work with descriptions, tech stack, and links.
-- **Resume**: Provides easy access to my latest resume with both standard and enhanced views.
-- **About Me**: Shares my background, experience, and interests.
-- **Contact Page**: Easy way to get in touch.
-- **3D Animations**: Interactive Three.js background with floating shapes and particles.
-- **Responsive Design**: Fully optimized for desktop and mobile devices.
-- **Smooth Animations**: Interactive UI powered by Framer Motion for an engaging user experience.
-- **Theme Support**: Dark/Light mode with adaptive 3D elements and context-based theme management.
-- **Lazy Loading**: Optimized performance with code-splitting for faster initial load.
+- Next.js 15
+- React 18
+- TypeScript
+- styled-components 6
+- Framer Motion
+- Lenis
+- React Hook Form
+- EmailJS
+- React PDF
+- Font Awesome
 
-## 🚧 Tech Stack
+## Project Structure
 
-- **Frontend**: React 18, React Router v6
-- **Styling**: Styled Components with theme support
-- **3D Graphics**: Three.js, React Three Fiber, React Three Drei
-- **Animations**: Framer Motion
-- **State Management**: React Context API
-- **Performance**: Lazy loading with React Suspense
-- **Hosting**: Vercel
-
-## 📂 Project Structure
-
-```
-portfolio-website/
-│── public/
-│   ├── favicon.ico
-│   ├── index.html
-│   ├── manifest.json
-│   └── robots.txt
-│── src/
-│   ├── assets/           # Images and resume PDF
-│   │   ├── coder.jpeg
-│   │   ├── logo.jpeg
-│   │   ├── programmer.jpeg
-│   │   └── resume.pdf
-│   ├── components/       # Reusable UI components
-│   │   ├── Animate/      # Animation wrapper component
-│   │   ├── Footer/       # Footer component
-│   │   ├── Header/       # Navigation header
-│   │   ├── Layout/       # App layout wrapper
-│   │   ├── Spinner/      # Loading spinner
-│   │   └── Three/        # 3D components
-│   │       ├── Scene3D/
-│   │       ├── floatingShapes.jsx
-│   │       ├── particleField.jsx
-│   │       └── simplifiedParticles.jsx
-│   ├── contexts/         # React Context API
-│   │   └── ThemeContext.js
-│   ├── data/             # Portfolio data
-│   │   ├── aboutData.js
-│   │   └── projectsData.js
-│   ├── hooks/            # Custom React hooks
-│   │   ├── useIntersectionObserver.js
-│   │   └── useIsMobile.js
-│   ├── pages/            # Portfolio pages
-│   │   ├── Home/         # Landing page
-│   │   ├── About/        # About me page
-│   │   ├── Projects/     # Projects showcase
-│   │   ├── Resume/       # Standard resume view
-│   │   ├── EnhancedResume/ # Enhanced resume view
-│   │   ├── Contact/      # Contact page
-│   │   └── NotFound/     # 404 page
-│   ├── styles/           # Global styles and themes
-│   │   ├── GlobalStyles.js
-│   │   ├── animations.js
-│   │   ├── darkTheme.js
-│   │   ├── lightTheme.js
-│   │   ├── mixins.js
-│   │   └── theme.js
-│   ├── App.jsx           # Main app component
-│   ├── index.js          # Entry point
-│   └── index.css         # Base styles
-│── package.json
-│── craco.config.js       # Create React App configuration
-└── README.md
+```text
+.
+|-- public/
+|   |-- images/
+|   |-- resume.pdf
+|   |-- health.json
+|   |-- manifest.json
+|   `-- robots.txt
+|-- src/
+|   |-- app/
+|   |   |-- (public)/
+|   |   |   |-- about/
+|   |   |   |-- contact/
+|   |   |   |-- privacy/
+|   |   |   |-- projects/
+|   |   |   |-- resume/
+|   |   |   |-- terms/
+|   |   |   |-- home.styles.ts
+|   |   |   `-- page.tsx
+|   |   |-- globals.css
+|   |   |-- layout.tsx
+|   |   |-- loading.tsx
+|   |   |-- not-found.tsx
+|   |   `-- error.tsx
+|   |-- components/
+|   |   |-- layout/
+|   |   |-- shared/
+|   |   `-- ui/
+|   |-- config/
+|   |-- data/
+|   |-- hooks/
+|   |-- lib/
+|   |-- providers/
+|   |-- styles/
+|   `-- types/
+|-- Dockerfile
+|-- docker-compose.yml
+|-- next.config.ts
+|-- tsconfig.json
+`-- vercel.json
 ```
 
-## 🚀 Getting Started
+## Key Modules
+
+- `src/config/site.ts`: site identity, contact details, social links, and metadata inputs
+- `src/config/navigation.ts`: header, footer, and policy navigation links
+- `src/config/contact.ts`: reusable contact info and social link data
+- `src/config/home.ts`: home page stack rows
+- `src/config/about.ts`: about page tool and skill display config
+- `src/data/projects.ts`: project content and detail data
+- `src/data/about.ts`: skills, education, and experience content
+- `src/hooks/use-contact-form.ts`: shared EmailJS form state, validation, and submission
+- `src/lib/projects.ts`: project filters, filtering helper, and card variant helper
+- `src/lib/scroll.ts`: shared smooth scrolling utilities
+- `src/styles/theme.ts`: typed styled-components theme tokens
+- `src/styles/mixins.ts`: shared style helpers and media utilities
+- `src/types/css.d.ts`: CSS side-effect import declarations
+- `src/types/styled.d.ts`: styled-components theme typing
+
+## Getting Started
 
 ### Prerequisites
 
-- Node.js 18+ and npm
-- EmailJS account (for contact form)
+- Node.js 20 recommended
+- npm
+- EmailJS account for the contact form
 
 ### Installation
 
-1. Clone the repository:
-
-   ```sh
-   git clone https://github.com/munvar021/Portfolio.git
-   cd Portfolio
-   ```
-
-2. Install dependencies:
-
-   ```sh
-   npm install
-   ```
-
-3. Set up environment variables:
-
-   ```sh
-   cp .env.example .env
-   ```
-
-   Edit `.env` and add your EmailJS credentials:
-   - Get your credentials from [EmailJS Dashboard](https://dashboard.emailjs.com/)
-   - Update `REACT_APP_EMAILJS_SERVICE_ID`
-   - Update `REACT_APP_EMAILJS_TEMPLATE_ID`
-   - Update `REACT_APP_EMAILJS_PUBLIC_KEY`
-
-4. Run the development server:
-
-   ```sh
-   npm start
-   ```
-
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-## 🌍 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import project in [Vercel Dashboard](https://vercel.com)
-3. Add environment variables in Vercel project settings
-4. Deploy automatically on push to `main` branch
-
-### Docker (Alternative)
-
-```sh
-# Build and run with Docker Compose
-docker-compose up -d
-
-# Access at http://localhost:3000
+```bash
+git clone https://github.com/munvar021/Portfolio.git
+cd Portfolio
+npm install
+cp .env.example .env.local
 ```
 
-### Manual Build
+Fill `.env.local` with your EmailJS values:
 
-```sh
+```bash
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_PUBLIC_KEY=your_public_key
+```
+
+### Development
+
+```bash
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+### Production Build
+
+```bash
 npm run build
-# Deploy the 'build' folder to your hosting provider
+npm run start
 ```
 
-For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md)
+## Scripts
 
-## 🔧 DevOps & CI/CD
+```bash
+npm run dev      # Start Next.js dev server
+npm run build    # Create production build
+npm run start    # Start production server
+npm run lint     # Run Next lint script
+```
 
-- **Automated Testing**: GitHub Actions runs tests on every PR
-- **Continuous Deployment**: Auto-deploy to Vercel on merge to main
-- **Security Headers**: Configured for production security
-- **Performance**: Optimized caching and compression
-- **Health Checks**: `/health.json` endpoint for monitoring
+## Deployment
 
-## 📬 Contact
+Vercel is the recommended hosting target. Add the three `NEXT_PUBLIC_EMAILJS_*` variables in Vercel project settings and deploy from GitHub.
 
-- **[Portfolio](https://portfolio-beta-eight-29.vercel.app)**
-- **[LinkedIn](https://www.linkedin.com/in/munvar-khajavali-shaik)**
-- **[Email](mailto:munvar021@gmail.com)**
+Docker is also supported:
 
----
+```bash
+docker compose up -d --build
+```
 
-⭐ Star this repository if you like it! 😊
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment details.
+
+## Contact
+
+<p>
+  <a href="https://portfolio-beta-eight-29.vercel.app">
+    <img src="https://img.shields.io/badge/Portfolio-Visit%20Site-a11212?style=for-the-badge" alt="Portfolio" />
+  </a>
+  <a href="https://www.linkedin.com/in/munvar-khajavali-shaik">
+    <img src="https://img.shields.io/badge/LinkedIn-Connect-0a66c2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="mailto:munvar021@gmail.com">
+    <img src="https://img.shields.io/badge/Email-Say%20Hello-b91c1c?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
+</p>

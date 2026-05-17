@@ -1,0 +1,289 @@
+export interface ProjectCredentials {
+  username: string;
+  password: string;
+}
+
+export interface Project {
+  id: number;
+  name: string;
+  category: string;
+  year: string;
+  role: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  github: string;
+  demo: string;
+  featured: boolean;
+  features: string[];
+  credentials?: ProjectCredentials;
+}
+
+export const projects: Project[] = [
+  {
+    id: 1,
+    name: "CivicPulse",
+    category: "Full Stack",
+    year: "2025",
+    role: "Full Stack Developer",
+    description:
+      "CivicPulse is a full-stack civic complaint management platform designed to improve transparency and efficiency in public service systems. It enables citizens to report issues with GPS location and images, while government departments manage assignments, track progress, and analyze performance through role-based portals.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1773315574/Screenshot_2026-03-12_at_17.03.10_qtkyfy.png",
+    technologies: ["React", "Redux Toolkit", "Node JS", "MongoDB"],
+    github: "https://github.com/munvar021/CivicPulse",
+    demo: "https://civic-pulse-one.vercel.app",
+    featured: true,
+    features: [
+      "GPS-based issue reporting with image upload support",
+      "Role-based portals for citizens, department officials, and admins",
+      "Real-time complaint status tracking and push notifications",
+      "Performance analytics dashboard with resolution metrics",
+      "Department assignment and workload distribution management",
+    ],
+  },
+  {
+    id: 2,
+    name: "CarGenie",
+    category: "Full Stack",
+    year: "2024",
+    role: "Full Stack Developer",
+    description:
+      "CarGenie is an intelligent car discovery and comparison platform that simplifies vehicle research with data-driven insights. It features detailed car specs, comparisons, and an intuitive admin portal for streamlined management.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1747114612/Portfolio/jua7ge2gm8lminhsynvi.jpg",
+    technologies: ["React", "JavaScript", "Node JS", "MongoDB"],
+    github: "https://github.com/munvar021/CarGenie",
+    demo: "https://cargenie-sigma.vercel.app/",
+    featured: true,
+    features: [
+      "Advanced car search and filter by make, model, and year",
+      "Side-by-side vehicle comparison with full spec breakdown",
+      "Detailed car profile pages with high-res images",
+      "Admin portal for inventory and listing management",
+      "Responsive design optimised for mobile and desktop",
+    ],
+  },
+  {
+    id: 3,
+    name: "Nxt Trendz",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "Rolled out an innovative e-commerce platform patterned after Amazon and Flipkart. Designed pages for Login, Products, and Product details with React Router and React components.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742742916/Portfolio/wlhxas6rqkm3fi9pueze.png",
+    technologies: ["React", "JavaScript", "API", "CSS"],
+    github: "https://github.com/munvar021/Nxt-Trendz",
+    demo: "https://nxttrendzsmk.ccbp.tech",
+    featured: true,
+    credentials: { username: "rahul", password: "rahul@2021" },
+    features: [
+      "JWT-based authentication with protected routes",
+      "Product listing with search, sort, and category filters",
+      "Shopping cart with quantity management and order summary",
+      "Detailed product view with ratings and reviews",
+      "Responsive mobile-first layout",
+    ],
+  },
+  {
+    id: 4,
+    name: "Nxt Watch",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "Nxt Watch is a YouTube clone built using React, featuring dark mode, authentication, video search, and routing. It offers a responsive, seamless streaming experience inspired by modern media platforms.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1748949776/Portfolio/ivo6m7mmukxksncppgks.png",
+    technologies: ["React", "JavaScript", "API", "CSS"],
+    github: "https://github.com/munvar021/Nxt-Watch",
+    demo: "https://nxt-watch-eta.vercel.app/login",
+    featured: true,
+    credentials: { username: "rahul", password: "rahul@2021" },
+    features: [
+      "Full dark / light mode toggle with context-based theming",
+      "JWT authentication with persistent login sessions",
+      "Video search with YouTube Data API integration",
+      "Trending, gaming, and saved videos sections",
+      "Smooth route transitions with React Router",
+    ],
+  },
+  {
+    id: 5,
+    name: "IPL Dashboard",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "The IPL Dashboard is a dynamic and feature-rich web application that provides insightful statistics, match details, and team performance data from past Indian Premier League (IPL) seasons.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742742802/Portfolio/tzcpweustdusqbgwydjg.png",
+    technologies: ["React", "JavaScript", "API", "CSS"],
+    github: "https://github.com/munvar021/IPL-Dashboard-App",
+    demo: "https://ipldashappnxt.ccbp.tech",
+    featured: false,
+    features: [
+      "Season-wise match statistics and results",
+      "Team performance analytics and win-rate charts",
+      "Per-team match history with detailed scorecards",
+      "API-driven live data with loading states",
+      "Responsive layout for all screen sizes",
+    ],
+  },
+  {
+    id: 6,
+    name: "Password Manager",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "The Password Manager is a secure, efficient, and user-friendly web application designed to help users store, manage, and retrieve their passwords safely with an intuitive interface.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742661219/Portfolio/r8ikguemigrv5pm0einp.png",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "https://github.com/munvar021/Password-Manager",
+    demo: "https://passwordmngnxt.ccbp.tech",
+    featured: true,
+    features: [
+      "Add, view, and delete saved credentials",
+      "Toggle masked / visible password display",
+      "Instant search and filter by website or username",
+      "Persistent local storage — data survives page refresh",
+      "Clean card-based UI with no-results empty states",
+    ],
+  },
+  {
+    id: 7,
+    name: "Emoji Game",
+    category: "Game",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "The Emoji Game is a fun, engaging, and interactive memory-based game built using React.js, where users test their ability to recall and select unique emojis without repetition.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742661219/Portfolio/jibz8skhmgijq5r7zejh.png",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "https://github.com/munvar021/Emoji-Game",
+    demo: "https://emojigamesmk.ccbp.tech",
+    featured: false,
+    features: [
+      "Memory-based click-once gameplay mechanic",
+      "Real-time current and top score tracking",
+      "Dynamic emoji shuffle on every valid click",
+      "Win and game-over state transitions",
+      "Smooth card animations and hover effects",
+    ],
+  },
+  {
+    id: 8,
+    name: "Money Manager",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "The Money Manager is a powerful, intuitive finance management application designed to help users track, analyse, and manage their income and expenses efficiently in real time.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742661219/Portfolio/bwcjjpqr1wdwmozwx2mj.png",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "https://github.com/munvar021/Money-Manager",
+    demo: "https://moneymanagersmk.ccbp.tech",
+    featured: true,
+    features: [
+      "Add income and expense transactions with categories",
+      "Running balance with income / expense totals",
+      "Full transaction history with delete support",
+      "Category-based breakdown summary",
+      "Responsive layout for mobile and desktop",
+    ],
+  },
+  {
+    id: 9,
+    name: "Appointments",
+    category: "Frontend",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "Appointments is a feature-rich scheduling application that allows users to add, manage, and prioritise appointments efficiently with a seamless, dynamic, and interactive experience.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742661219/Portfolio/kqicc4zh9rph1oa2gvoi.png",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "http://github.com/munvar021/Appointments-App",
+    demo: "https://appointmentsnxt.ccbp.tech",
+    featured: false,
+    features: [
+      "Add appointments with title and date",
+      "Star / favourite important appointments",
+      "Toggle to show only starred entries",
+      "Date formatted for readable display",
+      "Minimal card list with instant state updates",
+    ],
+  },
+  {
+    id: 10,
+    name: "Match Game",
+    category: "Game",
+    year: "2023",
+    role: "Frontend Developer",
+    description:
+      "The Match Game is a fast-paced image-matching game built with React.js, designed to test the user's ability to quickly identify and match images under a countdown timer.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742663232/Portfolio/fpl82pmqzahd5h32h9xq.png",
+    technologies: ["React", "JavaScript", "CSS"],
+    github: "https://github.com/munvar021/Match-Game",
+    demo: "https://matchgamenxt.ccbp.tech/",
+    featured: true,
+    features: [
+      "Countdown timer with score-linked speed",
+      "Image-matching click mechanics",
+      "Progressive difficulty as score increases",
+      "Top score persistence across sessions",
+      "Instant game-over and restart flow",
+    ],
+  },
+  {
+    id: 11,
+    name: "Todos",
+    category: "Frontend",
+    year: "2022",
+    role: "Frontend Developer",
+    description:
+      "A robust task tracking system with full CRUD capabilities, crafted to simplify task management using JavaScript event listeners, DOM operations, and local storage persistence.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742663911/Portfolio/uriudx2riukpybmrsy9l.png",
+    technologies: ["HTML", "CSS", "JavaScript", "Bootstrap"],
+    github: "https://github.com/munvar021/Todo-Application",
+    demo: "https://todolistver.ccbp.tech/",
+    featured: false,
+    features: [
+      "Create, read, update, and delete tasks",
+      "LocalStorage persistence — tasks survive page refresh",
+      "Filter tasks by all, active, and completed",
+      "Mark tasks complete with visual strike-through",
+      "Clean minimal interface with Bootstrap layout",
+    ],
+  },
+  {
+    id: 12,
+    name: "Wikipedia Search",
+    category: "Frontend",
+    year: "2022",
+    role: "Frontend Developer",
+    description:
+      "A custom Wikipedia search application that simplifies the search process with a clean, user-friendly interface that surfaces relevant results and expands knowledge effortlessly.",
+    image:
+      "https://res.cloudinary.com/dnkjgw2ti/image/upload/v1742662378/Portfolio/pam8uywzkmgu13s6s4bw.png",
+    technologies: ["HTML", "CSS", "JavaScript", "REST API Calls", "Bootstrap"],
+    github: "https://github.com/munvar021/Wikipedia-Search-Application",
+    demo: "https://wikipedianxtech.ccbp.tech",
+    featured: false,
+    features: [
+      "Wikipedia OpenSearch API integration",
+      "Real-time search result cards with article links",
+      "Keyboard-friendly search with Enter key support",
+      "Clean result list with title, snippet, and URL",
+      "Error and empty-state handling",
+    ],
+  },
+];
