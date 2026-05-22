@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import type { ElementType } from "react";
 
@@ -23,38 +22,19 @@ const ScrollReveal = ({
   yOffset = 35,
   ...rest
 }: ScrollRevealProps) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [anim, setAnim] = useState({ visible: false, y: yOffset });
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setAnim((a) => ({ ...a, visible: true }));
-        } else {
-          const y = entry.boundingClientRect.top > 0 ? yOffset : -yOffset;
-          setAnim({ visible: false, y });
-        }
-      },
-      { threshold },
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [threshold, yOffset]);
+  const variants = {
+    hidden: { opacity: 0, y: yOffset },
+    visible: { opacity: 1, y: 0 },
+  };
 
   if (Tag) {
     const Comp = Tag;
     return (
       <motion.div
-        ref={ref}
-        initial={{ opacity: 0, y: yOffset }}
-        animate={
-          anim.visible ? { opacity: 1, y: 0 } : { opacity: 0, y: anim.y }
-        }
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: false, amount: threshold }}
+        variants={variants}
         transition={{ delay, duration, ease: [0.22, 1, 0.36, 1] }}
       >
         <Comp {...rest}>{children}</Comp>
@@ -64,9 +44,10 @@ const ScrollReveal = ({
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: yOffset }}
-      animate={anim.visible ? { opacity: 1, y: 0 } : { opacity: 0, y: anim.y }}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: false, amount: threshold }}
+      variants={variants}
       transition={{ delay, duration, ease: [0.22, 1, 0.36, 1] }}
       {...rest}
     >

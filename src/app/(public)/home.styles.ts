@@ -178,11 +178,36 @@ export const HeroBadge = styled(motion.div)`
 `;
 
 export const HeroGreeting = styled(motion.p)`
-  font-family: var(--font-mono);
-  font-size: clamp(0.76rem, 1vw, 0.9rem);
-  color: rgba(240, 68, 68, 0.9);
+  ${commandLabel}
+  max-width: 100%;
   margin-bottom: 0.9rem;
-  letter-spacing: 0;
+  white-space: nowrap;
+
+  &::before {
+    flex: 0 0 clamp(28px, 4vw, 54px);
+  }
+
+  @media (max-width: 520px) {
+    gap: 0.45rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+
+    &::before {
+      flex-basis: 28px;
+      width: 28px;
+    }
+  }
+
+  @media (max-width: 375px) {
+    gap: 0.35rem;
+    font-size: 0.53rem;
+    letter-spacing: 0.06em;
+
+    &::before {
+      flex-basis: 22px;
+      width: 22px;
+    }
+  }
 `;
 
 export const HeroName = styled(motion.h1)`
@@ -794,7 +819,7 @@ export const ResumeBand = styled.section`
   ${sectionElevatedPurple}
 `;
 
-export const ResumeCard = styled.div`
+export const ResumeCard = styled(motion.div)`
   max-width: 600px;
   margin: 2.5rem auto 0;
   background: rgba(255, 255, 255, 0.02);

@@ -301,18 +301,10 @@ const Home = () => {
         <div className="container">
           <IntroGrid $reverse>
             <IntroLeft>
-              <AboutLabel
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-              >
+              <ScrollReveal as={AboutLabel} delay={0.1}>
                 {">"} WHOAMI
-              </AboutLabel>
-              <EditorialTitle
-                initial={{ opacity: 0, y: 25 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.7 }}
-              >
+              </ScrollReveal>
+              <ScrollReveal as={EditorialTitle} delay={0.2}>
                 <span>Building the bridge</span>
                 <EditorialMuted>
                   between <EditorialAccent>&quot;Logic&quot;</EditorialAccent>
@@ -320,30 +312,75 @@ const Home = () => {
                 <EditorialMuted>
                   and <EditorialAccent>&quot;Launch.&quot;</EditorialAccent>
                 </EditorialMuted>
-              </EditorialTitle>
-              <PageBio
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                My focus is on building systems that stay useful after the first
-                demo: stable interfaces, clear APIs, and logic that holds up
-                when real users start clicking. I like working close to
-                designers, managers, and testers because the best product
-                decisions usually happen in the handoff moments. I&apos;m not
-                the loudest person in the room; I&apos;m the one checking edge
-                cases, simplifying flows, and making sure the final ship is
-                something the whole team can trust. Right now I&apos;m looking
-                for a role or freelance project where careful engineering can
-                turn a messy problem into a dependable product.
+              </ScrollReveal>
+              <PageBio>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.3,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  My focus is on building systems that stay useful after the
+                  first demo: stable interfaces, clear APIs, and logic that
+                  holds up when real users start clicking.{" "}
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.36,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  I like working close to designers, managers, and testers
+                  because the best product decisions usually happen in the
+                  handoff moments.{" "}
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.42,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  I&apos;m not the loudest person in the room; I&apos;m the one
+                  checking edge cases, simplifying flows, and making sure the
+                  final ship is something the whole team can trust.{" "}
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.48,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  Right now I&apos;m looking for a role or freelance project
+                  where careful engineering can turn a messy problem into a
+                  dependable product.
+                </motion.span>
               </PageBio>
             </IntroLeft>
 
-            <IntroRight
+            <ScrollReveal
+              as={IntroRight}
               className="hide-on-mobile"
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              delay={0.35}
             >
               <AboutSvgStage aria-hidden="true">
                 <AboutSystemSvg viewBox="0 0 620 420" role="img">
@@ -682,7 +719,7 @@ const Home = () => {
                   />
                 </AboutSystemSvg>
               </AboutSvgStage>
-            </IntroRight>
+            </ScrollReveal>
           </IntroGrid>
         </div>
       </AboutBand>
@@ -699,8 +736,8 @@ const Home = () => {
             </ScrollReveal>
           </StackHeader>
 
-          {stackRows.map((row) => (
-            <div key={row.label}>
+          {stackRows.map((row, idx) => (
+            <ScrollReveal key={row.label} delay={idx * 0.08}>
               <StackRowLabel>{row.label}</StackRowLabel>
               <StackRowMask>
                 <StackTrack $direction={row.direction}>
@@ -725,14 +762,16 @@ const Home = () => {
                   ))}
                 </StackTrack>
               </StackRowMask>
-            </div>
+            </ScrollReveal>
           ))}
 
-          <StackSummary>
-            React · Next.js · TypeScript · JavaScript · HTML5 · CSS3 · Node.js ·
-            Express · Python · MySQL · MongoDB · Git · GitHub · Figma ·
-            Bootstrap · NPM · VS Code
-          </StackSummary>
+          <ScrollReveal delay={0.2}>
+            <StackSummary>
+              React · Next.js · TypeScript · JavaScript · HTML5 · CSS3 · Node.js
+              · Express · Python · MySQL · MongoDB · Git · GitHub · Figma ·
+              Bootstrap · NPM · <span>VS Code</span>
+            </StackSummary>
+          </ScrollReveal>
         </div>
       </StackSection>
 
@@ -775,7 +814,13 @@ const Home = () => {
                       <TimelineSubtitle>{exp.company}</TimelineSubtitle>
                       <TimelinePoints>
                         {exp.points.map((pt, j) => (
-                          <TimelinePoint key={j}>{pt}</TimelinePoint>
+                          <ScrollReveal
+                            key={j}
+                            as={TimelinePoint}
+                            delay={i * 0.09 + (j + 1) * 0.06}
+                          >
+                            {pt}
+                          </ScrollReveal>
                         ))}
                       </TimelinePoints>
                     </TimelineContent>
@@ -802,17 +847,26 @@ const Home = () => {
                 solving real problems, and growing as a developer.
               </ScrollReveal>
             </SectionHeader>
-            <FilterBar style={{ marginTop: "2.5rem" }}>
-              {PROJECT_FILTERS.map((tag) => (
-                <ProjectsFilterBtn
-                  key={tag}
-                  $active={activeProjectTag === tag}
-                  onClick={() => setActiveProjectTag(tag)}
-                >
-                  {tag}
-                </ProjectsFilterBtn>
-              ))}
-            </FilterBar>
+            <ScrollReveal delay={0.18}>
+              <FilterBar style={{ marginTop: "2.5rem" }}>
+                {PROJECT_FILTERS.map((tag, idx) => (
+                  <motion.div
+                    key={tag}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: false, amount: 0.5 }}
+                    transition={{ delay: idx * 0.03, duration: 0.2 }}
+                  >
+                    <ProjectsFilterBtn
+                      $active={activeProjectTag === tag}
+                      onClick={() => setActiveProjectTag(tag)}
+                    >
+                      {tag}
+                    </ProjectsFilterBtn>
+                  </motion.div>
+                ))}
+              </FilterBar>
+            </ScrollReveal>
           </div>
         </FilterSection>
 
@@ -824,18 +878,18 @@ const Home = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                transition={{ duration: 0.25 }}
+                transition={{ duration: 0.15 }}
               >
                 {filteredProjects.map((project, i) => (
                   <ProjectCard
                     key={project.id}
                     $variant={getProjectCardVariant(i)}
-                    initial={{ opacity: 0, y: 24 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -12 }}
+                    exit={{ opacity: 0, y: -10 }}
                     transition={{
-                      delay: i * 0.06,
-                      duration: 0.5,
+                      delay: i * 0.04,
+                      duration: 0.4,
                       ease: [0.22, 1, 0.36, 1],
                     }}
                     layout
@@ -959,9 +1013,13 @@ const Home = () => {
 
           <ContactGrid>
             <FormWrap
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.2 }}
+              variants={{
+                hidden: { opacity: 0, x: -30 },
+                visible: { opacity: 1, x: 0 },
+              }}
               transition={{ delay: 0.1, duration: 0.7 }}
             >
               <FormTitle>Send a Message</FormTitle>
@@ -1085,9 +1143,13 @@ const Home = () => {
             </FormWrap>
 
             <InfoCol
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: false, amount: 0.2 }}
+              variants={{
+                hidden: { opacity: 0, x: 30 },
+                visible: { opacity: 1, x: 0 },
+              }}
               transition={{ delay: 0.2, duration: 0.7 }}
             >
               <InfoCard>

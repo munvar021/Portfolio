@@ -248,6 +248,10 @@ export const InfoChip = styled.div<{ $pos?: string }>`
   }
 `;
 
+export const AboutLabel = styled(motion.div)`
+  ${commandLabel}
+`;
+
 export const EditorialTitle = styled(motion.h2)`
   font-family: var(--font-heading);
   font-size: clamp(2.25rem, 4.45vw, 4rem);
@@ -754,6 +758,10 @@ export const StackSummary = styled.p`
   line-height: 1.8;
   max-width: 980px;
   margin: 0 auto;
+
+  span {
+    white-space: nowrap;
+  }
 `;
 
 export const ToolsSection = styled.section`

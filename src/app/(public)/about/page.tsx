@@ -94,16 +94,36 @@ const About = () => {
                 Passionate <Accent>Developer</Accent>
                 <br />& Problem Solver
               </PageTitle>
-              <PageBio
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                I&apos;m Munvar Khajavali, a Full Stack Web Developer with
-                expertise in React.js, Node.js, and SQL. I bring a
-                problem-solving mindset to every project — crafting seamless
-                frontend experiences and optimizing backend systems to build
-                scalable, dynamic, and intuitive applications.
+              <PageBio>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.35,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  I&apos;m Munvar Khajavali, a Full Stack Web Developer with
+                  expertise in React.js, Node.js, and SQL.{" "}
+                </motion.span>
+                <motion.span
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: false, amount: 0.12 }}
+                  transition={{
+                    delay: 0.41,
+                    duration: 0.6,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                  style={{ display: "inline" }}
+                >
+                  I bring a problem-solving mindset to every project — crafting
+                  seamless frontend experiences and optimizing backend systems
+                  to build scalable, dynamic, and intuitive applications.
+                </motion.span>
               </PageBio>
               <IntroCtas
                 initial={{ opacity: 0, y: 15 }}
@@ -235,7 +255,13 @@ const About = () => {
                       <TimelineSubtitle>{exp.company}</TimelineSubtitle>
                       <TimelinePoints>
                         {exp.points.map((pt, j) => (
-                          <TimelinePoint key={j}>{pt}</TimelinePoint>
+                          <ScrollReveal
+                            key={j}
+                            as={TimelinePoint}
+                            delay={i * 0.09 + (j + 1) * 0.06}
+                          >
+                            {pt}
+                          </ScrollReveal>
                         ))}
                       </TimelinePoints>
                     </TimelineContent>
