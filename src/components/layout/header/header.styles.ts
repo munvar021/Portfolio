@@ -9,7 +9,7 @@ export const Nav = styled(motion.nav)`
   left: 0;
   right: 0;
   z-index: var(--z-header);
-  padding: 0 clamp(1rem, 5vw, 3rem);
+  padding: 0 var(--page-gutter);
   height: var(--nav-height);
   display: flex;
   align-items: center;

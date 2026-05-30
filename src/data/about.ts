@@ -6,7 +6,14 @@ import {
   faNpm,
   faGithub,
 } from "@fortawesome/free-brands-svg-icons";
-import { faServer, faCode } from "@fortawesome/free-solid-svg-icons";
+import {
+  faServer,
+  faCode,
+  faFileExcel,
+  faFileWord,
+  faFilePowerpoint,
+  faEnvelopeOpenText,
+} from "@fortawesome/free-solid-svg-icons";
 import type { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 export interface Skill {
@@ -58,6 +65,10 @@ export const toolsData: ToolData[] = [
   { name: "VS Code", icon: faCode },
   { name: "Bootstrap", icon: faBootstrap },
   { name: "MS Office", icon: faWindows },
+  { name: "Microsoft Excel", icon: faFileExcel },
+  { name: "Microsoft Word", icon: faFileWord },
+  { name: "Microsoft PowerPoint", icon: faFilePowerpoint },
+  { name: "Microsoft Outlook", icon: faEnvelopeOpenText },
   { name: "NPM", icon: faNpm },
   { name: "GitHub", icon: faGithub },
   { name: "RESTful APIs", icon: faServer },

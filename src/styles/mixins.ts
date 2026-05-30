@@ -34,10 +34,13 @@ export const gradientText = (
 `;
 
 export const container = css`
-  width: 100%;
-  max-width: 1280px;
+  width: min(
+    var(--content-max-width),
+    calc(100% - var(--page-gutter) - var(--page-gutter))
+  );
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 0 clamp(1rem, 5vw, 3rem);
+  padding: 0;
 `;
 
 export const sectionPadding = css`

@@ -61,9 +61,17 @@ const Header = () => {
 
   useEffect(() => {
     setMenuOpen(false);
+    if (pathname !== "/") {
+      setActiveSection("");
+    }
   }, [pathname]);
 
   useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
     const sectionIds = navItems
       .filter((i) => i.to.startsWith("#"))
       .map((i) => i.to.slice(1));
@@ -86,7 +94,7 @@ const Header = () => {
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";

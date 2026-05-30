@@ -210,7 +210,24 @@ const About = () => {
         <ToolsTrack>
           {[...tools, ...tools].map((tool, i) => (
             <ToolChip key={i}>
-              <i className={tool.icon} /> {tool.name}
+              {"iconSrc" in tool ? (
+                <img
+                  src={tool.iconSrc}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                />
+              ) : "simpleIconSlug" in tool ? (
+                <img
+                  src={`https://cdn.simpleicons.org/${tool.simpleIconSlug}/ffffff`}
+                  alt=""
+                  aria-hidden="true"
+                  loading="lazy"
+                />
+              ) : (
+                <i className={tool.icon} />
+              )}
+              {tool.name}
             </ToolChip>
           ))}
         </ToolsTrack>

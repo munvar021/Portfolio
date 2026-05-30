@@ -680,12 +680,15 @@ export const StackRowMask = styled.div`
   );
 `;
 
-export const StackTrack = styled.div<{ $direction: "left" | "right" }>`
+export const StackTrack = styled.div<{
+  $direction: "left" | "right";
+  $duration: string;
+}>`
   display: flex;
   width: max-content;
   animation: ${({ $direction }) =>
       $direction === "left" ? stackScrollLeft : stackScrollRight}
-    28s linear infinite;
+    ${({ $duration }) => $duration} linear infinite;
 
   &:hover {
     animation-play-state: paused;
@@ -702,8 +705,8 @@ export const StackLogoItem = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 0.5rem;
-  min-width: 104px;
-  padding: 1rem 1.5rem;
+  width: 168px;
+  padding: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.06);
   background: rgba(255, 255, 255, 0.02);
   transition:
@@ -745,8 +748,8 @@ export const StackLogoItem = styled.div`
   }
 
   @media (max-width: 640px) {
-    min-width: 92px;
-    padding: 0.875rem 1rem;
+    width: 152px;
+    padding: 0.875rem 0.75rem;
   }
 `;
 
@@ -800,8 +803,20 @@ export const ToolChip = styled.div`
   font-weight: 600;
   color: var(--text-secondary);
 
+  i,
+  img {
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+  }
+
   i {
     color: var(--accent-cyan);
+  }
+
+  img {
+    object-fit: contain;
+    opacity: 0.82;
   }
 `;
 

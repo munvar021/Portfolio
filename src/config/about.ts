@@ -10,14 +10,20 @@ export const skillIconMap: Record<string, string> = {
 };
 
 export const tools = [
+  { name: "MySQL", icon: "fa-solid fa-database" },
+  { name: "MongoDB", icon: "fa-solid fa-database" },
   { name: "Git", icon: "fa-brands fa-git-alt" },
   { name: "GitHub", icon: "fa-brands fa-github" },
-  { name: "Figma", icon: "fa-brands fa-figma" },
-  { name: "VS Code", icon: "fa-solid fa-code" },
-  { name: "Bootstrap", icon: "fa-brands fa-bootstrap" },
+  { name: "VS Code", iconSrc: "/images/icons/vscode.svg" },
   { name: "NPM", icon: "fa-brands fa-npm" },
+  { name: "Bootstrap", icon: "fa-brands fa-bootstrap" },
+  { name: "Figma", icon: "fa-brands fa-figma" },
   { name: "REST APIs", icon: "fa-solid fa-plug" },
   { name: "MS Office", icon: "fa-brands fa-windows" },
+  { name: "Microsoft Excel", icon: "fa-solid fa-file-excel" },
+  { name: "Microsoft Word", icon: "fa-solid fa-file-word" },
+  { name: "Microsoft PowerPoint", icon: "fa-solid fa-file-powerpoint" },
+  { name: "Microsoft Outlook", icon: "fa-solid fa-envelope-open-text" },
 ] as const;
 
 export const skillCategories = [

@@ -8,6 +8,11 @@ import Header from "../header/header";
 import Footer from "../footer/footer";
 import Cursor from "@/components/shared/cursor";
 import { LayoutWrapper, Main, ScrollTopBtn } from "./app-layout.styles";
+import {
+  consumePendingHomeSection,
+  getHashId,
+  getScrollTargetTop,
+} from "@/lib/scroll";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -95,6 +100,64 @@ const AppLayout = ({ children }: { children: React.ReactNode }) => {
     requestAnimationFrame(restoreScroll);
 
     isPopNavigationRef.current = false;
+  }, [pathname]);
+
+  useEffect(() => {
+    if (pathname !== "/") return;
+
+    const targetId =
+      consumePendingHomeSection() ||
+      (window.location.hash ? getHashId(window.location.hash) : "");
+
+    if (!targetId) return;
+
+    let cancelled = false;
+    const timeoutIds: number[] = [];
+    let attempts = 0;
+
+    const schedule = (callback: () => void, delay: number) => {
+      const timeoutId = window.setTimeout(callback, delay);
+      timeoutIds.push(timeoutId);
+    };
+
+    const scrollToHashTarget = (immediate = false) => {
+      if (cancelled) return true;
+
+      const element = document.getElementById(targetId);
+
+      if (!element) return false;
+
+      const top = getScrollTargetTop(element);
+
+      if (lenisRef.current) {
+        lenisRef.current.scrollTo(top, {
+          duration: immediate ? 0 : 1.1,
+          immediate,
+        });
+      } else {
+        window.scrollTo({ top, behavior: immediate ? "auto" : "smooth" });
+      }
+
+      return true;
+    };
+
+    const scrollWhenReady = () => {
+      if (scrollToHashTarget()) return;
+
+      attempts += 1;
+      if (attempts < 20) {
+        schedule(scrollWhenReady, 50);
+      }
+    };
+
+    schedule(scrollWhenReady, 120);
+    schedule(() => scrollToHashTarget(true), 620);
+    schedule(() => scrollToHashTarget(true), 1000);
+
+    return () => {
+      cancelled = true;
+      timeoutIds.forEach((timeoutId) => window.clearTimeout(timeoutId));
+    };
   }, [pathname]);
 
   const scrollToTop = () => {

@@ -66,6 +66,8 @@
   --font-mono: "IBM Plex Mono", "JetBrains Mono", monospace;
 
   --nav-height: 76px;
+  --content-max-width: 1360px;
+  --page-gutter: clamp(1rem, 4vw, 3.5rem);
 
   --radius-sm: 10px;
   --radius-md: 16px;
@@ -204,8 +206,11 @@ canvas {
 }
 
 .container {
-  width: min(1250px, 88%);
-  max-width: 1250px;
+  width: min(
+    var(--content-max-width),
+    calc(100% - var(--page-gutter) - var(--page-gutter))
+  );
+  max-width: var(--content-max-width);
   margin: 0 auto;
   padding: 0;
 }

@@ -740,12 +740,22 @@ const Home = () => {
             <ScrollReveal key={row.label} delay={idx * 0.08}>
               <StackRowLabel>{row.label}</StackRowLabel>
               <StackRowMask>
-                <StackTrack $direction={row.direction}>
+                <StackTrack
+                  $direction={row.direction}
+                  $duration={`${row.items.length * 3.1}s`}
+                >
                   {[0, 1, 2, 3].map((group) => (
                     <StackLogoGroup key={group}>
                       {row.items.map((item) => (
                         <StackLogoItem key={`${item.slug}-${group}`}>
-                          {"iconClass" in item ? (
+                          {"iconSrc" in item ? (
+                            <img
+                              src={item.iconSrc}
+                              alt=""
+                              aria-hidden="true"
+                              loading="lazy"
+                            />
+                          ) : "iconClass" in item ? (
                             <i className={item.iconClass} aria-hidden="true" />
                           ) : (
                             <img
@@ -767,9 +777,11 @@ const Home = () => {
 
           <ScrollReveal delay={0.2}>
             <StackSummary>
-              React · Next.js · TypeScript · JavaScript · HTML5 · CSS3 · Node.js
-              · Express · Python · MySQL · MongoDB · Git · GitHub · Figma ·
-              Bootstrap · NPM · <span>VS Code</span>
+              HTML5 · CSS3 · JavaScript · TypeScript · React · Next.js · Node.js
+              · Express · Python · MySQL · MongoDB · Git · GitHub ·{" "}
+              <span>VS Code</span> · NPM · Bootstrap · Figma ·{" "}
+              <span>Microsoft Excel</span> · <span>Microsoft Word</span> ·{" "}
+              <span>Microsoft PowerPoint</span> · <span>Microsoft Outlook</span>
             </StackSummary>
           </ScrollReveal>
         </div>
