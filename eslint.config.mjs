@@ -6,6 +6,16 @@ export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
   {
+    files: ["src/types/styled.d.ts"],
+    // Theme augmentation uses an interface so styled-components can merge it.
+    rules: {
+      "@typescript-eslint/no-empty-object-type": [
+        "error",
+        { allowInterfaces: "with-single-extends" },
+      ],
+    },
+  },
+  {
     files: [
       "src/components/layout/header/header.tsx",
       "src/app/(public)/resume/page.tsx",

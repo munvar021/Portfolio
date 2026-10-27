@@ -111,15 +111,16 @@ jobs:
             --network portfolio-ci --network-alias portfolio \
             --publish 127.0.0.1:3000:3000 \
             portfolio-ci:${{ github.sha }}
-          curl --fail --silent --show-error --retry 15 --retry-connrefused \
-            --retry-delay 2 --max-time 5 --output /dev/null \
+          # Published ports can reset connections while the server starts.
+          curl --fail --silent --show-error --retry 15 --retry-all-errors \
+            --retry-delay 2 --retry-max-time 60 --max-time 5 --output /dev/null \
             http://127.0.0.1:3000/health.json
           docker run --detach --name portfolio-proxy-ci \
             --network portfolio-ci --publish 127.0.0.1:8080:80 \
             --volume "$PWD/nginx.conf:/etc/nginx/conf.d/default.conf:ro" \
             nginx:stable-alpine
-          curl --fail --silent --show-error --retry 15 --retry-connrefused \
-            --retry-delay 2 --max-time 5 --output /dev/null \
+          curl --fail --silent --show-error --retry 15 --retry-all-errors \
+            --retry-delay 2 --retry-max-time 60 --max-time 5 --output /dev/null \
             http://127.0.0.1:8080/health.json
           curl --fail --silent --show-error --max-time 15 --output /dev/null \
             http://127.0.0.1:8080/
