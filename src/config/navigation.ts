@@ -1,7 +1,6 @@
 import {
   faUser,
   faBriefcase,
-  faFileLines,
   faEnvelope,
   faLayerGroup,
 } from "@fortawesome/free-solid-svg-icons";

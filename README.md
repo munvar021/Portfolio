@@ -16,9 +16,9 @@ Personal portfolio built with Next.js, TypeScript, styled-components, and Framer
 
 ## Tech Stack
 
-- Next.js 15
-- React 18
-- TypeScript
+- Next.js 16
+- React 19
+- TypeScript 7
 - styled-components 6
 - Framer Motion
 - Lenis
@@ -26,6 +26,10 @@ Personal portfolio built with Next.js, TypeScript, styled-components, and Framer
 - EmailJS
 - React PDF
 - Font Awesome
+
+Type checking uses TypeScript 7. The TypeScript 6 compatibility API is installed alongside it for ESLint and Next.js tooling, following the [TypeScript migration guidance](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/#running-side-by-side-with-typescript-6.0).
+
+ESLint uses the latest 9.x release because the React, accessibility, and import plugins in the Next.js lint configuration do not yet declare support for ESLint 10.
 
 ## Project Structure
 
@@ -92,7 +96,7 @@ Personal portfolio built with Next.js, TypeScript, styled-components, and Framer
 
 ### Prerequisites
 
-- Node.js 20 recommended
+- Node.js 22.13 or newer; Node.js 26 recommended (use `nvm use` to select the version in `.nvmrc`)
 - npm
 - EmailJS account for the contact form
 
@@ -131,10 +135,11 @@ npm run start
 ## Scripts
 
 ```bash
-npm run dev      # Start Next.js dev server
-npm run build    # Create production build
-npm run start    # Start production server
-npm run lint     # Run Next lint script
+npm run dev        # Start Next.js dev server
+npm run build      # Create production build
+npm run start      # Start production server
+npm run lint       # Run ESLint
+npm run typecheck  # Run TypeScript checks
 ```
 
 ## Deployment
@@ -144,10 +149,12 @@ Vercel is the recommended hosting target. Add the three `NEXT_PUBLIC_EMAILJS_*` 
 Docker is also supported:
 
 ```bash
-docker compose up -d --build
+docker compose --env-file .env.local up -d --build --wait
 ```
 
-See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment details.
+The app is available at `http://127.0.0.1:3000`. Add `--profile proxy` before `up` to include nginx at `http://127.0.0.1:8080`. EmailJS values are embedded at build time, so rebuild after changing `.env.local`.
+
+CI checks lint and types, builds on Node.js 24 and 26, and tests the Docker image and nginx proxy. See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment details.
 
 ## Contact
 

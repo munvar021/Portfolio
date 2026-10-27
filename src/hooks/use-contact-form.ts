@@ -44,7 +44,7 @@ export const useContactForm = () => {
           message: data.message,
           reply_to: data.email,
         },
-        publicKey,
+        { publicKey },
       );
 
       setStatus("success");

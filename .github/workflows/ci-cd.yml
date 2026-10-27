@@ -1,10 +1,11 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
     branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [main, develop]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -17,48 +18,122 @@ env:
   NEXT_TELEMETRY_DISABLED: "1"
 
 jobs:
-  build:
-    name: Build and Type Check
+  checks:
+    name: Lint and Type Check
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
-          node-version: "20"
-          cache: "npm"
+          node-version-file: .nvmrc
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
       - name: Type check
-        run: npx tsc --noEmit
+        run: npm run typecheck
+
+  build:
+    name: Build (Node.js ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [24, 26]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
 
       - name: Build
         run: npm run build
 
-      - name: Validate Docker image
-        run: docker build -t portfolio-ci .
-
-  deploy-preview:
-    name: Vercel Preview
-    needs: build
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/develop'
+  docker:
+    name: Docker and Proxy Validation
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
-      - name: Deploy to Vercel Preview
-        run: echo "Preview deployment handled by Vercel GitHub integration"
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-  deploy-production:
-    name: Vercel Production
-    needs: build
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    runs-on: ubuntu-latest
+      - name: Validate Compose configuration
+        run: docker compose --env-file .env.example --profile proxy config --quiet
 
-    steps:
-      - name: Deploy to Vercel Production
-        run: echo "Production deployment handled by Vercel GitHub integration"
+      - name: Validate nginx configuration
+        run: >-
+          docker run --rm --add-host portfolio:127.0.0.1
+          --volume "$PWD/nginx.conf:/etc/nginx/conf.d/default.conf:ro"
+          --entrypoint nginx nginx:stable-alpine -t
+
+      - name: Setup Docker Buildx
+        uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+
+      - name: Build and load image
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc # v7.4.0
+        with:
+          context: .
+          load: true
+          push: false
+          tags: portfolio-ci:${{ github.sha }}
+          cache-from: type=gha,scope=portfolio
+          cache-to: type=gha,scope=portfolio,mode=max
+
+      - name: Smoke test app and proxy containers
+        run: |
+          docker network create portfolio-ci
+          docker run --detach --name portfolio-ci \
+            --network portfolio-ci --network-alias portfolio \
+            --publish 127.0.0.1:3000:3000 \
+            portfolio-ci:${{ github.sha }}
+          curl --fail --silent --show-error --retry 15 --retry-connrefused \
+            --retry-delay 2 --max-time 5 --output /dev/null \
+            http://127.0.0.1:3000/health.json
+          docker run --detach --name portfolio-proxy-ci \
+            --network portfolio-ci --publish 127.0.0.1:8080:80 \
+            --volume "$PWD/nginx.conf:/etc/nginx/conf.d/default.conf:ro" \
+            nginx:stable-alpine
+          curl --fail --silent --show-error --retry 15 --retry-connrefused \
+            --retry-delay 2 --max-time 5 --output /dev/null \
+            http://127.0.0.1:8080/health.json
+          curl --fail --silent --show-error --max-time 15 --output /dev/null \
+            http://127.0.0.1:8080/
+          curl --fail --silent --show-error --max-time 15 --output /dev/null \
+            http://127.0.0.1:8080/resume
+
+      - name: Container logs on failure
+        if: failure()
+        run: |
+          docker logs portfolio-ci || true
+          docker logs portfolio-proxy-ci || true
+
+      - name: Remove test containers and network
+        if: always()
+        run: |
+          docker rm --force portfolio-proxy-ci portfolio-ci || true
+          docker network rm portfolio-ci || true

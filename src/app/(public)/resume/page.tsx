@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
-import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import dynamic from "next/dynamic";
 import {
   PageHero,
   PageLabel,
@@ -23,7 +22,9 @@ import {
   PageNum,
 } from "./resume.styles";
 
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+const PdfViewer = dynamic(() => import("@/components/shared/pdf-viewer"), {
+  ssr: false,
+});
 
 const Resume = () => {
   const [numPages, setNumPages] = useState<number | null>(null);
@@ -33,10 +34,8 @@ const Resume = () => {
   const [enhanced, setEnhanced] = useState(false);
   const [scale, setScale] = useState(1.2);
   const [winWidth, setWinWidth] = useState(0);
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     setWinWidth(window.innerWidth);
     const onResize = () => setWinWidth(window.innerWidth);
     window.addEventListener("resize", onResize);
@@ -146,28 +145,20 @@ const Resume = () => {
               )}
               {error && <ErrorBox>{error}</ErrorBox>}
 
-              {mounted && (
-                <Document
-                  file="/resume.pdf"
-                  onLoadSuccess={({ numPages: n }) => {
-                    setNumPages(n);
-                    setLoading(false);
-                  }}
-                  onLoadError={() => {
-                    setLoading(false);
-                    setError(
-                      "Failed to load resume. Please download it instead.",
-                    );
-                  }}
-                  loading={null}
-                >
-                  <Page
-                    pageNumber={pageNumber}
-                    scale={enhanced ? scale : simpleScale}
-                    renderTextLayer={false}
-                  />
-                </Document>
-              )}
+              <PdfViewer
+                pageNumber={pageNumber}
+                scale={enhanced ? scale : simpleScale}
+                onLoadSuccess={({ numPages: n }) => {
+                  setNumPages(n);
+                  setLoading(false);
+                }}
+                onLoadError={() => {
+                  setLoading(false);
+                  setError(
+                    "Failed to load resume. Please download it instead.",
+                  );
+                }}
+              />
 
               {numPages && numPages > 1 && (
                 <PageNav>
